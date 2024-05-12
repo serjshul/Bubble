@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Bubble</string>
+    <string name="app_name" translatable="false">Bubble</string>
+
+    <string name="feed_screen">Feed</string>
+    <string name="home_screen">Home</string>
+    <string name="profile_screen">Profile</string>
 </resources>

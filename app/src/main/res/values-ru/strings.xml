@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bubble</string>
+    <string name="feed_screen">Лента</string>
+    <string name="home_screen">Дом</string>
+    <string name="profile_screen">Профиль</string>
+</resources>
