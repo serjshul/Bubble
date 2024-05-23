@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -48,6 +50,10 @@ dependencies {
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
     // Material Design 3
     implementation("androidx.compose.material3:material3")
 
@@ -65,4 +71,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
+}
+
+kapt {
+    correctErrorTypes = true
 }
