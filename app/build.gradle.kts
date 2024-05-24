@@ -57,6 +57,9 @@ dependencies {
     // Material Design 3
     implementation("androidx.compose.material3:material3")
 
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
     // Android Studio Preview support
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bubble</string>
-    <string name="feed_screen">Лента</string>
-    <string name="home_screen">Дом</string>
-    <string name="profile_screen">Профиль</string>
+    <string name="screen_feed">Лента</string>
+    <string name="screen_home">Дом</string>
+    <string name="screen_profile">Профиль</string>
+    <string name="button_read">Читать</string>
+    <string name="image_background">Фон</string>
 </resources>
