@@ -45,7 +45,7 @@ fun ArticleItem(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp)
+                .height(190.dp)
         ) {
             CustomAsyncImage(
                 modifier = Modifier.fillMaxWidth(),

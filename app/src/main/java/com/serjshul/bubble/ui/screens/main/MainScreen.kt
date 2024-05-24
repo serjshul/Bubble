@@ -28,7 +28,7 @@ fun MainScreen(
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = MainScreens.FEED_SCREEN,
+            startDestination = MainScreens.HOME_SCREEN,
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(MainScreens.FEED_SCREEN) {
