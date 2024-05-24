@@ -1,6 +1,12 @@
-package com.serjshul.bubble.ui.screens.main.navigation
+package com.serjshul.bubble.ui.screens.main
 
 import com.serjshul.bubble.R
+
+object MainScreens {
+    const val FEED_SCREEN = "feed"
+    const val HOME_SCREEN = "home"
+    const val PROFILE_SCREEN = "profile"
+}
 
 sealed class MainNavigation(
     val route: String,
@@ -9,26 +15,22 @@ sealed class MainNavigation(
 ) {
     data object Feed :
         MainNavigation(
-            route = MainRoutes.FeedScreen.name,
+            route = MainScreens.FEED_SCREEN,
             title = R.string.feed_screen,
             icon = R.drawable.main_navigation_feed
         )
 
     data object Home :
         MainNavigation(
-            route = MainRoutes.HomeScreen.name,
+            route = MainScreens.HOME_SCREEN,
             title = R.string.home_screen,
             icon = R.drawable.main_navigation_home
         )
 
     data object Profile :
         MainNavigation(
-            route = MainRoutes.ProfileScreen.name,
+            route = MainScreens.PROFILE_SCREEN,
             title = R.string.profile_screen,
             icon = R.drawable.main_navigation_profile
         )
-}
-
-enum class MainRoutes {
-    FeedScreen, HomeScreen, ProfileScreen
 }

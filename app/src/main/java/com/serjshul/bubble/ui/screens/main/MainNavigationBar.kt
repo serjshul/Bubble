@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.screens.main.navigation
+package com.serjshul.bubble.ui.screens.main
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
@@ -23,17 +23,17 @@ import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 
 @Composable
 fun MainNavigationBar(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController()
 ) {
     val screens = listOf(
-        MainNavigation.Home,
         MainNavigation.Feed,
+        MainNavigation.Home,
         MainNavigation.Profile
     )
 
     NavigationBar(
-        modifier = modifier.height(60.dp),
+        modifier = modifier.height(50.dp),
         containerColor = md_theme_light_background
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -64,7 +64,7 @@ fun MainNavigationBar(
                     indicatorColor = md_theme_light_background,
                     unselectedIconColor = md_theme_light_onBackgroundVariant,
                     selectedIconColor = md_theme_light_onBackground
-                ),
+                )
             )
         }
     }
