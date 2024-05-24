@@ -29,13 +29,13 @@ import com.serjshul.bubble.ui.utils.roundedCornerShape
 
 @Composable
 fun ArticleItem(
+    modifier: Modifier = Modifier,
     title: String,
     description: String,
     creator: String,
     tags: String,
     backgroundLink: String,
-    color: String,
-    modifier: Modifier = Modifier
+    color: String
 ) {
     Column(
         modifier = modifier
