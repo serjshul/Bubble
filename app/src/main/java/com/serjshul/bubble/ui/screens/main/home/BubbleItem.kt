@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.ui.components.CustomAsyncImage
+import com.serjshul.bubble.ui.components.ImageType
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.getColor
 import com.serjshul.bubble.ui.utils.roundedCornerShape
@@ -49,19 +50,20 @@ fun BubbleItem(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(screenWidth + 5.dp)
+            .height(screenWidth + 15.dp)
     ) {
         CustomAsyncImage(
             modifier = Modifier
-                .size(screenWidth - 40.dp)
+                .size(screenWidth - 30.dp)
                 .clip(CircleShape)
                 .align(Alignment.TopCenter),
+            imageType = ImageType.COVER,
             link = coverLink,
             contentDescription = ""
         )
         Box(
             modifier = Modifier
-                .size(screenWidth - 40.dp)
+                .size(screenWidth - 30.dp)
                 .clip(CircleShape)
                 .background(brush)
                 .align(Alignment.TopCenter)
@@ -70,7 +72,7 @@ fun BubbleItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = screenWidth - 40.dp - 110.dp)
+                .padding(top = screenWidth - 40.dp - 100.dp)
                 .align(Alignment.TopCenter)
         ) {
             Text(

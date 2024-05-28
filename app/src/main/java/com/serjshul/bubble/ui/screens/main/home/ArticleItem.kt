@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.ui.components.CustomAsyncImage
 import com.serjshul.bubble.ui.components.CustomOutlinedButton
+import com.serjshul.bubble.ui.components.ImageType
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.getColor
 import com.serjshul.bubble.ui.utils.roundedCornerShape
@@ -49,6 +50,7 @@ fun ArticleItem(
         ) {
             CustomAsyncImage(
                 modifier = Modifier.fillMaxWidth(),
+                imageType = ImageType.BACKGROUND,
                 link = backgroundLink,
                 contentDescription = stringResource(id = R.string.image_background)
             )

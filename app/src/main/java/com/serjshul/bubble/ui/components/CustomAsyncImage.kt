@@ -9,9 +9,15 @@ import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
 import com.serjshul.bubble.R
 
+object ImageType {
+    const val COVER = "cover"
+    const val BACKGROUND = "background"
+}
+
 @Composable
 fun CustomAsyncImage(
     modifier: Modifier = Modifier,
+    imageType: String = ImageType.BACKGROUND,
     link: String,
     contentDescription: String
 ) {
@@ -19,7 +25,11 @@ fun CustomAsyncImage(
         modifier = modifier,
         model = link,
         contentScale = ContentScale.Crop,
-        placeholder = debugPlaceholder(R.drawable.article_background),
+        placeholder =
+            if (imageType == ImageType.COVER)
+                debugPlaceholder(R.drawable.article_cover)
+            else
+                debugPlaceholder(R.drawable.article_background),
         contentDescription = contentDescription
     )
 }
