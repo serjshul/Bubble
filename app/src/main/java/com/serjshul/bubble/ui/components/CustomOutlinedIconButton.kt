@@ -30,10 +30,11 @@ fun CustomOutlinedIconButton(
     modifier: Modifier = Modifier,
     iconButtonType: String,
     color: Color,
+    onClick: () -> Unit
 ) {
     OutlinedIconButton(
         modifier = modifier,
-        onClick = { /*TODO*/ },
+        onClick = { onClick() },
         border = BorderStroke(
             width = 1.dp,
             color = color
@@ -69,6 +70,7 @@ fun CustomOutlinedIconButtonFavouritePreview() {
             modifier = Modifier.align(Alignment.Center),
             iconButtonType = IconButtonType.FAVORITE,
             color = md_theme_light_onSecondary,
+            onClick = {}
         )
     }
 }
@@ -85,6 +87,7 @@ fun CustomOutlinedIconButtonRemovePreview() {
             modifier = Modifier.align(Alignment.Center),
             iconButtonType = IconButtonType.REMOVE,
             color = md_theme_light_onSecondary,
+            onClick = {}
         )
     }
 }
