@@ -8,4 +8,7 @@
     <string name="image_background">Background</string>
 
     <string name="button_read">Read</string>
+
+    <string name="icon_add_atricle">Button \"Add an article\"</string>
+    <string name="icon_search_atricle">Button \"Search an article\"</string>
 </resources>

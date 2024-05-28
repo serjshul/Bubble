@@ -4,6 +4,8 @@
     <string name="screen_feed">Лента</string>
     <string name="screen_home">Дом</string>
     <string name="screen_profile">Профиль</string>
-    <string name="button_read">Читать</string>
     <string name="image_background">Фон</string>
+    <string name="button_read">Читать</string>
+    <string name="icon_add_atricle">Кнопка \"Добавить статью\"</string>
+    <string name="icon_search_atricle">Кнопка \"Найти статью\"</string>
 </resources>

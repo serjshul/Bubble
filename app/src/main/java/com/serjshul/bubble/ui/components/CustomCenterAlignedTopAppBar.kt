@@ -1,8 +1,8 @@
 package com.serjshul.bubble.ui.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -22,10 +23,15 @@ import com.serjshul.bubble.ui.theme.outfitFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomCenterAlignedTopAppBar() {
+fun CustomCenterAlignedTopAppBar(
+    modifier: Modifier = Modifier,
+    onAddArticleClick: () -> Unit,
+    onSearchArticleClick: () -> Unit
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     CenterAlignedTopAppBar(
+        modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = md_theme_light_background,
             titleContentColor = md_theme_light_onBackground,
@@ -40,18 +46,18 @@ fun CustomCenterAlignedTopAppBar() {
             )
         },
         navigationIcon = {
-            IconButton(onClick = { /* do something */ }) {
+            IconButton(onClick = { onAddArticleClick() }) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Localized description"
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.icon_add_atricle)
                 )
             }
         },
         actions = {
-            IconButton(onClick = { /* do something */ }) {
+            IconButton(onClick = { onSearchArticleClick() }) {
                 Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Localized description"
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = stringResource(id = R.string.icon_search_atricle)
                 )
             }
         },
@@ -62,5 +68,8 @@ fun CustomCenterAlignedTopAppBar() {
 @Preview
 @Composable
 fun CustomCenterAlignedTopAppBarPreview() {
-    CustomCenterAlignedTopAppBar()
+    CustomCenterAlignedTopAppBar(
+        onAddArticleClick = {},
+        onSearchArticleClick = {}
+    )
 }
