@@ -49,7 +49,7 @@ fun CustomCenterAlignedTopAppBar(
             IconButton(onClick = { onAddArticleClick() }) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(id = R.string.icon_add_atricle)
+                    contentDescription = stringResource(id = R.string.icon_button_add_atricle)
                 )
             }
         },
@@ -57,7 +57,7 @@ fun CustomCenterAlignedTopAppBar(
             IconButton(onClick = { onSearchArticleClick() }) {
                 Icon(
                     imageVector = Icons.Filled.Search,
-                    contentDescription = stringResource(id = R.string.icon_search_atricle)
+                    contentDescription = stringResource(id = R.string.icon_button_search_atricle)
                 )
             }
         },

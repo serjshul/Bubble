@@ -6,6 +6,8 @@
     <string name="screen_profile">Профиль</string>
     <string name="image_background">Фон</string>
     <string name="button_read">Читать</string>
-    <string name="icon_add_atricle">Кнопка \"Добавить статью\"</string>
-    <string name="icon_search_atricle">Кнопка \"Найти статью\"</string>
+    <string name="icon_button_add_atricle">Кнопка \"Добавить статью\"</string>
+    <string name="icon_button_search_atricle">Кнопка \"Найти статью\"</string>
+    <string name="icon_button_add_to_favorites">Кнопка \"Добавить в избранное\"</string>
+    <string name="icon_button_remove_banner">Кнопка \"Не интересно\"</string>
 </resources>

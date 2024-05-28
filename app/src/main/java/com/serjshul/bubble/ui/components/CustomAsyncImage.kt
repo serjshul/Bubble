@@ -12,25 +12,28 @@ import com.serjshul.bubble.R
 object ImageType {
     const val COVER = "cover"
     const val BACKGROUND = "background"
+    const val BANNER = "banner"
 }
 
 @Composable
 fun CustomAsyncImage(
     modifier: Modifier = Modifier,
-    imageType: String = ImageType.BACKGROUND,
+    imageType: String = ImageType.COVER,
     link: String,
     contentDescription: String
 ) {
     AsyncImage(
         modifier = modifier,
         model = link,
+        contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
         placeholder =
-            if (imageType == ImageType.COVER)
-                debugPlaceholder(R.drawable.article_cover)
-            else
-                debugPlaceholder(R.drawable.article_background),
-        contentDescription = contentDescription
+            when (imageType) {
+                ImageType.COVER -> debugPlaceholder(R.drawable.article_cover)
+                ImageType.BACKGROUND -> debugPlaceholder(R.drawable.article_background)
+                ImageType.BANNER -> debugPlaceholder(R.drawable.banner)
+                else -> debugPlaceholder(R.drawable.article_cover)
+            }
     )
 }
 
