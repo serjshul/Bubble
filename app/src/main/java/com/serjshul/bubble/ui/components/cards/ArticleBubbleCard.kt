@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.serjshul.bubble.data.articleDemo
 import com.serjshul.bubble.ui.components.media.CustomAsyncImage
 import com.serjshul.bubble.ui.components.media.ImageType
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
@@ -39,8 +40,8 @@ fun ArticleBubbleCard(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
-    coverLink: String,
-    color: String,
+    coverUrl: String,
+    color: Color,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -58,7 +59,7 @@ fun ArticleBubbleCard(
                 .clip(CircleShape)
                 .align(Alignment.TopCenter),
             imageType = ImageType.COVER,
-            link = coverLink,
+            url = coverUrl,
             contentDescription = ""
         )
         Box(
@@ -94,7 +95,7 @@ fun ArticleBubbleCard(
                     .fillMaxWidth()
                     .height(110.dp)
                     .roundedCornerShape()
-                    .background(color.getColor)
+                    .background(color)
                     .padding(top = 15.dp, start = 15.dp, end = 5.dp, bottom = 15.dp)
             ) {
                 Text(
@@ -129,9 +130,9 @@ fun ArticleBubbleCard(
 @Composable
 fun BubbleItemPreview() {
     ArticleBubbleCard(
-        title = "HIT ME HARD AND SOFT",
-        description = "The pop star teams with her brother Finneas for their third album together, expanding the cooly dark vision of their sound. It’s an honest and ambitious album when it’s not inert and repetitive.",
-        coverLink = "",
-        color = "#46475c"
+        title = articleDemo.title,
+        description = articleDemo.description,
+        coverUrl = articleDemo.coverUrl,
+        color = articleDemo.color.getColor
     )
 }

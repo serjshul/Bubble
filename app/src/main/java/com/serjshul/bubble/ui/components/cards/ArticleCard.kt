@@ -22,6 +22,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
+import com.serjshul.bubble.data.articleDemo
 import com.serjshul.bubble.ui.components.buttons.CustomOutlinedButton
 import com.serjshul.bubble.ui.components.media.CustomAsyncImage
 import com.serjshul.bubble.ui.components.media.ImageType
@@ -36,7 +37,7 @@ fun ArticleCard(
     description: String,
     creator: String,
     tags: String,
-    backgroundLink: String,
+    coverUrl: String,
     color: Color
 ) {
     Column(
@@ -51,8 +52,8 @@ fun ArticleCard(
         ) {
             CustomAsyncImage(
                 modifier = Modifier.fillMaxWidth(),
-                imageType = ImageType.BACKGROUND,
-                link = backgroundLink,
+                imageType = ImageType.COVER,
+                url = coverUrl,
                 contentDescription = stringResource(id = R.string.image_background)
             )
         }
@@ -124,11 +125,11 @@ fun ArticleCard(
 @Composable
 fun ArticleItemPreview() {
     ArticleCard(
-        title = "HIT ME HARD AND SOFT",
-        description = "The pop star teams with her brother Finneas for their third album together, expanding the cooly dark vision of their sound. It’s an honest and ambitious album when it’s not inert and repetitive.",
-        creator = "Billie Eilish",
-        tags = listOf("Pop", "R&B").joinToString(),
-        backgroundLink = "http://lala.ru",
-        color = "#46475c".getColor
+        title = articleDemo.title,
+        description = articleDemo.description,
+        creator = articleDemo.creator,
+        tags = articleDemo.tags.joinToString(),
+        coverUrl = articleDemo.coverUrl,
+        color = articleDemo.color.getColor
     )
 }

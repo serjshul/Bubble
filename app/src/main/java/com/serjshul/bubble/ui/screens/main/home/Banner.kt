@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
+import com.serjshul.bubble.data.articleDemo
 import com.serjshul.bubble.ui.components.buttons.CustomFilledButton
 import com.serjshul.bubble.ui.components.buttons.CustomOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.IconButtonType
@@ -44,7 +45,7 @@ fun Banner(
     title: String,
     description: String,
     color: Color,
-    backgroundLink: String,
+    coverUrl: String,
     onReadClick: () -> Unit,
     onAddToFavoritesClick: () -> Unit,
     onNotInterestedClick: () -> Unit
@@ -67,8 +68,8 @@ fun Banner(
     ) {
         CustomAsyncImage(
             modifier = Modifier.fillMaxSize(),
-            imageType = ImageType.BANNER,
-            link = backgroundLink,
+            imageType = ImageType.COVER,
+            url = coverUrl,
             contentDescription = stringResource(id = R.string.image_background)
         )
 
@@ -147,10 +148,10 @@ fun Banner(
 @Composable
 fun BannerPreview() {
     Banner(
-        title = "Radical Optimism",
-        description = "Dua Lipa’s star power sounds muffled on her much-anticipated third album, which has many interesting ideas for songs and a surprisingly low hit rate.",
-        color = "#055c62".getColor,
-        backgroundLink = "",
+        title = articleDemo.title,
+        description = articleDemo.description,
+        color = articleDemo.color.getColor,
+        coverUrl = articleDemo.coverUrl,
         onReadClick = {},
         onAddToFavoritesClick = {},
         onNotInterestedClick = {}
