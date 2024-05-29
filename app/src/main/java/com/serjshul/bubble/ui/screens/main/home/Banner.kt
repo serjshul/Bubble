@@ -12,15 +12,22 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.ui.components.buttons.CustomFilledButton
@@ -46,6 +53,13 @@ fun Banner(
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
 
+    var sizeImage by remember { mutableStateOf(IntSize.Zero) }
+    val gradient = Brush.verticalGradient(
+        listOf(Color(0x00000000), Color(0xFFFFFFFF)),
+        startY = sizeImage.height.toFloat() / 2,
+        endY = sizeImage.height.toFloat()
+    )
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -62,6 +76,14 @@ fun Banner(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0x15000000))
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .onGloballyPositioned {
+                    sizeImage = it.size
+                }
+                .background(gradient)
         )
 
         Column(
