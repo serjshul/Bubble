@@ -23,18 +23,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
-import com.serjshul.bubble.ui.components.CustomAsyncImage
-import com.serjshul.bubble.ui.components.CustomOutlinedButton
-import com.serjshul.bubble.ui.components.CustomOutlinedIconButton
-import com.serjshul.bubble.ui.components.IconButtonType
-import com.serjshul.bubble.ui.components.ImageType
+import com.serjshul.bubble.ui.components.buttons.CustomFilledButton
+import com.serjshul.bubble.ui.components.buttons.CustomOutlinedIconButton
+import com.serjshul.bubble.ui.components.buttons.IconButtonType
+import com.serjshul.bubble.ui.components.media.CustomAsyncImage
+import com.serjshul.bubble.ui.components.media.ImageType
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
+import com.serjshul.bubble.ui.utils.getColor
 
 @Composable
 fun Banner(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
+    color: Color,
     backgroundLink: String,
     onReadClick: () -> Unit,
     onAddToFavoritesClick: () -> Unit,
@@ -95,11 +97,12 @@ fun Banner(
             Row(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                CustomOutlinedButton(
+                CustomFilledButton(
                     modifier = Modifier.padding(end = 5.dp),
                     text = stringResource(id = R.string.button_read),
                     onClick = onReadClick,
-                    color = md_theme_light_onSecondary
+                    contentColor = color,
+                    containerColor = md_theme_light_onSecondary
                 )
 
                 CustomOutlinedIconButton(
@@ -124,6 +127,7 @@ fun BannerPreview() {
     Banner(
         title = "Radical Optimism",
         description = "Dua Lipa’s star power sounds muffled on her much-anticipated third album, which has many interesting ideas for songs and a surprisingly low hit rate.",
+        color = "#055c62".getColor,
         backgroundLink = "",
         onReadClick = {},
         onAddToFavoritesClick = {},
