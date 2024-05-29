@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.screens.main.home
+package com.serjshul.bubble.ui.components.cards
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -30,7 +30,7 @@ import com.serjshul.bubble.ui.utils.getColor
 import com.serjshul.bubble.ui.utils.roundedCornerShape
 
 @Composable
-fun ArticleItem(
+fun ArticleCard(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
@@ -123,7 +123,7 @@ fun ArticleItem(
 @Preview
 @Composable
 fun ArticleItemPreview() {
-    ArticleItem(
+    ArticleCard(
         title = "HIT ME HARD AND SOFT",
         description = "The pop star teams with her brother Finneas for their third album together, expanding the cooly dark vision of their sound. It’s an honest and ambitious album when it’s not inert and repetitive.",
         creator = "Billie Eilish",
