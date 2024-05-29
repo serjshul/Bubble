@@ -28,8 +28,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.serjshul.bubble.ui.components.CustomAsyncImage
-import com.serjshul.bubble.ui.components.ImageType
+import com.serjshul.bubble.ui.components.media.CustomAsyncImage
+import com.serjshul.bubble.ui.components.media.ImageType
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.getColor
 import com.serjshul.bubble.ui.utils.roundedCornerShape

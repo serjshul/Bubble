@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -21,9 +22,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
-import com.serjshul.bubble.ui.components.CustomAsyncImage
-import com.serjshul.bubble.ui.components.CustomOutlinedButton
-import com.serjshul.bubble.ui.components.ImageType
+import com.serjshul.bubble.ui.components.buttons.CustomOutlinedButton
+import com.serjshul.bubble.ui.components.media.CustomAsyncImage
+import com.serjshul.bubble.ui.components.media.ImageType
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.getColor
 import com.serjshul.bubble.ui.utils.roundedCornerShape
@@ -36,7 +37,7 @@ fun ArticleItem(
     creator: String,
     tags: String,
     backgroundLink: String,
-    color: String
+    color: Color
 ) {
     Column(
         modifier = modifier
@@ -60,7 +61,7 @@ fun ArticleItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(190.dp)
-                .background(color.getColor)
+                .background(color)
                 .padding(15.dp)
         ) {
             Row(
@@ -102,7 +103,7 @@ fun ArticleItem(
                     CustomOutlinedButton(
                         text = stringResource(id = R.string.button_read),
                         onClick = {},
-                        color = md_theme_light_onSecondary,
+                        contentColor = md_theme_light_onSecondary,
                         modifier = Modifier.align(Alignment.CenterEnd)
                     )
                 }
@@ -128,6 +129,6 @@ fun ArticleItemPreview() {
         creator = "Billie Eilish",
         tags = listOf("Pop", "R&B").joinToString(),
         backgroundLink = "http://lala.ru",
-        color = "#46475c"
+        color = "#46475c".getColor
     )
 }
