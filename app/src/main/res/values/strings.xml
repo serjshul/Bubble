@@ -9,6 +9,7 @@
 
     <string name="button_read">Read</string>
 
+    <string name="icon_button_menu">Button \"Menu\"</string>
     <string name="icon_button_add_atricle">Button \"Add an article\"</string>
     <string name="icon_button_search_atricle">Button \"Search an article\"</string>
     <string name="icon_button_add_to_favorites">Button \"Add to favorites\"</string>

@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -60,7 +60,7 @@ fun CustomCenterAlignedTopAppBar(
         navigationIcon = {
             IconButton(onClick = { onAddArticleClick() }) {
                 Icon(
-                    imageVector = Icons.Filled.Add,
+                    imageVector = Icons.Filled.Menu,
                     contentDescription = stringResource(id = R.string.icon_button_add_atricle)
                 )
             }
