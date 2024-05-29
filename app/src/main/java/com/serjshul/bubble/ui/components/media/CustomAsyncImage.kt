@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.components
+package com.serjshul.bubble.ui.components.media
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable

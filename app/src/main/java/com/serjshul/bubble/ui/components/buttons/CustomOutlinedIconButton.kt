@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.components
+package com.serjshul.bubble.ui.components.buttons
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

@@ -1,5 +1,8 @@
-package com.serjshul.bubble.ui.components
+package com.serjshul.bubble.ui.components.bars
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
@@ -11,11 +14,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
@@ -31,19 +36,26 @@ fun CustomCenterAlignedTopAppBar(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     CenterAlignedTopAppBar(
-        modifier = modifier,
+        modifier = modifier.height(50.dp),
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = md_theme_light_background,
             titleContentColor = md_theme_light_onBackground,
         ),
         title = {
-            Text(
-                text = stringResource(id = R.string.app_name),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontFamily = outfitFontFamily,
-                fontWeight = FontWeight.Bold,
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+            ) {
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.Center),
+                    text = stringResource(id = R.string.app_name),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontFamily = outfitFontFamily,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
         },
         navigationIcon = {
             IconButton(onClick = { onAddArticleClick() }) {
