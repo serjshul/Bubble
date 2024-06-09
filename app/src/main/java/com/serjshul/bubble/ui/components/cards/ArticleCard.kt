@@ -48,7 +48,7 @@ fun ArticleCard(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(190.dp)
+                .height(170.dp)
         ) {
             CustomAsyncImage(
                 modifier = Modifier.fillMaxWidth(),
@@ -61,7 +61,7 @@ fun ArticleCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(190.dp)
+                .height(170.dp)
                 .background(color)
                 .padding(15.dp)
         ) {
@@ -113,7 +113,7 @@ fun ArticleCard(
             Text(
                 text = description,
                 color = md_theme_light_onSecondary,
-                maxLines = 5,
+                maxLines = 4,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium
             )

@@ -28,13 +28,13 @@ val articlesDemo = listOf(
     ),
     Article(
         id = "2",
-        title = "The White Lotus",
-        description = "Rich guests – including a spaced-out Jennifer Coolidge – rub shoulders with " +
-                "downtrodden workers on a holiday from hell, in Mike White’s superb satire about inequality.",
-        creator = "Mike White",
-        tags = listOf("Comedy", "Drama"),
-        coverUrl = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2Ff731bf2d-51fe-4a98-834c-5dd1c0d97c5a%2Fbackground.webp?id=65ce0889-6ed3-4fce-bb8f-4d92d4655c36&table=block&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=2000&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
-        color = "#c19979"
+        title = "Poor Things",
+        description = "The director of The Favourite teams up again with the fearless Hollywood star" +
+                " in a funny, filthy and explosively inventive spin on Frankenstein",
+        creator = "Yorgos Lanthimos",
+        tags = listOf("Comedy", "Drama", "Romance"),
+        coverUrl = "https://media.npr.org/assets/img/2023/12/07/poor-things-022_054_poorthings_ov_v30464704_fp_dpo_prohq_uhd-sdr_24_eng-166_eng-5120_a_ops9z8mjw_tiff53_rgb_custom-dbfbdcbf8bfa378f9047be6e3e78ff32b595dc84.jpg",
+        color = "#719faf"
     ),
     Article(
         id = "3",
@@ -48,25 +48,26 @@ val articlesDemo = listOf(
     ),
     Article(
         id = "4",
-        title = "Asteroid City",
-        description = "Following a writer on his world famous fictional play about a grieving " +
-                "father who travels with his tech-obsessed family to small rural Asteroid City " +
-                "to compete in a junior stargazing event, only to have his world view disrupted " +
-                "forever.",
-        creator = "Wes Anderson",
-        tags = listOf("Comedy", "Drama", "Romance"),
-        coverUrl = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2F94bc9c03-1c07-4a06-a26a-60965370d7bb%2Fbackground.jpg?id=10a03eec-c9c1-4a1e-9d7b-c05a9abf6688&table=block&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=40&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
-        color = "#cb5a32"
+        title = "Dune",
+        description = "Set on the desert planet Arrakis, Dune is the story of the boy Paul Atreides," +
+                " heir to a noble family tasked with ruling an inhospitable world where the only " +
+                "thing of value is the “spice” melange, a drug capable of extending life and " +
+                "enhancing consciousness. Coveted across the known universe, melange is a prize " +
+                "worth killing for...",
+        creator = "Frank Herbert",
+        tags = listOf("Science Fiction", "Fantasy", "Adventure"),
+        coverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7mbZab9zXvJQw9Wx7r6Jn54-SVk6KRBivwg&s",
+        color = "#a46d58"
     ),
     Article(
         id = "5",
-        title = "CHICKEN TERIYAKI",
-        description = "With an ironic, braggadocios hue, \"Chicken Teriyaki\" is an ode to New " +
-                "York City. Rosalia brags about splashing out on dinner and jewelry and skating " +
-                "to Washington Heights. She also namedrops Tribeca and Queens.",
-        creator = "ROSALÍA",
-        tags = listOf("Regaetton"),
-        coverUrl = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2Ff23252f1-9483-4c99-afeb-bd5a5517ff85%2Fbackground.jpg?id=1e632e68-a7ef-4014-be4f-be8276ae85a9&table=block&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=2000&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
-        color = "#e03038"
+        title = "Fleabag",
+        description = "Phoebe Waller-Bridge’s sitcom is full of people who are defeated and " +
+                "unlikable – including her own character who masturbates to Barack Obama speeches. " +
+                "But it’s utterly riveting",
+        creator = "Phoebe Waller-Bridge",
+        tags = listOf("Comedy", "Drama"),
+        coverUrl = "https://pyxis.nymag.com/v1/imgs/ca3/511/51eb0123af72c1d58a45fb140c11a151e0-16-fleabag.2x.h473.w710.jpg",
+        color = "#5f4f5b"
     )
 )
