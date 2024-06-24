@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.ui.components.bars.CustomCenterAlignedTopAppBar
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.utils.getColor
@@ -21,7 +22,8 @@ import com.serjshul.bubble.ui.utils.getColor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     Scaffold(
         modifier = modifier
