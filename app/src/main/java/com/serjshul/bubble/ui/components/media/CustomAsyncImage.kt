@@ -11,6 +11,7 @@ import com.serjshul.bubble.R
 
 object ImageType {
     const val COVER = "cover"
+    const val PROFILE = "profile"
 }
 
 @Composable
@@ -28,6 +29,7 @@ fun CustomAsyncImage(
         placeholder =
             when (imageType) {
                 ImageType.COVER -> debugPlaceholder(R.drawable.article_cover)
+                ImageType.PROFILE -> debugPlaceholder(R.drawable.profile_photo)
                 else -> debugPlaceholder(R.drawable.article_cover)
             }
     )

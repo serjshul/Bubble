@@ -11,4 +11,5 @@
     <string name="icon_button_search_atricle">Кнопка \"Найти статью\"</string>
     <string name="icon_button_add_to_favorites">Кнопка \"Добавить в избранное\"</string>
     <string name="icon_button_remove_banner">Кнопка \"Не интересно\"</string>
+    <string name="icon_button_similar_profiles">Кнопка \"Похожие профили\"</string>
 </resources>

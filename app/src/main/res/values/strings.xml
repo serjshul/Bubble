@@ -14,4 +14,5 @@
     <string name="icon_button_search_atricle">Button \"Search an article\"</string>
     <string name="icon_button_add_to_favorites">Button \"Add to favorites\"</string>
     <string name="icon_button_remove_banner">Button \"Not interested\"</string>
+    <string name="icon_button_similar_profiles">Button \"Similar profiles\"</string>
 </resources>
