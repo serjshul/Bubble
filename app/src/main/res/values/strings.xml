@@ -15,4 +15,8 @@
     <string name="icon_button_add_to_favorites">Button \"Add to favorites\"</string>
     <string name="icon_button_remove_banner">Button \"Not interested\"</string>
     <string name="icon_button_similar_profiles">Button \"Similar profiles\"</string>
+    <string name="icon_button_back">Button \"Back\"</string>
+    <string name="icon_button_notifications">Button \"Notifications\"</string>
+    <string name="icon_button_settings">Button \"Settings\"</string>
+    <string name="icon_button_more">Button \"More\"</string>
 </resources>

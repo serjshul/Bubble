@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.serjshul.bubble.ui.components.bars.CustomCenterAlignedTopAppBar
+import com.serjshul.bubble.ui.components.bars.ProfileTopAppBar
 import com.serjshul.bubble.ui.components.buttons.CustomFilledButton
 import com.serjshul.bubble.ui.components.buttons.CustomOutlinedButton
 import com.serjshul.bubble.ui.components.buttons.CustomOutlinedIconButton
@@ -54,9 +54,11 @@ fun ProfileScreen(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            CustomCenterAlignedTopAppBar(
-                onAddArticleClick = {},
-                onSearchArticleClick = {}
+            ProfileTopAppBar(
+                onBackClick = {},
+                onNotificationsClick = {},
+                onSettingsClick = {},
+                onMoreClick = {}
             )
         },
         snackbarHost = {
@@ -72,7 +74,7 @@ fun ProfileScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(15.dp)
+                    .padding(15.dp, 5.dp)
             ) {
                 Row {
                     Column(
