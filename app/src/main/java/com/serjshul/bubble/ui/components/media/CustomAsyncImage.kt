@@ -9,15 +9,9 @@ import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
 import com.serjshul.bubble.R
 
-object ImageType {
-    const val COVER = "cover"
-    const val PROFILE = "profile"
-}
-
 @Composable
-fun CustomAsyncImage(
+fun CoverAsyncImage(
     modifier: Modifier = Modifier,
-    imageType: String = ImageType.COVER,
     url: String,
     contentDescription: String
 ) {
@@ -26,12 +20,37 @@ fun CustomAsyncImage(
         model = url,
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
-        placeholder =
-            when (imageType) {
-                ImageType.COVER -> debugPlaceholder(R.drawable.article_cover)
-                ImageType.PROFILE -> debugPlaceholder(R.drawable.profile_photo)
-                else -> debugPlaceholder(R.drawable.article_cover)
-            }
+        placeholder = debugPlaceholder(R.drawable.post_cover)
+    )
+}
+
+@Composable
+fun BackgroundAsyncImage(
+    modifier: Modifier = Modifier,
+    url: String,
+    contentDescription: String
+) {
+    AsyncImage(
+        modifier = modifier,
+        model = url,
+        contentDescription = contentDescription,
+        contentScale = ContentScale.Crop,
+        placeholder = debugPlaceholder(R.drawable.post_background)
+    )
+}
+
+@Composable
+fun ProfileAsyncImage(
+    modifier: Modifier = Modifier,
+    url: String,
+    contentDescription: String
+) {
+    AsyncImage(
+        modifier = modifier,
+        model = url,
+        contentDescription = contentDescription,
+        contentScale = ContentScale.Crop,
+        placeholder = debugPlaceholder(R.drawable.profile_photo)
     )
 }
 

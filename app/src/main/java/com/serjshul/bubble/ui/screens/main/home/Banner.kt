@@ -34,8 +34,7 @@ import com.serjshul.bubble.data.articleDemo
 import com.serjshul.bubble.ui.components.buttons.CustomFilledButton
 import com.serjshul.bubble.ui.components.buttons.CustomOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.IconButtonType
-import com.serjshul.bubble.ui.components.media.CustomAsyncImage
-import com.serjshul.bubble.ui.components.media.ImageType
+import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.getColor
 
@@ -66,9 +65,8 @@ fun Banner(
             .fillMaxWidth()
             .height(screenHeight * 3 / 5)
     ) {
-        CustomAsyncImage(
+        CoverAsyncImage(
             modifier = Modifier.fillMaxSize(),
-            imageType = ImageType.COVER,
             url = coverUrl,
             contentDescription = stringResource(id = R.string.image_background)
         )

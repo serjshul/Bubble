@@ -40,8 +40,7 @@ import com.serjshul.bubble.ui.components.buttons.CustomFilledButton
 import com.serjshul.bubble.ui.components.buttons.CustomOutlinedButton
 import com.serjshul.bubble.ui.components.buttons.CustomOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.IconButtonType
-import com.serjshul.bubble.ui.components.media.CustomAsyncImage
-import com.serjshul.bubble.ui.components.media.ImageType
+import com.serjshul.bubble.ui.components.media.ProfileAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
@@ -110,12 +109,11 @@ fun ProfileScreen(
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
-                    CustomAsyncImage(
+                    ProfileAsyncImage(
                         modifier = Modifier
                             .clip(CircleShape)
                             .size(70.dp)
                             .align(Alignment.CenterVertically),
-                        imageType = ImageType.PROFILE,
                         url = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
                         contentDescription = ""
                     )
