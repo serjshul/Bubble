@@ -14,9 +14,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,6 +42,7 @@ import com.serjshul.bubble.ui.components.buttons.CustomOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.IconButtonType
 import com.serjshul.bubble.ui.components.media.CustomAsyncImage
 import com.serjshul.bubble.ui.components.media.ImageType
+import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
@@ -50,6 +56,9 @@ fun ProfileScreen(
     var isFollowing by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val tabs = listOf("Posts", "Collections", "Replies")
+    var tabIndex by remember { mutableIntStateOf(0) }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -238,6 +247,38 @@ fun ProfileScreen(
                             }
                         )
                     }
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 5.dp)
+            ) {
+                TabRow(
+                    selectedTabIndex = tabIndex,
+                    contentColor = md_theme_light_onBackground,
+                    containerColor = md_theme_light_background,
+                    indicator = { tabPositions ->
+                        if (tabIndex < tabPositions.size) {
+                            TabRowDefaults.SecondaryIndicator(
+                                modifier = Modifier.tabIndicatorOffset(tabPositions[tabIndex]),
+                                color = md_theme_light_onBackground
+                            )
+                        }
+                    }
+                ) {
+                    tabs.forEachIndexed { index, title ->
+                        Tab(text = { Text(title) },
+                            selected = tabIndex == index,
+                            onClick = { tabIndex = index }
+                        )
+                    }
+                }
+                when (tabIndex) {
+                    0 -> {} //HomeScreen()
+                    1 -> {} //AboutScreen()
+                    2 -> {} //SettingsScreen()
                 }
             }
         }
