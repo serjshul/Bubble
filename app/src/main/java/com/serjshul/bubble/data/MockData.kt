@@ -4,14 +4,18 @@ import com.serjshul.bubble.model.Article
 
 val articleDemo = Article(
     id = "1",
-    title = "HIT ME HARD AND SOFT",
-    description = "The pop star teams with her brother Finneas for their third album together, " +
-            "expanding the cooly dark vision of their sound. It’s an honest and ambitious album " +
-            "when it’s not inert and repetitive.",
-    creator = "Billie Eilish",
-    tags = listOf("Pop", "R&B"),
-    coverUrl = "https://readrange.com/wp-content/uploads/elementor/thumbs/2-7-qo9bqja2cuxqfv906vv81m0sg3hdsh3ufo4uhy1hxs.jpg",
-    color = "#46475c"
+    title = "Lady Bird",
+    description = "Writer-director Greta Gerwig’s semiautobiographical Lady Bird is both generous " +
+            "and joyous, but when it stings, it stings deep. At one point, Saoirse Ronan, as " +
+            "disgruntled high school senior Christine, begs her mother, Laurie Metcalf’s Marion, " +
+            "for a magazine at the supermarket: “It’s only \$3! I’m having a bad week!” Marion " +
+            "brushes her off, and it could be the usual mom move of just saying no–until she " +
+            "reaches the cash register and you realize that this respectable-looking suburban " +
+            "woman can barely cover the family groceries.",
+    creator = "Greta Gerwig",
+    tags = listOf("Comedy", "Drama"),
+    coverUrl = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2F5d76f7c9-51f5-4c2b-ac33-8a55fc4cab74%2Fcover_horizontal.jpg?id=0c09df19-d385-4d62-b782-ebe306a4de9a&table=block&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=1880&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
+    color = "#c22f2f"
 )
 
 val articlesDemo = listOf(
