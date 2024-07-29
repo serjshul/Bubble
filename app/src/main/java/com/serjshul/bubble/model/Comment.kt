@@ -4,18 +4,16 @@ import java.util.Date
 
 data class Comment(
     val id: String? = null,
-    val recommendationId: String? = null,
-    val userId: String? = null,
-
-    val repliedCommentId: String? = null,
-    val repliedUserId: String? = null,
-    val isReply: Boolean? = false,
+    val rid: String? = null,
+    val uid: String? = null,
 
     val text: String? = null,
 
-    val date: Date? = null,
-    val source: String? = null,
-    val likedBy: List<String> = listOf(),
+    val repliedCid: String? = null,
+    val repliedUid: String? = null,
+    val isReply: Boolean? = false,
 
-    var userItem: UserItem? = null
+    val date: Date? = null,
+    var owner: User? = null,
+    val likedBy: List<String> = emptyList()
 )
