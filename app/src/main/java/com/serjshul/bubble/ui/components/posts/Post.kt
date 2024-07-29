@@ -1,10 +1,13 @@
 package com.serjshul.bubble.ui.components.posts
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,6 +19,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -34,218 +39,237 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.serjshul.bubble.common.getCreatedTime
-import com.serjshul.bubble.model.Comment
-import com.serjshul.bubble.model.UserItem
+import com.serjshul.bubble.data.articleDemo
+import com.serjshul.bubble.model.Article
+import com.serjshul.bubble.ui.components.buttons.CommentIconButton
+import com.serjshul.bubble.ui.components.buttons.LikeIconButton
+import com.serjshul.bubble.ui.components.buttons.RepostIconButton
+import com.serjshul.bubble.ui.components.buttons.SaveIconButton
+import com.serjshul.bubble.ui.components.comments.CommentsShortList
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.components.media.ProfileAsyncImage
-import java.util.Date
+import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Post(
     modifier: Modifier = Modifier,
-    user: UserItem?,
-    date: Date?,
-    description: String?,
-    coverReference: String,
-    backgroundImageReference: String,
-    title: String?,
-    creator: String?,
-    type: String?,
-    tags: List<String>,
-    isLiked: Boolean,
-    comments: List<Comment>,
-    recommendationId: String?,
-    currentUserUid: String?,
+    article: Article,
+    onLikeCLick: () -> Unit,
+    onCommentCLick: () -> Unit,
+    onRepostCLick: () -> Unit,
+    onSaveCLick: () -> Unit,
+    currentUid: String?,
     openScreen: (String) -> Unit,
 ) {
-    val isCommentClicked = remember { mutableStateOf(false) }
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+
+    val isLiked by remember { mutableStateOf(currentUid in article.likes) }
+    var isCommented by remember { mutableStateOf(false) }
+    val isReposted by remember { mutableStateOf(currentUid in article.reposts) }
+    val isSaved by remember { mutableStateOf(currentUid in article.saves) }
+
     var isDropDownExpanded by remember { mutableStateOf(false) }
 
-    if (user?.nickname != null && date != null && description != null &&
-        title != null && creator != null) {
-        val createdTime = getCreatedTime(date)
+    val createdTime = getCreatedTime(article.date)
 
-        Box(
-            modifier = modifier
-                .padding(0.dp, 5.dp)
+    Box(
+        modifier = modifier
+            .padding(0.dp, 5.dp)
+            .fillMaxWidth()
+    ) {
+        BackgroundAsyncImage(
+            modifier = Modifier
+                .padding(top = 55.dp)
                 .fillMaxWidth()
+                .height(screenWidth * 1 / 2),
+            url = article.backgroundUrl,
+            contentDescription = "Background URL"
+        )
+
+        Row(
+            modifier = Modifier
+                .padding(10.dp, 0.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            BackgroundAsyncImage(
+            ProfileAsyncImage(
                 modifier = Modifier
-                    .padding(top = 55.dp)
-                    .fillMaxWidth()
-                    .height(200.dp),
-                url = "backgroundImageReference",
-                contentDescription = ""
+                    .size(40.dp)
+                    .clip(CircleShape),
+                url = article.owner!!.photoUrl!!,
+                contentDescription = "Owner photo URL"
             )
 
             Row(
-                modifier = Modifier
-                    .padding(10.dp, 0.dp)
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ) {
-                ProfileAsyncImage(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape),
-                    url = "user.photoUrl!!",
-                    contentDescription = ""
-                )
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .weight(8f)
-                            .padding(start = 15.dp),
-                        text = user.nickname,
-                        color = Color.Black,
-                        maxLines = 1,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        overflow = TextOverflow.Ellipsis
-                    )
-
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = createdTime,
-                        color = Color.Black,
-                        fontSize = 14.sp
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                    ) {
-                        IconButton(
-                            onClick = { isDropDownExpanded = true }
-                        ) {
-                            Icon(
-                                Icons.Default.MoreVert,
-                                contentDescription = "Show the menu",
-                                tint = Color.Black
-                            )
-                        }
-
-                        DropdownMenu(
-                            expanded = isDropDownExpanded,
-                            onDismissRequest = { isDropDownExpanded = false }
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(10.dp)
-                                    .clickable(onClick = { }),
-                                text = "Add to bookmarks",
-                                fontSize = 14.sp
-                            )
-                        }
-                    }
-                }
-            }
-
-            Box(
-                modifier = Modifier
-                    .padding(
-                        start = 10.dp,
-                        end = 10.dp,
-                        top = 220.dp
-                    )
-            ) {
-                Row {
-                    CoverAsyncImage(
-                        modifier = Modifier
-                            .size(170.dp, 100.dp)
-                            .clip(RoundedCornerShape(5.dp))
-                            .clickable { },
-                        url = "coverReference",
-                        contentDescription = ""
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .padding(start = 10.dp)
-                            .align(Alignment.Bottom)
-                    ) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 2.dp),
-                            text = "$type   /   ${tags.joinToString(separator = " & ")}",
-                            color = Color.Red,
-                            maxLines = 1,
-                            fontSize = 12.sp,
-                            lineHeight = 1.2.em,
-                            fontWeight = FontWeight.Bold,
-                            overflow = TextOverflow.Ellipsis,
-                            textAlign = TextAlign.Start
-                        )
-
-                        Text(
-                            modifier = Modifier
-                                .clickable {
-
-                                },
-                            text = title,
-                            color = Color.Black,
-                            maxLines = 1,
-                            fontSize = 14.sp,
-                            lineHeight = 1.2.em,
-                            fontWeight = FontWeight.Bold,
-                            overflow = TextOverflow.Ellipsis
-                        )
-
-                        Text(
-                            text = creator,
-                            color = Color.Black,
-                            maxLines = 1,
-                            fontSize = 14.sp,
-                            lineHeight = 1.2.em,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                }
-            }
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 330.dp
-                    )
             ) {
                 Text(
                     modifier = Modifier
-                        .padding(start = 10.dp, end = 10.dp, bottom = 5.dp)
-                        .fillMaxWidth(),
-                    text = description,
+                        .weight(8f)
+                        .padding(start = 15.dp),
+                    text = article.owner!!.nickname!!,
                     color = Color.Black,
+                    maxLines = 1,
                     fontSize = 14.sp,
-                    lineHeight = 1.4.em
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis
                 )
 
-//                if (comments.isNotEmpty()) {
-//                    CommentsShortList(
-//                        modifier = Modifier
-//                            .padding(10.dp, 0.dp)
-//                            .fillMaxWidth()
-//                            .clickable { isCommentClicked.value = true },
-//                        comments = comments
-//                    )
-//                }
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = createdTime,
+                    color = Color.Black,
+                    fontSize = 14.sp
+                )
 
-//                InteractionPanelPost(
-//                    isLiked = isLiked,
-//                    isCommentClicked = isCommentClicked,
-//                    comments = comments,
-//                    recommendationId = recommendationId,
-//                    currentUserUid = currentUserUid,
-//                    onLikeClick = onLikeClick,
-//                    onCommentClick = onCommentIconClick
-//                )
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    IconButton(
+                        onClick = { isDropDownExpanded = true }
+                    ) {
+                        Icon(
+                            Icons.Default.MoreVert,
+                            contentDescription = "Show the menu",
+                            tint = Color.Black
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = isDropDownExpanded,
+                        onDismissRequest = { isDropDownExpanded = false }
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .clickable(onClick = { }),
+                            text = "Add to bookmarks",
+                            fontSize = 14.sp
+                        )
+                    }
+                }
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .padding(
+                    start = 10.dp,
+                    end = 10.dp,
+                    top = 220.dp
+                )
+        ) {
+            CoverAsyncImage(
+                modifier = Modifier
+                    .size(screenWidth * 1 / 2 - 30.dp, screenWidth * 1 / 2 - 100.dp)
+                    .clip(RoundedCornerShape(5.dp))
+                    .clickable { },
+                url = article.coverUrl,
+                contentDescription = "Cover URL"
+            )
+
+            Column(
+                modifier = Modifier
+                    .padding(start = 10.dp)
+                    .align(Alignment.Bottom)
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 5.dp)
+                        .basicMarquee(),
+                    text = "${article.type}   /   ${article.tags.joinToString(separator = " & ")}",
+                    color = Color.Red,
+                    maxLines = 1,
+                    fontSize = 12.sp,
+                    lineHeight = 1.2.em,
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis,
+                    textAlign = TextAlign.Start
+                )
+
+                Text(
+                    modifier = Modifier
+                        .clickable {
+
+                        },
+                    text = article.title,
+                    color = Color.Black,
+                    maxLines = 1,
+                    fontSize = 14.sp,
+                    lineHeight = 1.2.em,
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Text(
+                    text = article.creator,
+                    color = Color.Black,
+                    maxLines = 1,
+                    fontSize = 14.sp,
+                    lineHeight = 1.2.em,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 325.dp
+                )
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(start = 10.dp, end = 10.dp, bottom = 5.dp)
+                    .fillMaxWidth(),
+                text = article.description,
+                color = md_theme_light_onBackground,
+                maxLines = 4,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodyMedium
+            )
+
+            if (article.comments.isNotEmpty()) {
+                CommentsShortList(
+                    modifier = Modifier
+                        .padding(10.dp, 0.dp)
+                        .fillMaxWidth()
+                        .clickable { isCommented = true },
+                    comments = article.comments
+                )
+            }
+
+            Row(
+                modifier = Modifier.padding(top = 2.dp)
+            ) {
+                LikeIconButton(
+                    modifier = Modifier.weight(1f),
+                    isLiked = isLiked,
+                    onClick = onLikeCLick
+                )
+                CommentIconButton(
+                    modifier = Modifier.weight(1f),
+                    isCommented = isCommented,
+                    onClick = onCommentCLick
+                )
+                RepostIconButton(
+                    modifier = Modifier.weight(1f),
+                    isReposted = isReposted,
+                    onClick = onRepostCLick
+                )
+                Spacer(modifier = Modifier.weight(4f))
+                SaveIconButton(
+                    modifier = Modifier.weight(1f),
+                    isSaved = isSaved,
+                    onClick = onSaveCLick
+                )
             }
         }
     }
@@ -254,44 +278,14 @@ fun Post(
 @Preview
 @Composable
 fun PostPreview() {
-    val comments = listOf(
-        Comment(
-            text = "preview  preview preview preview preview preview preview",
-            userItem = UserItem(nickname = "preview")
-        ),
-        Comment(
-            text = "preview  preview preview preview preview preview preview",
-            userItem = UserItem(nickname = "preview")
-        ),
-        Comment(
-            text = "preview  preview preview preview preview preview preview",
-            userItem = UserItem(nickname = "preview")
-        ),
-        Comment(
-            text = "preview  preview preview preview preview preview preview",
-            userItem = UserItem(nickname = "preview")
-        )
-    )
-
     Post(
         modifier = Modifier.background(Color.White),
-        user = UserItem(
-            nickname = "serjshul"
-        ),
-        date = Date(0),
-        description = "text text text text text text text text text text text text text text text " +
-                "text text text text text text text text text text text text text text text " +
-                "text text text text text text text text text text text text text text",
-        coverReference = "null",
-        backgroundImageReference = "null",
-        title = "title title title title title title title title",
-        creator = "creator creator creator creator creator",
-        type = "type",
-        tags = listOf("tag", "tag", "tag", "tag"),
-        comments = comments,
-        isLiked = true,
-        recommendationId = "",
-        currentUserUid = "",
+        article = articleDemo,
+        currentUid = "",
+        onLikeCLick = { },
+        onCommentCLick = { },
+        onRepostCLick = { },
+        onSaveCLick = { },
         openScreen = { }
     )
 }
