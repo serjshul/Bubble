@@ -103,12 +103,12 @@ fun Category(
                             scaleY = scale
                         }
                     },
-                title = content[page].title,
-                description = content[page].description,
-                creator = content[page].creator,
+                title = content[page].title!!,
+                description = content[page].description!!,
+                creator = content[page].creator!!,
                 tags = content[page].tags.joinToString(),
-                coverUrl = content[page].coverUrl,
-                color = content[page].color.getColor
+                coverUrl = content[page].coverUrl!!,
+                color = content[page].color!!.getColor
             )
         }
     }

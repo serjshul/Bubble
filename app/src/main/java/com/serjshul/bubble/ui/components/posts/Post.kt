@@ -41,10 +41,10 @@ import androidx.compose.ui.unit.sp
 import com.serjshul.bubble.common.getCreatedTime
 import com.serjshul.bubble.data.articleDemo
 import com.serjshul.bubble.model.Article
-import com.serjshul.bubble.ui.components.buttons.CommentIconButton
-import com.serjshul.bubble.ui.components.buttons.LikeIconButton
-import com.serjshul.bubble.ui.components.buttons.RepostIconButton
-import com.serjshul.bubble.ui.components.buttons.SaveIconButton
+import com.serjshul.bubble.ui.components.buttons.CommentIconToggleButton
+import com.serjshul.bubble.ui.components.buttons.LikeIconToggleButton
+import com.serjshul.bubble.ui.components.buttons.RepostIconToggleButton
+import com.serjshul.bubble.ui.components.buttons.SaveIconToggleButton
 import com.serjshul.bubble.ui.components.comments.CommentsShortList
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
@@ -61,7 +61,8 @@ fun Post(
     onRepostCLick: () -> Unit,
     onSaveCLick: () -> Unit,
     currentUid: String?,
-    openScreen: (String) -> Unit,
+    openArticleScreen: () -> Unit,
+    openOwnerScreen: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -73,21 +74,24 @@ fun Post(
 
     var isDropDownExpanded by remember { mutableStateOf(false) }
 
-    val createdTime = getCreatedTime(article.date)
+    val createdTime = getCreatedTime(article.date!!)
 
     Box(
         modifier = modifier
             .padding(0.dp, 5.dp)
             .fillMaxWidth()
     ) {
-        BackgroundAsyncImage(
-            modifier = Modifier
-                .padding(top = 55.dp)
-                .fillMaxWidth()
-                .height(screenWidth * 1 / 2),
-            url = article.backgroundUrl,
-            contentDescription = "Background URL"
-        )
+        if (article.backgroundUrl != null) {
+            BackgroundAsyncImage(
+                modifier = Modifier
+                    .padding(top = 55.dp)
+                    .fillMaxWidth()
+                    .height(screenWidth * 1 / 2)
+                    .clickable { openArticleScreen() },
+                url = article.backgroundUrl,
+                contentDescription = "Background URL"
+            )
+        }
 
         Row(
             modifier = Modifier
@@ -98,7 +102,8 @@ fun Post(
             ProfileAsyncImage(
                 modifier = Modifier
                     .size(40.dp)
-                    .clip(CircleShape),
+                    .clip(CircleShape)
+                    .clickable { openOwnerScreen() },
                 url = article.owner!!.photoUrl!!,
                 contentDescription = "Owner photo URL"
             )
@@ -110,7 +115,8 @@ fun Post(
                 Text(
                     modifier = Modifier
                         .weight(8f)
-                        .padding(start = 15.dp),
+                        .padding(start = 15.dp)
+                        .clickable { openOwnerScreen() },
                     text = article.owner!!.nickname!!,
                     color = Color.Black,
                     maxLines = 1,
@@ -156,116 +162,119 @@ fun Post(
             }
         }
 
-        Row(
-            modifier = Modifier
-                .padding(
-                    start = 10.dp,
-                    end = 10.dp,
-                    top = 220.dp
-                )
+        Column(
+            modifier = Modifier.padding(top = if (article.backgroundUrl != null) 220.dp else 55.dp)
         ) {
-            CoverAsyncImage(
-                modifier = Modifier
-                    .size(screenWidth * 1 / 2 - 30.dp, screenWidth * 1 / 2 - 100.dp)
-                    .clip(RoundedCornerShape(5.dp))
-                    .clickable { },
-                url = article.coverUrl,
-                contentDescription = "Cover URL"
-            )
+            Row(
+                modifier = Modifier.padding(10.dp, 0.dp)
+            ) {
+                CoverAsyncImage(
+                    modifier = Modifier
+                        .size(screenWidth * 1 / 2 - 30.dp, screenWidth * 1 / 2 - 100.dp)
+                        .clip(RoundedCornerShape(5.dp))
+                        .clickable { openArticleScreen() },
+                    url = article.coverUrl!!,
+                    contentDescription = "Cover URL"
+                )
+
+                Column(
+                    modifier = Modifier
+                        .padding(start = 10.dp)
+                        .align(Alignment.Bottom)
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 5.dp)
+                            .basicMarquee()
+                            .clickable {
+                                // TODO: open type and tags screen
+                            },
+                        text = "${article.type}   /   ${article.tags.joinToString(separator = " & ")}",
+                        color = Color.Red,
+                        maxLines = 1,
+                        fontSize = 12.sp,
+                        lineHeight = 1.2.em,
+                        fontWeight = FontWeight.Bold,
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Start
+                    )
+
+                    Text(
+                        modifier = Modifier
+                            .basicMarquee()
+                            .clickable { openArticleScreen() },
+                        text = article.title!!,
+                        color = Color.Black,
+                        maxLines = 1,
+                        fontSize = 14.sp,
+                        lineHeight = 1.2.em,
+                        fontWeight = FontWeight.Bold,
+                        overflow = TextOverflow.Ellipsis
+                    )
+
+                    Text(
+                        modifier = Modifier
+                            .basicMarquee()
+                            .clickable {
+                                // TODO: open creator screen
+                            },
+                        text = article.creator!!,
+                        color = Color.Black,
+                        maxLines = 1,
+                        fontSize = 14.sp,
+                        lineHeight = 1.2.em,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
 
             Column(
                 modifier = Modifier
-                    .padding(start = 10.dp)
-                    .align(Alignment.Bottom)
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, top = 5.dp, end = 10.dp)
             ) {
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .padding(bottom = 5.dp)
-                        .basicMarquee(),
-                    text = "${article.type}   /   ${article.tags.joinToString(separator = " & ")}",
-                    color = Color.Red,
-                    maxLines = 1,
-                    fontSize = 12.sp,
-                    lineHeight = 1.2.em,
-                    fontWeight = FontWeight.Bold,
+                        .fillMaxWidth(),
+                    text = article.description!!,
+                    color = md_theme_light_onBackground,
+                    maxLines = 4,
                     overflow = TextOverflow.Ellipsis,
-                    textAlign = TextAlign.Start
+                    style = MaterialTheme.typography.bodyMedium
                 )
 
-                Text(
-                    modifier = Modifier
-                        .clickable {
-
-                        },
-                    text = article.title,
-                    color = Color.Black,
-                    maxLines = 1,
-                    fontSize = 14.sp,
-                    lineHeight = 1.2.em,
-                    fontWeight = FontWeight.Bold,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Text(
-                    text = article.creator,
-                    color = Color.Black,
-                    maxLines = 1,
-                    fontSize = 14.sp,
-                    lineHeight = 1.2.em,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = 325.dp
-                )
-        ) {
-            Text(
-                modifier = Modifier
-                    .padding(start = 10.dp, end = 10.dp, bottom = 5.dp)
-                    .fillMaxWidth(),
-                text = article.description,
-                color = md_theme_light_onBackground,
-                maxLines = 4,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodyMedium
-            )
-
-            if (article.comments.isNotEmpty()) {
-                CommentsShortList(
-                    modifier = Modifier
-                        .padding(10.dp, 0.dp)
-                        .fillMaxWidth()
-                        .clickable { isCommented = true },
-                    comments = article.comments
-                )
+                if (article.comments.isNotEmpty()) {
+                    CommentsShortList(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { isCommented = true },
+                        comments = article.comments
+                    )
+                }
             }
 
             Row(
-                modifier = Modifier.padding(top = 2.dp)
+                modifier = Modifier.padding(start = 2.dp, top = 2.dp, end = 2.dp)
             ) {
-                LikeIconButton(
+                LikeIconToggleButton(
                     modifier = Modifier.weight(1f),
                     isLiked = isLiked,
                     onClick = onLikeCLick
                 )
-                CommentIconButton(
+                CommentIconToggleButton(
                     modifier = Modifier.weight(1f),
                     isCommented = isCommented,
                     onClick = onCommentCLick
                 )
-                RepostIconButton(
+                RepostIconToggleButton(
                     modifier = Modifier.weight(1f),
                     isReposted = isReposted,
                     onClick = onRepostCLick
                 )
                 Spacer(modifier = Modifier.weight(4f))
-                SaveIconButton(
+                SaveIconToggleButton(
                     modifier = Modifier.weight(1f),
                     isSaved = isSaved,
                     onClick = onSaveCLick
@@ -286,6 +295,7 @@ fun PostPreview() {
         onCommentCLick = { },
         onRepostCLick = { },
         onSaveCLick = { },
-        openScreen = { }
+        openArticleScreen = { },
+        openOwnerScreen = { }
     )
 }

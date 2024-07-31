@@ -128,9 +128,9 @@ fun ArticleBubbleCard(
 @Composable
 fun BubbleItemPreview() {
     ArticleBubbleCard(
-        title = articleDemo.title,
-        description = articleDemo.description,
-        coverUrl = articleDemo.coverUrl,
-        color = articleDemo.color.getColor
+        title = articleDemo.title!!,
+        description = articleDemo.description!!,
+        coverUrl = articleDemo.coverUrl!!,
+        color = articleDemo.color!!.getColor
     )
 }

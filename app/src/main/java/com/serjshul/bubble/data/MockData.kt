@@ -124,9 +124,7 @@ val articlesDemo = listOf(
         type = "Movie",
         tags = listOf("Science Fiction", "Fantasy", "Adventure"),
         coverUrl = "https://static1.colliderimages.com/wordpress/wp-content/uploads/2021/08/dune-poster-social-featured.jpg",
-        color = "#a46d58",
-        backgroundUrl = "https://platform.vox.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/22945150/dune1.jpeg?quality=90&strip=all&crop=0,2.4869791666667,100,66.666666666667",
-        uid = "",
+        color = "#a46d58",uid = "",
         owner = User(
             uid = "uid",
             photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",

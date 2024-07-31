@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.data.articleDemo
-import com.serjshul.bubble.ui.components.buttons.CustomOutlinedButton
+import com.serjshul.bubble.ui.components.buttons.TextOutlinedButton
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.getColor
@@ -99,7 +99,7 @@ fun ArticleCard(
                 Box(
                     modifier = Modifier.weight(3f)
                 ) {
-                    CustomOutlinedButton(
+                    TextOutlinedButton(
                         text = stringResource(id = R.string.button_read),
                         onClick = {},
                         contentColor = md_theme_light_onSecondary,
@@ -123,11 +123,11 @@ fun ArticleCard(
 @Composable
 fun ArticleItemPreview() {
     ArticleCard(
-        title = articleDemo.title,
-        description = articleDemo.description,
-        creator = articleDemo.creator,
+        title = articleDemo.title!!,
+        description = articleDemo.description!!,
+        creator = articleDemo.creator!!,
         tags = articleDemo.tags.joinToString(),
-        coverUrl = articleDemo.coverUrl,
-        color = articleDemo.color.getColor
+        coverUrl = articleDemo.coverUrl!!,
+        color = articleDemo.color!!.getColor
     )
 }
