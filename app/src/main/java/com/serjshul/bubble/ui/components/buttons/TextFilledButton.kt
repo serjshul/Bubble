@@ -18,7 +18,7 @@ import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.theme.md_theme_light_secondary
 
 @Composable
-fun CustomFilledButton(
+fun TextFilledButton(
     modifier: Modifier = Modifier,
     text: String,
     containerColor: Color,
@@ -39,13 +39,13 @@ fun CustomFilledButton(
 
 @Preview
 @Composable
-fun CustomFilledButtonPreview() {
+fun TextFilledButtonPreview() {
     Box(
         modifier = Modifier
             .size(200.dp)
             .background(Color.Black)
     ) {
-        CustomFilledButton(
+        TextFilledButton(
             modifier = Modifier.align(Alignment.Center),
             text = stringResource(id = R.string.button_read),
             containerColor = md_theme_light_secondary,

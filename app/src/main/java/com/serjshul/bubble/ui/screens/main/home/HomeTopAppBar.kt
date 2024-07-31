@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.components.bars
+package com.serjshul.bubble.ui.screens.main.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight

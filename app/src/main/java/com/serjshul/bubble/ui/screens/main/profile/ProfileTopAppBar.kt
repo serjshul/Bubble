@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.components.bars
+package com.serjshul.bubble.ui.screens.main.profile
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size

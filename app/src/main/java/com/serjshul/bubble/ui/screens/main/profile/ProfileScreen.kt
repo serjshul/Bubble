@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -35,22 +37,38 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.serjshul.bubble.ui.components.bars.ProfileTopAppBar
-import com.serjshul.bubble.ui.components.buttons.CustomFilledButton
-import com.serjshul.bubble.ui.components.buttons.CustomOutlinedButton
-import com.serjshul.bubble.ui.components.buttons.CustomOutlinedIconButton
-import com.serjshul.bubble.ui.components.buttons.IconButtonType
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.serjshul.bubble.data.articlesDemo
+import com.serjshul.bubble.model.Article
+import com.serjshul.bubble.ui.components.buttons.SimilarProfilesOutlinedIconButton
+import com.serjshul.bubble.ui.components.buttons.TextFilledButton
+import com.serjshul.bubble.ui.components.buttons.TextOutlinedButton
 import com.serjshul.bubble.ui.components.media.ProfileAsyncImage
+import com.serjshul.bubble.ui.components.posts.Post
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_light_primary
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun ProfileScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: ProfileViewModel = hiltViewModel()
+) {
+    ProfileScreenContent(
+        modifier = modifier,
+        posts = viewModel.posts,
+        showDevelopInfo = viewModel::showDevelopInfo
+    )
+}
+
+@Composable
+fun ProfileScreenContent(
+    modifier: Modifier = Modifier,
+    posts: List<Article>,
+    showDevelopInfo: (String, SnackbarHostState, CoroutineScope) -> Unit
 ) {
     var isFollowing by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -73,211 +91,215 @@ fun ProfileScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
                 .background(Color.White)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(15.dp, 5.dp)
-            ) {
-                Row {
-                    Column(
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(15.dp, 5.dp)
+                ) {
+                    Row {
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .align(Alignment.CenterVertically)
+                                .padding(end = 5.dp)
+                        ) {
+                            Text(
+                                text = "Serge, 21",
+                                color = md_theme_light_onBackground,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                fontWeight = FontWeight.Bold,
+                                style = MaterialTheme.typography.titleLarge
+                            )
+                            Text(
+                                modifier = Modifier.padding(top = 5.dp),
+                                text = "@serjshul",
+                                color = md_theme_light_onBackground,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                fontWeight = FontWeight.Bold,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
+                        ProfileAsyncImage(
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .size(70.dp)
+                                .align(Alignment.CenterVertically),
+                            url = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
+                            contentDescription = ""
+                        )
+                    }
+
+                    Text(
                         modifier = Modifier
-                            .weight(1f)
-                            .align(Alignment.CenterVertically)
-                            .padding(end = 5.dp)
+                            .fillMaxWidth()
+                            .padding(top = 10.dp),
+                        text = "Graduated from SPbSTU, read a lot of books just to download yet another app",
+                        color = md_theme_light_onBackground,
+                        maxLines = 4,
+                        lineHeight = 22.sp,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp)
                     ) {
                         Text(
-                            text = "Serge, 21",
-                            color = md_theme_light_onBackground,
-                            maxLines = 1,
+                            modifier = Modifier.clickable {
+                                // TODO: see followers method
+                                showDevelopInfo("TODO: see followers method", snackbarHostState, scope)
+                            },
+                            text = "${35.1}K followers",
+                            color = md_theme_light_onBackgroundVariant,
+                            maxLines = 4,
                             overflow = TextOverflow.Ellipsis,
-                            fontWeight = FontWeight.Bold,
-                            style = MaterialTheme.typography.titleLarge
+                            style = MaterialTheme.typography.bodyLarge
                         )
                         Text(
-                            modifier = Modifier.padding(top = 5.dp),
-                            text = "@serjshul",
-                            color = md_theme_light_onBackground,
-                            maxLines = 1,
+                            text = "  •  ",
+                            color = md_theme_light_onBackgroundVariant,
+                            maxLines = 4,
                             overflow = TextOverflow.Ellipsis,
-                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Text(
+                            modifier = Modifier.clickable {
+                                // TODO: see following method
+                                showDevelopInfo("TODO: see following method", snackbarHostState, scope)
+                            },
+                            text = "${103} following",
+                            color = md_theme_light_onBackgroundVariant,
+                            maxLines = 4,
+                            overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
-                    ProfileAsyncImage(
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .size(70.dp)
-                            .align(Alignment.CenterVertically),
-                        url = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-                        contentDescription = ""
-                    )
-                }
 
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                    text = "Graduated from SPbSTU, read a lot of books just to download yet another app",
-                    color = md_theme_light_onBackground,
-                    maxLines = 4,
-                    lineHeight = 22.sp,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                    Row(
+                        modifier = Modifier.padding(top = 10.dp)
+                    ) {
+                        if (isFollowing) {
+                            TextOutlinedButton(
+                                modifier = Modifier
+                                    .weight(4f)
+                                    .padding(end = 10.dp),
+                                text = "Following",
+                                contentColor = md_theme_light_onBackground,
+                                onClick = {
+                                    isFollowing = false
+                                    // TODO: unfollow method
+                                    showDevelopInfo("TODO: unfollow method", snackbarHostState, scope)
+                                }
+                            )
+                        } else {
+                            TextFilledButton(
+                                modifier = Modifier
+                                    .weight(4f)
+                                    .padding(end = 10.dp),
+                                text = "Follow",
+                                contentColor = md_theme_light_onPrimary,
+                                containerColor = md_theme_light_primary,
+                                onClick = {
+                                    isFollowing = true
+                                    // TODO: follow method
+                                    showDevelopInfo("TODO: follow method", snackbarHostState, scope)
+                                }
+                            )
+                        }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp)
-                ) {
-                    Text(
-                        modifier = Modifier.clickable {
-                            scope.launch {
-                                snackbarHostState.showSnackbar(
-                                    message = "TODO: see followers method",  // TODO: see followers method
-                                    withDismissAction = true
-                                )
-                            }
-                        },
-                        text = "${35.1}K followers",
-                        color = md_theme_light_onBackgroundVariant,
-                        maxLines = 4,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Text(
-                        text = "  •  ",
-                        color = md_theme_light_onBackgroundVariant,
-                        maxLines = 4,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Text(
-                        modifier = Modifier.clickable {
-                            scope.launch {
-                                snackbarHostState.showSnackbar(
-                                    message = "TODO: see following method",  // TODO: see following method
-                                    withDismissAction = true
-                                )
-                            }
-                        },
-                        text = "${103} following",
-                        color = md_theme_light_onBackgroundVariant,
-                        maxLines = 4,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-
-                Row(
-                    modifier = Modifier.padding(top = 10.dp)
-                ) {
-                    if (isFollowing) {
-                        CustomOutlinedButton(
+                        TextOutlinedButton(
                             modifier = Modifier
                                 .weight(4f)
                                 .padding(end = 10.dp),
-                            text = "Following",
+                            text = "Message",
                             contentColor = md_theme_light_onBackground,
                             onClick = {
-                                isFollowing = false
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        message = "TODO: unfollow method",  // TODO: unfollow method
-                                        withDismissAction = true
-                                    )
-                                }
+                                // TODO: send message method
+                                showDevelopInfo("TODO: send message method", snackbarHostState, scope)
                             }
                         )
-                    } else {
-                        CustomFilledButton(
-                            modifier = Modifier
-                                .weight(4f)
-                                .padding(end = 10.dp),
-                            text = "Follow",
-                            contentColor = md_theme_light_onPrimary,
-                            containerColor = md_theme_light_primary,
-                            onClick = {
-                                isFollowing = true
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        message = "TODO: follow method",  // TODO: follow method
-                                        withDismissAction = true
-                                    )
+                        Box(modifier = Modifier.weight(1f)) {
+                            SimilarProfilesOutlinedIconButton(
+                                color = md_theme_light_onBackground,
+                                onClick = {
+                                    // TODO: see similar profiles method
+                                    showDevelopInfo("TODO: see similar profiles method", snackbarHostState, scope)
                                 }
-                            }
-                        )
-                    }
-
-                    CustomOutlinedButton(
-                        modifier = Modifier
-                            .weight(4f)
-                            .padding(end = 10.dp),
-                        text = "Message",
-                        contentColor = md_theme_light_onBackground,
-                        onClick = {
-                            scope.launch {
-                                snackbarHostState.showSnackbar(
-                                    message = "TODO: send message method",  // TODO: send message method
-                                    withDismissAction = true
-                                )
-                            }
+                            )
                         }
-                    )
-                    Box(modifier = Modifier.weight(1f)) {
-                        CustomOutlinedIconButton(
-                            modifier = Modifier,
-                            iconButtonType = IconButtonType.SIMILAR_PROFILES,
-                            color = md_theme_light_onBackground,
-                            onClick = {
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        message = "TODO: see similar profiles method",  // TODO: see similar profiles method
-                                        withDismissAction = true
-                                    )
-                                }
-                            }
-                        )
                     }
                 }
             }
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 5.dp)
-            ) {
-                TabRow(
-                    selectedTabIndex = tabIndex,
-                    contentColor = md_theme_light_onBackground,
-                    containerColor = md_theme_light_background,
-                    indicator = { tabPositions ->
-                        if (tabIndex < tabPositions.size) {
-                            TabRowDefaults.SecondaryIndicator(
-                                modifier = Modifier.tabIndicatorOffset(tabPositions[tabIndex]),
-                                color = md_theme_light_onBackground
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 5.dp)
+                ) {
+                    TabRow(
+                        selectedTabIndex = tabIndex,
+                        contentColor = md_theme_light_onBackground,
+                        containerColor = md_theme_light_background,
+                        indicator = { tabPositions ->
+                            if (tabIndex < tabPositions.size) {
+                                TabRowDefaults.SecondaryIndicator(
+                                    modifier = Modifier.tabIndicatorOffset(tabPositions[tabIndex]),
+                                    color = md_theme_light_onBackground
+                                )
+                            }
+                        }
+                    ) {
+                        tabs.forEachIndexed { index, title ->
+                            Tab(text = { Text(title) },
+                                selected = tabIndex == index,
+                                onClick = { tabIndex = index }
                             )
                         }
                     }
-                ) {
-                    tabs.forEachIndexed { index, title ->
-                        Tab(text = { Text(title) },
-                            selected = tabIndex == index,
-                            onClick = { tabIndex = index }
+                }
+            }
+
+            when (tabIndex) {
+                0 -> {
+                    items(posts) { post ->
+                        Post(
+                            article = post,
+                            onLikeCLick = {
+                                // TODO: like click method
+                                showDevelopInfo("TODO: like click method", snackbarHostState, scope)
+                            },
+                            onCommentCLick = {
+                                // TODO: comment click method
+                                showDevelopInfo("TODO: comment click method", snackbarHostState, scope)
+                            },
+                            onRepostCLick = {
+                                // TODO: repost click method
+                                showDevelopInfo("TODO: repost click method", snackbarHostState, scope)
+                            },
+                            onSaveCLick = {
+                                // TODO: save click method
+                                showDevelopInfo("TODO: save click method", snackbarHostState, scope)
+                            },
+                            currentUid = "",
+                            openArticleScreen = { },
+                            openOwnerScreen = { }
                         )
                     }
-                }
-                when (tabIndex) {
-                    0 -> {} //HomeScreen()
-                    1 -> {} //AboutScreen()
-                    2 -> {} //SettingsScreen()
-                }
+                } //HomeScreen()
+                1 -> {} //AboutScreen()
+                2 -> {} //SettingsScreen()
             }
         }
     }
@@ -286,5 +308,9 @@ fun ProfileScreen(
 @Preview
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen()
+    ProfileScreenContent(
+        modifier = Modifier.fillMaxSize(),
+        posts = articlesDemo,
+        showDevelopInfo = { _, _, _ -> }
+    )
 }

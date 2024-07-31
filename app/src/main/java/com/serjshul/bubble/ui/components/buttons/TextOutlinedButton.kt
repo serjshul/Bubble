@@ -18,7 +18,7 @@ import com.serjshul.bubble.R
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 
 @Composable
-fun CustomOutlinedButton(
+fun TextOutlinedButton(
     modifier: Modifier = Modifier,
     text: String,
     contentColor: Color,
@@ -41,13 +41,13 @@ fun CustomOutlinedButton(
 
 @Preview
 @Composable
-fun CustomOutlinedButtonPreview() {
+fun TextOutlinedButtonPreview() {
     Box(
         modifier = Modifier
             .size(200.dp)
             .background(Color.Black)
     ) {
-        CustomOutlinedButton(
+        TextOutlinedButton(
             modifier = Modifier.align(Alignment.Center),
             text = stringResource(id = R.string.button_read),
             contentColor = md_theme_light_onSecondary,
