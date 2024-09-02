@@ -4,6 +4,9 @@
     <string name="screen_feed">Лента</string>
     <string name="screen_home">Дом</string>
     <string name="screen_profile">Профиль</string>
+    <string name="tab_posts">Посты</string>
+    <string name="tab_comments">Комментарии</string>
+    <string name="tab_likes">Лайки</string>
     <string name="image_background">Фон</string>
     <string name="button_read">Читать</string>
     <string name="icon_button_menu">Кнопка \"Меню\"</string>

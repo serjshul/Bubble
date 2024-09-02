@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.components.posts
+package com.serjshul.bubble.ui.components.cards
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -39,8 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.serjshul.bubble.common.getCreatedTime
-import com.serjshul.bubble.data.articleDemo
-import com.serjshul.bubble.model.Article
+import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.buttons.CommentIconToggleButton
 import com.serjshul.bubble.ui.components.buttons.LikeIconToggleButton
 import com.serjshul.bubble.ui.components.buttons.RepostIconToggleButton
@@ -49,7 +49,9 @@ import com.serjshul.bubble.ui.components.comments.CommentsShortList
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.components.media.ProfileAsyncImage
+import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
+import com.serjshul.bubble.ui.theme.md_theme_light_primary
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -67,10 +69,10 @@ fun Post(
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
-    val isLiked by remember { mutableStateOf(currentUid in article.likes) }
-    var isCommented by remember { mutableStateOf(false) }
-    val isReposted by remember { mutableStateOf(currentUid in article.reposts) }
-    val isSaved by remember { mutableStateOf(currentUid in article.saves) }
+    val isLiked by remember { mutableStateOf(currentUid in article.lids) }
+    var isCommented by remember { mutableStateOf(currentUid in article.cids) }
+    val isReposted by remember { mutableStateOf(currentUid in article.rids) }
+    val isSaved by remember { mutableStateOf(currentUid in article.sids) }
 
     var isDropDownExpanded by remember { mutableStateOf(false) }
 
@@ -147,9 +149,12 @@ fun Post(
                     }
 
                     DropdownMenu(
+                        modifier = Modifier
+                            .background(md_theme_light_background),
                         expanded = isDropDownExpanded,
                         onDismissRequest = { isDropDownExpanded = false }
                     ) {
+                        // TODO: create the options
                         Text(
                             modifier = Modifier
                                 .padding(10.dp)
@@ -191,7 +196,7 @@ fun Post(
                                 // TODO: open type and tags screen
                             },
                         text = "${article.type}   /   ${article.tags.joinToString(separator = " & ")}",
-                        color = Color.Red,
+                        color = md_theme_light_primary,
                         maxLines = 1,
                         fontSize = 12.sp,
                         lineHeight = 1.2.em,
@@ -287,6 +292,8 @@ fun Post(
 @Preview
 @Composable
 fun PostPreview() {
+    val articleDemo = articles.random()
+
     Post(
         modifier = Modifier.background(Color.White),
         article = articleDemo,

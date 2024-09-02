@@ -15,8 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import com.serjshul.bubble.model.Comment
-import com.serjshul.bubble.model.User
+import com.serjshul.bubble.model.subcollections.Comment
 import com.serjshul.bubble.ui.components.comments.items.CommentShortItem
 
 @Composable
@@ -30,7 +29,7 @@ fun CommentsShortList(
         if (comments.size <= 3) {
             for (comment in comments) {
                 CommentShortItem(
-                    nickname = comment.owner?.nickname!!,
+                    nickname = "lala", //comment.owner?.nickname!!,
                     text = comment.text!!
                 )
             }
@@ -56,27 +55,27 @@ fun CommentsShortListExpandedPreview() {
     val comments = listOf(
         Comment(
             text = "preview  preview preview preview preview preview preview",
-            owner = User(
-                uid = "uid",
-                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-                nickname = "serjshul"
-            )
+//            owner = User(
+//                uid = "uid",
+//                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
+//                nickname = "serjshul"
+//            )
         ),
         Comment(
             text = "preview  preview preview preview preview preview preview",
-            owner = User(
-                uid = "uid",
-                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-                nickname = "serjshul"
-            )
+//            owner = User(
+//                uid = "uid",
+//                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
+//                nickname = "serjshul"
+//            )
         ),
         Comment(
             text = "preview  preview preview preview preview preview preview",
-            owner = User(
-                uid = "uid",
-                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-                nickname = "serjshul"
-            )
+//            owner = User(
+//                uid = "uid",
+//                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
+//                nickname = "serjshul"
+//            )
         )
     )
 
@@ -96,35 +95,35 @@ fun CommentsShortListPreview() {
     val comments = listOf(
         Comment(
             text = "preview  preview preview preview preview preview preview",
-            owner = User(
-                uid = "uid",
-                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-                nickname = "serjshul"
-            )
+//            owner = User(
+//                uid = "uid",
+//                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
+//                nickname = "serjshul"
+//            )
         ),
         Comment(
             text = "preview  preview preview preview preview preview preview",
-            owner = User(
-                uid = "uid",
-                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-                nickname = "serjshul"
-            )
+//            owner = User(
+//                uid = "uid",
+//                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
+//                nickname = "serjshul"
+//            )
         ),
         Comment(
             text = "preview  preview preview preview preview preview preview",
-            owner = User(
-                uid = "uid",
-                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-                nickname = "serjshul"
-            )
+//            owner = User(
+//                uid = "uid",
+//                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
+//                nickname = "serjshul"
+//            )
         ),
         Comment(
             text = "preview  preview preview preview preview preview preview",
-            owner = User(
-                uid = "uid",
-                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-                nickname = "serjshul"
-            )
+//            owner = User(
+//                uid = "uid",
+//                photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
+//                nickname = "serjshul"
+//            )
         )
     )
 

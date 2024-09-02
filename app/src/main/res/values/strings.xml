@@ -5,6 +5,10 @@
     <string name="screen_home">Home</string>
     <string name="screen_profile">Profile</string>
 
+    <string name="tab_posts">Posts</string>
+    <string name="tab_likes">Likes</string>
+    <string name="tab_comments">Comments</string>
+
     <string name="image_background">Background</string>
 
     <string name="button_read">Read</string>
@@ -19,4 +23,5 @@
     <string name="icon_button_notifications">Button \"Notifications\"</string>
     <string name="icon_button_settings">Button \"Settings\"</string>
     <string name="icon_button_more">Button \"More\"</string>
+
 </resources>
