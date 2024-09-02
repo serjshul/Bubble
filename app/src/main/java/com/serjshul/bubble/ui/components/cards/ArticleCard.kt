@@ -22,7 +22,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
-import com.serjshul.bubble.data.articleDemo
+import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.ui.components.buttons.TextOutlinedButton
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
@@ -122,6 +122,8 @@ fun ArticleCard(
 @Preview
 @Composable
 fun ArticleItemPreview() {
+    val articleDemo = articles.random()
+
     ArticleCard(
         title = articleDemo.title!!,
         description = articleDemo.description!!,

@@ -30,7 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
-import com.serjshul.bubble.data.articleDemo
+import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.ui.components.buttons.LikeOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.RemoveOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
@@ -143,6 +143,8 @@ fun Banner(
 @Preview
 @Composable
 fun BannerPreview() {
+    val articleDemo = articles.random()
+
     Banner(
         title = articleDemo.title!!,
         description = articleDemo.description!!,

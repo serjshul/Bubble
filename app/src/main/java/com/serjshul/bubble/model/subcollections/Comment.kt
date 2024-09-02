@@ -1,19 +1,21 @@
-package com.serjshul.bubble.model
+package com.serjshul.bubble.model.subcollections
 
+import com.serjshul.bubble.model.collections.Article
 import java.util.Date
 
 data class Comment(
-    val id: String? = null,
+    val cid: String? = null,
+
     val rid: String? = null,
+    val article: Article? = null,
+
     val uid: String? = null,
+    val nickname: String? = null,
+    val photoUrl: String? = null,
 
     val text: String? = null,
-
     val repliedCid: String? = null,
-    val repliedUid: String? = null,
-    val isReply: Boolean? = false,
 
     val date: Date? = null,
-    var owner: User? = null,
     val likedBy: List<String> = emptyList()
 )

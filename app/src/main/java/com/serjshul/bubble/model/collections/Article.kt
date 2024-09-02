@@ -1,11 +1,13 @@
-package com.serjshul.bubble.model
+package com.serjshul.bubble.model.collections
 
+import com.serjshul.bubble.model.subcollections.Comment
+import com.serjshul.bubble.model.subcollections.Like
 import java.util.Date
 
 data class Article (
-    val id: String? = null,
-    val uid: String? = null,
+    val rid: String? = null,
 
+    val uid: String? = null,
     val title: String? = null,
     val description: String? = null,
     val creator: String? = null,
@@ -17,12 +19,17 @@ data class Article (
     val coverUrl: String? = null,
     val backgroundUrl: String? = null,
 
-    var owner: User? = null,
     val date: Date? = null,
-    val likes: List<String> = emptyList(),
+
+    val lids: List<String> = emptyList(),
+    val cids: List<String> = emptyList(),
+    val rids: List<String> = emptyList(),
+    val sids: List<String> = emptyList(),
+
+    var owner: User? = null,
+    val likes: List<Like> = emptyList(),
     val comments: List<Comment> = emptyList(),
-    val reposts: List<String> = emptyList(),
-    val saves: List<String> = emptyList()
+    val reposts: List<String> = emptyList()
 )
 
 data class Paragraph (

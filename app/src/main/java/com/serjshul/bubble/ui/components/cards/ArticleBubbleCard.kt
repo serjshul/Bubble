@@ -28,7 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.serjshul.bubble.data.articleDemo
+import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.getColor
@@ -127,6 +127,8 @@ fun ArticleBubbleCard(
 @Preview
 @Composable
 fun BubbleItemPreview() {
+    val articleDemo = articles.random()
+
     ArticleBubbleCard(
         title = articleDemo.title!!,
         description = articleDemo.description!!,
