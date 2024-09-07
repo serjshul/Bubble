@@ -27,7 +27,6 @@ import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.cards.ArticleCard
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
-import com.serjshul.bubble.ui.utils.getColor
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -103,12 +102,7 @@ fun Category(
                             scaleY = scale
                         }
                     },
-                title = content[page].title!!,
-                description = content[page].description!!,
-                creator = content[page].creator!!,
-                tags = content[page].tags.joinToString(),
-                coverUrl = content[page].coverUrl!!,
-                color = content[page].color!!.getColor
+                article = content[page]
             )
         }
     }
