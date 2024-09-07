@@ -12,39 +12,31 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
+import com.serjshul.bubble.common.ext.toColor
 import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.buttons.LikeOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.RemoveOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
-import com.serjshul.bubble.ui.components.media.CoverAsyncImage
+import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
-import com.serjshul.bubble.ui.utils.getColor
+import com.serjshul.bubble.ui.utils.roundedCornerShape
 
 @Composable
 fun Banner(
     modifier: Modifier = Modifier,
-    title: String,
-    description: String,
-    color: Color,
-    coverUrl: String,
+    article: Article,
     onReadClick: () -> Unit,
     onAddToFavoritesClick: () -> Unit,
     onNotInterestedClick: () -> Unit
@@ -53,88 +45,84 @@ fun Banner(
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
 
-    var sizeImage by remember { mutableStateOf(IntSize.Zero) }
-    val gradient = Brush.verticalGradient(
-        listOf(Color(0x00000000), Color(0xFFFFFFFF)),
-        startY = sizeImage.height.toFloat() / 2,
-        endY = sizeImage.height.toFloat()
-    )
-
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(screenHeight * 3 / 5)
+            .height(screenHeight * 1 / 2)
     ) {
-        CoverAsyncImage(
-            modifier = Modifier.fillMaxSize(),
-            url = coverUrl,
-            contentDescription = stringResource(id = R.string.image_background)
-        )
-
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0x15000000))
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .onGloballyPositioned {
-                    sizeImage = it.size
-                }
-                .background(gradient)
-        )
-
-        Column(
-            modifier = Modifier
-                .width(screenWidth - 40.dp)
-                .align(Alignment.Center)
+                .padding(10.dp)
+                .roundedCornerShape()
         ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 10.dp),
-                text = title,
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = md_theme_light_onSecondary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+            BackgroundAsyncImage(
+                modifier = Modifier.fillMaxSize(),
+                url = article.backgroundUrl!!,
+                contentDescription = stringResource(id = R.string.image_background)
             )
 
-            Text(
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 15.dp),
-                text = description,
-                style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center,
-                color = md_theme_light_onSecondary,
-                maxLines = 5,
-                overflow = TextOverflow.Ellipsis,
+                    .fillMaxSize()
+                    .background(Color(0x15000000))
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
             )
 
-            Row(
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+            Column(
+                modifier = Modifier
+                    .width(screenWidth - 40.dp)
+                    .align(Alignment.Center)
             ) {
-                TextFilledButton(
-                    modifier = Modifier.padding(end = 5.dp),
-                    text = stringResource(id = R.string.button_read),
-                    onClick = onReadClick,
-                    contentColor = color,
-                    containerColor = md_theme_light_onSecondary
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 10.dp),
+                    text = article.title!!,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = md_theme_light_onSecondary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
 
-                LikeOutlinedIconButton(
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 15.dp),
+                    text = article.description!!,
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center,
                     color = md_theme_light_onSecondary,
-                    onClick = onAddToFavoritesClick
+                    maxLines = 5,
+                    overflow = TextOverflow.Ellipsis,
                 )
 
-                RemoveOutlinedIconButton(
-                    color = md_theme_light_onSecondary,
-                    onClick = onNotInterestedClick
-                )
+                Row(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    TextFilledButton(
+                        modifier = Modifier.padding(end = 5.dp),
+                        text = stringResource(id = R.string.button_read),
+                        onClick = onReadClick,
+                        contentColor = article.color!!.toColor(),
+                        containerColor = md_theme_light_onSecondary
+                    )
+
+                    LikeOutlinedIconButton(
+                        color = md_theme_light_onSecondary,
+                        onClick = onAddToFavoritesClick
+                    )
+
+                    RemoveOutlinedIconButton(
+                        color = md_theme_light_onSecondary,
+                        onClick = onNotInterestedClick
+                    )
+                }
             }
         }
     }
@@ -143,13 +131,8 @@ fun Banner(
 @Preview
 @Composable
 fun BannerPreview() {
-    val articleDemo = articles.random()
-
     Banner(
-        title = articleDemo.title!!,
-        description = articleDemo.description!!,
-        color = articleDemo.color!!.getColor,
-        coverUrl = articleDemo.coverUrl!!,
+        article = articles[0],
         onReadClick = {},
         onAddToFavoritesClick = {},
         onNotInterestedClick = {}
