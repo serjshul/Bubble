@@ -30,12 +30,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
-import com.serjshul.bubble.data.articleDemo
-import com.serjshul.bubble.ui.components.buttons.CustomFilledButton
-import com.serjshul.bubble.ui.components.buttons.CustomOutlinedIconButton
-import com.serjshul.bubble.ui.components.buttons.IconButtonType
-import com.serjshul.bubble.ui.components.media.CustomAsyncImage
-import com.serjshul.bubble.ui.components.media.ImageType
+import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.ui.components.buttons.LikeOutlinedIconButton
+import com.serjshul.bubble.ui.components.buttons.RemoveOutlinedIconButton
+import com.serjshul.bubble.ui.components.buttons.TextFilledButton
+import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.getColor
 
@@ -66,9 +65,8 @@ fun Banner(
             .fillMaxWidth()
             .height(screenHeight * 3 / 5)
     ) {
-        CustomAsyncImage(
+        CoverAsyncImage(
             modifier = Modifier.fillMaxSize(),
-            imageType = ImageType.COVER,
             url = coverUrl,
             contentDescription = stringResource(id = R.string.image_background)
         )
@@ -120,7 +118,7 @@ fun Banner(
             Row(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                CustomFilledButton(
+                TextFilledButton(
                     modifier = Modifier.padding(end = 5.dp),
                     text = stringResource(id = R.string.button_read),
                     onClick = onReadClick,
@@ -128,14 +126,12 @@ fun Banner(
                     containerColor = md_theme_light_onSecondary
                 )
 
-                CustomOutlinedIconButton(
-                    iconButtonType = IconButtonType.FAVORITE,
+                LikeOutlinedIconButton(
                     color = md_theme_light_onSecondary,
                     onClick = onAddToFavoritesClick
                 )
 
-                CustomOutlinedIconButton(
-                    iconButtonType = IconButtonType.REMOVE,
+                RemoveOutlinedIconButton(
                     color = md_theme_light_onSecondary,
                     onClick = onNotInterestedClick
                 )
@@ -147,11 +143,13 @@ fun Banner(
 @Preview
 @Composable
 fun BannerPreview() {
+    val articleDemo = articles.random()
+
     Banner(
-        title = articleDemo.title,
-        description = articleDemo.description,
-        color = articleDemo.color.getColor,
-        coverUrl = articleDemo.coverUrl,
+        title = articleDemo.title!!,
+        description = articleDemo.description!!,
+        color = articleDemo.color!!.getColor,
+        coverUrl = articleDemo.coverUrl!!,
         onReadClick = {},
         onAddToFavoritesClick = {},
         onNotInterestedClick = {}

@@ -23,8 +23,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
-import com.serjshul.bubble.data.articlesDemo
-import com.serjshul.bubble.model.Article
+import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.cards.ArticleCard
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.utils.getColor
@@ -103,12 +103,12 @@ fun Category(
                             scaleY = scale
                         }
                     },
-                title = content[page].title,
-                description = content[page].description,
-                creator = content[page].creator,
+                title = content[page].title!!,
+                description = content[page].description!!,
+                creator = content[page].creator!!,
                 tags = content[page].tags.joinToString(),
-                coverUrl = content[page].coverUrl,
-                color = content[page].color.getColor
+                coverUrl = content[page].coverUrl!!,
+                color = content[page].color!!.getColor
             )
         }
     }
@@ -120,6 +120,6 @@ fun CategoryPreview() {
     Category(
         type = "",
         title = "Demo articles",
-        content = articlesDemo
+        content = articles
     )
 }

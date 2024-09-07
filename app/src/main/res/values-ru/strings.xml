@@ -4,6 +4,9 @@
     <string name="screen_feed">Лента</string>
     <string name="screen_home">Дом</string>
     <string name="screen_profile">Профиль</string>
+    <string name="tab_posts">Посты</string>
+    <string name="tab_comments">Комментарии</string>
+    <string name="tab_likes">Лайки</string>
     <string name="image_background">Фон</string>
     <string name="button_read">Читать</string>
     <string name="icon_button_menu">Кнопка \"Меню\"</string>
@@ -11,4 +14,9 @@
     <string name="icon_button_search_atricle">Кнопка \"Найти статью\"</string>
     <string name="icon_button_add_to_favorites">Кнопка \"Добавить в избранное\"</string>
     <string name="icon_button_remove_banner">Кнопка \"Не интересно\"</string>
+    <string name="icon_button_similar_profiles">Кнопка \"Похожие профили\"</string>
+    <string name="icon_button_back">Кнопка \"Назад\"</string>
+    <string name="icon_button_notifications">Кнопка \"Уведомления\"</string>
+    <string name="icon_button_settings">Кнопка \"Настройки\"</string>
+    <string name="icon_button_more">Кнопка \"Больше\"</string>
 </resources>

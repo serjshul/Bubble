@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.components.bars
+package com.serjshul.bubble.ui.screens.main.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -28,7 +28,7 @@ import com.serjshul.bubble.ui.theme.outfitFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomCenterAlignedTopAppBar(
+fun HomeTopAppBar(
     modifier: Modifier = Modifier,
     onAddArticleClick: () -> Unit,
     onSearchArticleClick: () -> Unit
@@ -79,8 +79,8 @@ fun CustomCenterAlignedTopAppBar(
 
 @Preview
 @Composable
-fun CustomCenterAlignedTopAppBarPreview() {
-    CustomCenterAlignedTopAppBar(
+fun HomeTopAppBarPreview() {
+    HomeTopAppBar(
         onAddArticleClick = {},
         onSearchArticleClick = {}
     )

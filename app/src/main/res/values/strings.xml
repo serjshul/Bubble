@@ -5,6 +5,10 @@
     <string name="screen_home">Home</string>
     <string name="screen_profile">Profile</string>
 
+    <string name="tab_posts">Posts</string>
+    <string name="tab_likes">Likes</string>
+    <string name="tab_comments">Comments</string>
+
     <string name="image_background">Background</string>
 
     <string name="button_read">Read</string>
@@ -14,4 +18,10 @@
     <string name="icon_button_search_atricle">Button \"Search an article\"</string>
     <string name="icon_button_add_to_favorites">Button \"Add to favorites\"</string>
     <string name="icon_button_remove_banner">Button \"Not interested\"</string>
+    <string name="icon_button_similar_profiles">Button \"Similar profiles\"</string>
+    <string name="icon_button_back">Button \"Back\"</string>
+    <string name="icon_button_notifications">Button \"Notifications\"</string>
+    <string name="icon_button_settings">Button \"Settings\"</string>
+    <string name="icon_button_more">Button \"More\"</string>
+
 </resources>

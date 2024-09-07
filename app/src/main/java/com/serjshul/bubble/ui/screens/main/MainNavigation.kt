@@ -17,20 +17,20 @@ sealed class MainNavigation(
         MainNavigation(
             route = MainScreens.FEED_SCREEN,
             title = R.string.screen_feed,
-            icon = R.drawable.main_navigation_feed
+            icon = R.drawable.navigation_feed
         )
 
     data object Home :
         MainNavigation(
             route = MainScreens.HOME_SCREEN,
             title = R.string.screen_home,
-            icon = R.drawable.main_navigation_home
+            icon = R.drawable.navigation_home
         )
 
     data object Profile :
         MainNavigation(
             route = MainScreens.PROFILE_SCREEN,
             title = R.string.screen_profile,
-            icon = R.drawable.main_navigation_profile
+            icon = R.drawable.navigation_profile
         )
 }

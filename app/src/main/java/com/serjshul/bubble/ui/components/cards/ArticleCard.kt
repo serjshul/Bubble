@@ -22,10 +22,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
-import com.serjshul.bubble.data.articleDemo
-import com.serjshul.bubble.ui.components.buttons.CustomOutlinedButton
-import com.serjshul.bubble.ui.components.media.CustomAsyncImage
-import com.serjshul.bubble.ui.components.media.ImageType
+import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.ui.components.buttons.TextOutlinedButton
+import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.getColor
 import com.serjshul.bubble.ui.utils.roundedCornerShape
@@ -50,9 +49,8 @@ fun ArticleCard(
                 .fillMaxWidth()
                 .height(170.dp)
         ) {
-            CustomAsyncImage(
+            CoverAsyncImage(
                 modifier = Modifier.fillMaxWidth(),
-                imageType = ImageType.COVER,
                 url = coverUrl,
                 contentDescription = stringResource(id = R.string.image_background)
             )
@@ -101,7 +99,7 @@ fun ArticleCard(
                 Box(
                     modifier = Modifier.weight(3f)
                 ) {
-                    CustomOutlinedButton(
+                    TextOutlinedButton(
                         text = stringResource(id = R.string.button_read),
                         onClick = {},
                         contentColor = md_theme_light_onSecondary,
@@ -124,12 +122,14 @@ fun ArticleCard(
 @Preview
 @Composable
 fun ArticleItemPreview() {
+    val articleDemo = articles.random()
+
     ArticleCard(
-        title = articleDemo.title,
-        description = articleDemo.description,
-        creator = articleDemo.creator,
+        title = articleDemo.title!!,
+        description = articleDemo.description!!,
+        creator = articleDemo.creator!!,
         tags = articleDemo.tags.joinToString(),
-        coverUrl = articleDemo.coverUrl,
-        color = articleDemo.color.getColor
+        coverUrl = articleDemo.coverUrl!!,
+        color = articleDemo.color!!.getColor
     )
 }

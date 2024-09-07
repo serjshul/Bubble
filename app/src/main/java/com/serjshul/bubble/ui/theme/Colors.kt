@@ -6,13 +6,15 @@ val md_theme_light_onSecondary = Color(0xFFFFFFFF)
 
 val md_theme_light_background = Color(0xFFFFFFFF)
 val md_theme_light_onBackground = Color(0xFF201A1A)
-val md_theme_light_onBackgroundVariant = Color(0xFFBDBDBD)
+val md_theme_light_onBackgroundVariant = Color(0xFF808080)
 
 // Examples
 val md_theme_light_primary = Color(0xFFBF0031)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFFFDAD9)
 val md_theme_light_onPrimaryContainer = Color(0xFF40000A)
+
+val md_theme_light_onLike = Color(0xFFE33939)
 
 val md_theme_light_secondary = Color(0xFF775656)
 val md_theme_light_secondaryContainer = Color(0xFFFFDAD9)
