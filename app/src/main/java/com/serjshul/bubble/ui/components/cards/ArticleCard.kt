@@ -57,7 +57,7 @@ fun ArticleCard(
             ) {
                 BackgroundAsyncImage(
                     modifier = Modifier.fillMaxWidth(),
-                    url = article.coverUrl!!,
+                    url = article.backgroundUrl,
                     contentDescription = stringResource(id = R.string.image_background)
                 )
             }
