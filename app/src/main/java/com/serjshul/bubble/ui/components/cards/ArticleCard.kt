@@ -37,28 +37,30 @@ import com.serjshul.bubble.ui.utils.roundedCornerShape
 @Composable
 fun ArticleCard(
     modifier: Modifier = Modifier,
-    article: Article
+    article: Article,
+    onReadClick: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
-    val screenHeight = configuration.screenHeightDp.dp
 
     Column(
         modifier = modifier
             .width(screenWidth - 40.dp)
-            .height(screenHeight * 4 / 10)
+            .height(if (article.backgroundUrl != null) screenWidth - 60.dp else screenWidth - 200.dp)
             .roundedCornerShape()
     ) {
-        Box(
-            modifier = Modifier
-                .weight(3f)
-                .fillMaxWidth()
-        ) {
-            BackgroundAsyncImage(
-                modifier = Modifier.fillMaxWidth(),
-                url = article.coverUrl!!,
-                contentDescription = stringResource(id = R.string.image_background)
-            )
+        if (article.backgroundUrl != null) {
+            Box(
+                modifier = Modifier
+                    .weight(3f)
+                    .fillMaxWidth()
+            ) {
+                BackgroundAsyncImage(
+                    modifier = Modifier.fillMaxWidth(),
+                    url = article.coverUrl!!,
+                    contentDescription = stringResource(id = R.string.image_background)
+                )
+            }
         }
 
         Column(
@@ -96,7 +98,7 @@ fun ArticleCard(
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append(article.creator!!)
                             }
-                            append("  •  ${article.tags}")
+                            append("  •  ${article.tags.joinToString()}")
                         },
                         color = md_theme_light_onSecondary,
                         maxLines = 1,
@@ -110,7 +112,7 @@ fun ArticleCard(
                 ) {
                     TextOutlinedButton(
                         text = stringResource(id = R.string.button_read),
-                        onClick = {},
+                        onClick = onReadClick,
                         contentColor = md_theme_light_onSecondary,
                         modifier = Modifier.align(Alignment.CenterEnd)
                     )
@@ -132,6 +134,7 @@ fun ArticleCard(
 @Composable
 fun ArticleItemPreview() {
     ArticleCard(
-        article = articles[0]
+        article = articles[0],
+        onReadClick = { }
     )
 }
