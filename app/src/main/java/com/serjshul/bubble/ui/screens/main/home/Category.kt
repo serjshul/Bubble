@@ -102,7 +102,8 @@ fun Category(
                             scaleY = scale
                         }
                     },
-                article = content[page]
+                article = content[page],
+                onReadClick = { }
             )
         }
     }
