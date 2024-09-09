@@ -27,7 +27,7 @@ import com.serjshul.bubble.ui.components.cards.ArticleCard
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 
 @Composable
-fun CardsCategory(
+fun CardsList(
     modifier: Modifier = Modifier,
     title: String,
     content: List<Article>
@@ -83,7 +83,7 @@ fun CardsCategory(
 @Preview
 @Composable
 fun CardsCategoryPreview() {
-    CardsCategory(
+    CardsList(
         title = "Demo articles",
         content = articles
     )

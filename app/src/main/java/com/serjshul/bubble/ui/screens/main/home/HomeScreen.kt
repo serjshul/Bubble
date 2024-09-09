@@ -56,13 +56,13 @@ fun HomeScreenContent(
                 )
             }
             item {
-                CardsCategory(
+                CardsList(
                     title = "Category",
                     content = articles
                 )
             }
             item {
-                CardsCategory(
+                CardsList(
                     title = "Category",
                     content = articles
                 )
