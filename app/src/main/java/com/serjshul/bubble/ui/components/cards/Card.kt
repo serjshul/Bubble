@@ -38,7 +38,7 @@ import com.serjshul.bubble.ui.utils.roundedCornerShape
 fun Card(
     modifier: Modifier = Modifier,
     article: Article,
-    onReadClick: () -> Unit
+    onOpenClick: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -89,12 +89,12 @@ fun Card(
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleMedium
                     )
-
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
                             .basicMarquee(),
                         text = buildAnnotatedString {
+                            append("${article.type}  •  ")
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append(article.creator!!)
                             }
@@ -112,7 +112,7 @@ fun Card(
                 ) {
                     TextOutlinedButton(
                         text = stringResource(id = R.string.button_read),
-                        onClick = onReadClick,
+                        onClick = onOpenClick,
                         contentColor = md_theme_light_onSecondary,
                         modifier = Modifier.align(Alignment.CenterEnd)
                     )
@@ -135,6 +135,6 @@ fun Card(
 fun ArticleItemPreview() {
     Card(
         article = articles[0],
-        onReadClick = { }
+        onOpenClick = { }
     )
 }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -27,7 +26,6 @@ import androidx.compose.ui.util.lerp
 import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.cards.Bubble
-import com.serjshul.bubble.ui.components.cards.Card
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import kotlin.math.absoluteValue
 

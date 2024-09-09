@@ -70,7 +70,7 @@ fun CardsList(
                 Spacer(modifier = Modifier.width(10.dp))
                 Card(
                     article = article,
-                    onReadClick = { }
+                    onOpenClick = { }
                 )
             }
             item {

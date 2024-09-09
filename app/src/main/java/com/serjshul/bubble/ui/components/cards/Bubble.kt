@@ -74,13 +74,12 @@ fun Bubble(
         Column(
             modifier = Modifier
                 .width(screenWidth - 80.dp)
-                .padding(top = screenWidth - 140.dp)
+                .padding(top = screenWidth - 170.dp)
                 .align(Alignment.TopCenter)
         ) {
             Text(
                 modifier = Modifier
                     .width(screenWidth - 80.dp)
-                    .padding(bottom = 15.dp)
                     .align(Alignment.CenterHorizontally)
                     .basicMarquee(),
                 text = article.title!!,
@@ -90,6 +89,18 @@ fun Bubble(
                 overflow = TextOverflow.Ellipsis,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.titleLarge,
+            )
+            Text(
+                modifier = Modifier
+                    .width(screenWidth - 80.dp)
+                    .padding(bottom = 15.dp)
+                    .align(Alignment.CenterHorizontally),
+                text = article.type!!,
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.titleSmall,
             )
 
             Row(
