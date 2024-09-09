@@ -1,6 +1,8 @@
 package com.serjshul.bubble.ui.components.cards
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,46 +25,47 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.serjshul.bubble.R
+import com.serjshul.bubble.common.ext.toColor
 import com.serjshul.bubble.data.articles
-import com.serjshul.bubble.ui.components.media.CoverAsyncImage
+import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
-import com.serjshul.bubble.ui.utils.getColor
 import com.serjshul.bubble.ui.utils.roundedCornerShape
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ArticleBubbleCard(
+fun Bubble(
     modifier: Modifier = Modifier,
-    title: String,
-    description: String,
-    coverUrl: String,
-    color: Color,
+    article: Article,
+    onOpenClick: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
-    val brush = Brush.horizontalGradient(listOf(Color(0x30000000), Color(0x30000000)))
+    val brush = Brush.verticalGradient(listOf(Color(0x20000000), Color(0x05000000)))
 
     Box(
         modifier = modifier
-            .fillMaxWidth()
-            .height(screenWidth + 15.dp)
+            .width(screenWidth - 60.dp)
     ) {
-        CoverAsyncImage(
+        BackgroundAsyncImage(
             modifier = Modifier
-                .size(screenWidth - 30.dp)
+                .size(screenWidth - 60.dp)
                 .clip(CircleShape)
                 .align(Alignment.TopCenter),
-            url = coverUrl,
-            contentDescription = ""
+            url = article.backgroundUrl!!,
+            contentDescription = stringResource(id = R.string.image_background)
         )
         Box(
             modifier = Modifier
-                .size(screenWidth - 30.dp)
+                .size(screenWidth - 60.dp)
                 .clip(CircleShape)
                 .background(brush)
                 .align(Alignment.TopCenter)
@@ -70,16 +73,17 @@ fun ArticleBubbleCard(
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = screenWidth - 40.dp - 100.dp)
+                .width(screenWidth - 80.dp)
+                .padding(top = screenWidth - 140.dp)
                 .align(Alignment.TopCenter)
         ) {
             Text(
                 modifier = Modifier
-                    .width(250.dp)
+                    .width(screenWidth - 80.dp)
                     .padding(bottom = 15.dp)
-                    .align(Alignment.CenterHorizontally),
-                text = title,
+                    .align(Alignment.CenterHorizontally)
+                    .basicMarquee(),
+                text = article.title!!,
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
@@ -90,18 +94,18 @@ fun ArticleBubbleCard(
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(110.dp)
+                    .width(screenWidth - 60.dp)
+                    .height(95.dp)
                     .roundedCornerShape()
-                    .background(color)
+                    .background(article.color!!.toColor())
                     .padding(top = 15.dp, start = 15.dp, end = 5.dp, bottom = 15.dp)
             ) {
                 Text(
                     modifier = Modifier
                         .weight(8f),
-                    text = description,
+                    text = article.description!!,
                     color = md_theme_light_onSecondary,
-                    maxLines = 4,
+                    maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyMedium
                 )
@@ -110,7 +114,7 @@ fun ArticleBubbleCard(
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
-                    onClick = { /* do something */ }
+                    onClick = { onOpenClick() }
                 ) {
                     Icon(
                         Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -127,12 +131,8 @@ fun ArticleBubbleCard(
 @Preview
 @Composable
 fun BubbleItemPreview() {
-    val articleDemo = articles.random()
-
-    ArticleBubbleCard(
-        title = articleDemo.title!!,
-        description = articleDemo.description!!,
-        coverUrl = articleDemo.coverUrl!!,
-        color = articleDemo.color!!.getColor
+    Bubble(
+        article = articles[0],
+        onOpenClick = { }
     )
 }

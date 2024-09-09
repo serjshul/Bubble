@@ -57,13 +57,13 @@ fun HomeScreenContent(
             }
             item {
                 CardsList(
-                    title = "Category",
+                    title = "Cards list",
                     content = articles
                 )
             }
             item {
-                CardsList(
-                    title = "Category",
+                BubblesList(
+                    title = "Bubbles list",
                     content = articles
                 )
             }
