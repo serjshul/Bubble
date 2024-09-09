@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.screens.main.home
+package com.serjshul.bubble.ui.components.lists
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
@@ -23,11 +22,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.model.collections.Article
-import com.serjshul.bubble.ui.components.cards.Card
+import com.serjshul.bubble.ui.components.cards.SmallCard
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
+import kotlin.math.round
 
 @Composable
-fun CardsList(
+fun SmallCardsList(
     modifier: Modifier = Modifier,
     title: String,
     content: List<Article>
@@ -66,12 +66,21 @@ fun CardsList(
         }
 
         LazyRow {
-            items(content) { article ->
+            items(round(content.size / 2.0).toInt()) {
                 Spacer(modifier = Modifier.width(10.dp))
-                Card(
-                    article = article,
-                    onOpenClick = { }
-                )
+                Column {
+                    SmallCard(
+                        modifier = Modifier.padding(bottom = 10.dp),
+                        article = content[it * 2],
+                        onOpenClick = { }
+                    )
+                    if (content.elementAtOrNull(it * 2 + 1) != null) {
+                        SmallCard(
+                            article = content[it * 2 + 1],
+                            onOpenClick = { }
+                        )
+                    }
+                }
             }
             item {
                 Spacer(modifier = Modifier.width(10.dp))
@@ -82,8 +91,8 @@ fun CardsList(
 
 @Preview
 @Composable
-fun CardsCategoryPreview() {
-    CardsList(
+fun SmallCardsCategoryPreview() {
+    SmallCardsList(
         title = "Demo articles",
         content = articles
     )

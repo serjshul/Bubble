@@ -1,13 +1,13 @@
-package com.serjshul.bubble.ui.screens.main.home
+package com.serjshul.bubble.ui.components.lists
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
@@ -17,30 +17,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.lerp
 import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.model.collections.Article
-import com.serjshul.bubble.ui.components.cards.Bubble
+import com.serjshul.bubble.ui.components.cards.Card
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
-import kotlin.math.absoluteValue
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BubblesList(
+fun CardsList(
     modifier: Modifier = Modifier,
     title: String,
     content: List<Article>
 ) {
-    val filteredContent = content.filter { it.backgroundUrl != null }
-    val pagerState = rememberPagerState(
-        pageCount = { filteredContent.size }
-    )
-
     Column(
         modifier = modifier.padding(0.dp, 10.dp)
     ) {
@@ -74,44 +65,25 @@ fun BubblesList(
             }
         }
 
-        HorizontalPager(
-            modifier = Modifier,
-            state = pagerState,
-            contentPadding = PaddingValues(horizontal = 30.dp)
-        ) { page ->
-            Bubble(
-                modifier = Modifier
-                    .graphicsLayer {
-                        val pageOffset =
-                            ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction)
-                                .absoluteValue
-
-                        cameraDistance = 8 * density
-                        rotationY = lerp(
-                            start = 0f,
-                            stop = 0f,
-                            fraction = pageOffset.coerceIn(-1f, 1f)
-                        )
-                        lerp(
-                            start = 0.9f,
-                            stop = 1f,
-                            fraction = 1f - pageOffset.absoluteValue.coerceIn(0f, 1f),
-                        ).also { scale ->
-                            scaleX = scale
-                            scaleY = scale
-                        }
-                    },
-                article = filteredContent[page],
-                onOpenClick = { }
-            )
+        LazyRow {
+            items(content) { article ->
+                Spacer(modifier = Modifier.width(10.dp))
+                Card(
+                    article = article,
+                    onOpenClick = { }
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.width(10.dp))
+            }
         }
     }
 }
 
 @Preview
 @Composable
-fun BubblesListPreview() {
-    BubblesList(
+fun CardsCategoryPreview() {
+    CardsList(
         title = "Demo articles",
         content = articles
     )

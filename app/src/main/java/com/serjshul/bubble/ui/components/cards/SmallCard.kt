@@ -44,7 +44,7 @@ fun SmallCard(
 
     Box(
         modifier = modifier
-            .width(screenWidth - 50.dp)
+            .width(screenWidth - 70.dp)
             .height(100.dp)
             .roundedCornerShape()
             .background(article.color!!.toColor())

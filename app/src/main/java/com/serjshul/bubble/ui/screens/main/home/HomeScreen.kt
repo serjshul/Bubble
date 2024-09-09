@@ -11,6 +11,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.ui.components.lists.BubblesList
+import com.serjshul.bubble.ui.components.lists.CardsList
+import com.serjshul.bubble.ui.components.lists.SmallCardsList
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 
 @Composable
@@ -65,6 +68,21 @@ fun HomeScreenContent(
                 BubblesList(
                     title = "Bubbles list",
                     content = articles
+                )
+            }
+            item {
+                SmallCardsList(
+                    title = "Small cards list",
+                    content = articles
+                )
+            }
+            item {
+                Banner(
+                    modifier = Modifier,
+                    article = banner,
+                    onReadClick = {},
+                    onAddToFavoritesClick = {},
+                    onNotInterestedClick = {}
                 )
             }
         }
