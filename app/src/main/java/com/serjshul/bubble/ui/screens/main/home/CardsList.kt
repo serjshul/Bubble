@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.model.collections.Article
-import com.serjshul.bubble.ui.components.cards.ArticleCard
+import com.serjshul.bubble.ui.components.cards.Card
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 
 @Composable
@@ -68,7 +68,7 @@ fun CardsList(
         LazyRow {
             items(content) { article ->
                 Spacer(modifier = Modifier.width(10.dp))
-                ArticleCard(
+                Card(
                     article = article,
                     onReadClick = { }
                 )

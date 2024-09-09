@@ -56,11 +56,19 @@ fun Banner(
                 .padding(10.dp)
                 .roundedCornerShape()
         ) {
-            BackgroundAsyncImage(
-                modifier = Modifier.fillMaxSize(),
-                url = article.backgroundUrl!!,
-                contentDescription = stringResource(id = R.string.image_background)
-            )
+            if (article.backgroundUrl != null) {
+                BackgroundAsyncImage(
+                    modifier = Modifier.fillMaxSize(),
+                    url = article.backgroundUrl,
+                    contentDescription = stringResource(id = R.string.image_background)
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(article.color!!.toColor())
+                )
+            }
 
             Box(
                 modifier = Modifier

@@ -35,7 +35,7 @@ import com.serjshul.bubble.ui.utils.roundedCornerShape
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ArticleCard(
+fun Card(
     modifier: Modifier = Modifier,
     article: Article,
     onReadClick: () -> Unit
@@ -133,7 +133,7 @@ fun ArticleCard(
 @Preview
 @Composable
 fun ArticleItemPreview() {
-    ArticleCard(
+    Card(
         article = articles[0],
         onReadClick = { }
     )
