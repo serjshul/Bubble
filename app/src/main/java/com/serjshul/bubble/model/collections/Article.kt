@@ -15,6 +15,7 @@ data class Article (
     val tags: List<String> = emptyList(),
     val color: String? = null,
     val content: List<Paragraph> = emptyList(),
+    val quote: String? = null,
 
     val coverUrl: String? = null,
     val backgroundUrl: String? = null,

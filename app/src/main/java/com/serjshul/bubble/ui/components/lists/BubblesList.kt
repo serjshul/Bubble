@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.screens.main.home
+package com.serjshul.bubble.ui.components.lists
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -25,28 +25,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.model.collections.Article
-import com.serjshul.bubble.ui.components.cards.ArticleCard
+import com.serjshul.bubble.ui.components.cards.Bubble
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
-import com.serjshul.bubble.ui.utils.getColor
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Category(
+fun BubblesList(
     modifier: Modifier = Modifier,
-    type: String,
     title: String,
     content: List<Article>
 ) {
+    val filteredContent = content.filter { it.backgroundUrl != null }
     val pagerState = rememberPagerState(
-        pageCount = { content.size }
+        pageCount = { filteredContent.size }
     )
 
     Column(
-        modifier = modifier
+        modifier = modifier.padding(start = 0.dp, end = 0.dp, top = 15.dp, bottom = 25.dp)
     ) {
         Row(
-            modifier = Modifier.padding(start = 25.dp, end = 15.dp, top = 15.dp, bottom =  15.dp)
+            modifier = Modifier.padding(start = 20.dp, end = 5.dp, bottom =  5.dp)
         ) {
             Text(
                 modifier = Modifier
@@ -76,17 +75,16 @@ fun Category(
         }
 
         HorizontalPager(
-            modifier = Modifier.padding(bottom = 15.dp),
+            modifier = Modifier,
             state = pagerState,
-            contentPadding = PaddingValues(horizontal = 25.dp),
+            contentPadding = PaddingValues(horizontal = 30.dp)
         ) { page ->
-            ArticleCard(
+            Bubble(
                 modifier = Modifier
                     .graphicsLayer {
-                        val pageOffset = (
-                            (pagerState.currentPage - page) + pagerState
-                                .currentPageOffsetFraction
-                            ).absoluteValue
+                        val pageOffset =
+                            ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction)
+                                .absoluteValue
 
                         cameraDistance = 8 * density
                         rotationY = lerp(
@@ -103,12 +101,8 @@ fun Category(
                             scaleY = scale
                         }
                     },
-                title = content[page].title!!,
-                description = content[page].description!!,
-                creator = content[page].creator!!,
-                tags = content[page].tags.joinToString(),
-                coverUrl = content[page].coverUrl!!,
-                color = content[page].color!!.getColor
+                article = filteredContent[page],
+                onOpenClick = { }
             )
         }
     }
@@ -116,9 +110,8 @@ fun Category(
 
 @Preview
 @Composable
-fun CategoryPreview() {
-    Category(
-        type = "",
+fun BubblesListPreview() {
+    BubblesList(
         title = "Demo articles",
         content = articles
     )

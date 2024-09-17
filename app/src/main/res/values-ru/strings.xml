@@ -19,4 +19,5 @@
     <string name="icon_button_notifications">Кнопка \"Уведомления\"</string>
     <string name="icon_button_settings">Кнопка \"Настройки\"</string>
     <string name="icon_button_more">Кнопка \"Больше\"</string>
+    <string name="title_quote">Любимая цитата</string>
 </resources>
