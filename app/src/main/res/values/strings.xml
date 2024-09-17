@@ -9,6 +9,8 @@
     <string name="tab_likes">Likes</string>
     <string name="tab_comments">Comments</string>
 
+    <string name="title_quote">"Favourite quote"</string>
+
     <string name="image_background">Background image</string>
 
     <string name="button_read">Read</string>

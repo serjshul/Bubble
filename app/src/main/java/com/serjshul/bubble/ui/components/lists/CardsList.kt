@@ -33,7 +33,7 @@ fun CardsList(
     content: List<Article>
 ) {
     Column(
-        modifier = modifier.padding(0.dp, 10.dp)
+        modifier = modifier.padding(start = 0.dp, end = 0.dp, top = 15.dp, bottom = 25.dp)
     ) {
         Row(
             modifier = Modifier.padding(start = 20.dp, end = 5.dp, bottom =  5.dp)

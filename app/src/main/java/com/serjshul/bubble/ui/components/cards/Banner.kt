@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.screens.main.home
+package com.serjshul.bubble.ui.components.cards
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -53,7 +53,7 @@ fun Banner(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(10.dp)
+                .padding(10.dp, 15.dp)
                 .roundedCornerShape()
         ) {
             if (article.backgroundUrl != null) {

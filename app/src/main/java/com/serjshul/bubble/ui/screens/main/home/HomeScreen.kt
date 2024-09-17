@@ -11,6 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.ui.components.cards.Banner
+import com.serjshul.bubble.ui.components.cards.Quote
 import com.serjshul.bubble.ui.components.lists.BubblesList
 import com.serjshul.bubble.ui.components.lists.CardsList
 import com.serjshul.bubble.ui.components.lists.SmallCardsList
@@ -71,9 +73,21 @@ fun HomeScreenContent(
                 )
             }
             item {
+                Quote(
+                    article = articles[2],
+                    onOpenClick = { }
+                )
+            }
+            item {
                 SmallCardsList(
                     title = "Small cards list",
                     content = articles
+                )
+            }
+            item {
+                Quote(
+                    article = articles[0],
+                    onOpenClick = { }
                 )
             }
             item {
