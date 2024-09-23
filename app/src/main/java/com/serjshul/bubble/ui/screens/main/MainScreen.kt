@@ -14,7 +14,9 @@ import com.serjshul.bubble.ui.screens.main.profile.ProfileScreen
 
 @Composable
 fun MainScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    openScreen: (String) -> Unit,
+    popUpScreen: () -> Unit
 ) {
     val navController = rememberNavController()
 
@@ -35,7 +37,10 @@ fun MainScreen(
                 FeedScreen()
             }
             composable(MainScreens.HOME_SCREEN) {
-                HomeScreen()
+                HomeScreen(
+                    openScreen = openScreen,
+                    popUpScreen = popUpScreen
+                )
             }
             composable(MainScreens.PROFILE_SCREEN) {
                 ProfileScreen()

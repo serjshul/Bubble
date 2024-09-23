@@ -1,6 +1,7 @@
 package com.serjshul.bubble.ui
 
 import androidx.navigation.NavHostController
+import com.serjshul.bubble.ui.BubbleScreens.ARTICLE_SCREEN
 import com.serjshul.bubble.ui.BubbleScreens.MAIN_SCREEN
 
 /**
@@ -8,15 +9,14 @@ import com.serjshul.bubble.ui.BubbleScreens.MAIN_SCREEN
  */
 private object BubbleScreens {
     const val MAIN_SCREEN = "main"
+    const val ARTICLE_SCREEN = "article"
 }
 
 /**
  * Arguments used in [BubbleDestinations] routes
  */
 object BubbleDestinationsArgs {
-    const val USER_MESSAGE_ARG = "userMessage"
-    const val TASK_ID_ARG = "taskId"
-    const val TITLE_ARG = "title"
+    const val ARTICLE_ID_ARG = "articleId"
 }
 
 /**
@@ -24,6 +24,7 @@ object BubbleDestinationsArgs {
  */
 object BubbleDestinations {
     const val MAIN_ROUTE = MAIN_SCREEN
+    const val ARTCILE_ROUTE = ARTICLE_SCREEN
 }
 
 /**

@@ -2,6 +2,7 @@ package com.serjshul.bubble.ui.screens.main.home
 
 import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.services.LogService
+import com.serjshul.bubble.ui.BubbleDestinations
 import com.serjshul.bubble.ui.BubbleViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -13,4 +14,7 @@ class HomeViewModel @Inject constructor(
 
     val banner = articles.random()
 
+    fun onArticleClick(openScreen: (String) -> Unit, articleId: String) {
+        openScreen("${BubbleDestinations.ARTCILE_ROUTE}/$articleId")
+    }
 }

@@ -14,7 +14,8 @@ import com.serjshul.bubble.model.collections.Article
 @Composable
 fun ArticleScreen(
     modifier: Modifier = Modifier,
-    viewModel: ArticleViewModel = hiltViewModel()
+    viewModel: ArticleViewModel = hiltViewModel(),
+    popUpScreen: () -> Unit,
 ) {
     ArticleScreenContent(
         modifier = modifier,

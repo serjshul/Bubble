@@ -21,18 +21,26 @@ import com.serjshul.bubble.ui.theme.md_theme_light_background
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    openScreen: (String) -> Unit,
+    popUpScreen: () -> Unit
 ) {
     HomeScreenContent(
         modifier = modifier,
-        banner = viewModel.banner
+        banner = viewModel.banner,
+        openScreen = openScreen,
+        popUpScreen = popUpScreen,
+        onArticleClick = viewModel::onArticleClick
     )
 }
 
 @Composable
 fun HomeScreenContent(
     modifier: Modifier = Modifier,
-    banner: Article
+    banner: Article,
+    openScreen: (String) -> Unit,
+    popUpScreen: () -> Unit,
+    onArticleClick: ((String) -> Unit, String) -> Unit
 ) {
     Scaffold(
         modifier = modifier
@@ -40,8 +48,8 @@ fun HomeScreenContent(
             .background(md_theme_light_background),
         topBar = {
             HomeTopAppBar(
-                onAddArticleClick = {},
-                onSearchArticleClick = {}
+                onAddArticleClick = { },
+                onSearchArticleClick = { }
             )
         }
     ) {
@@ -55,15 +63,17 @@ fun HomeScreenContent(
                 Banner(
                     modifier = Modifier,
                     article = banner,
-                    onReadClick = {},
-                    onAddToFavoritesClick = {},
-                    onNotInterestedClick = {}
+                    onReadClick = { },
+                    onAddToFavoritesClick = { },
+                    onNotInterestedClick = { }
                 )
             }
             item {
                 CardsList(
                     title = "Cards list",
-                    content = articles
+                    content = articles,
+                    openScreen = openScreen,
+                    onArticleClick = onArticleClick
                 )
             }
             item {
@@ -94,9 +104,9 @@ fun HomeScreenContent(
                 Banner(
                     modifier = Modifier,
                     article = banner,
-                    onReadClick = {},
-                    onAddToFavoritesClick = {},
-                    onNotInterestedClick = {}
+                    onReadClick = { },
+                    onAddToFavoritesClick = { },
+                    onNotInterestedClick = { }
                 )
             }
         }
@@ -107,6 +117,9 @@ fun HomeScreenContent(
 @Composable
 fun HomeScreenPreview() {
     HomeScreenContent(
-        banner = articles[0]
+        banner = articles[0],
+        openScreen = { },
+        popUpScreen = { },
+        onArticleClick = { _, _ -> }
     )
 }
