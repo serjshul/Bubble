@@ -14,7 +14,7 @@ val users = listOf(
         bio = "Graduated from SPbSTU, read a lot of books just to download yet another app",
         dateOfBirth = Date(),
         photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-        pids = listOf("45g2j23fd8723", "jkef5s7dfjk23", "223fgh425kj2g3"),
+        aids = listOf("45g2j23fd8723", "jkef5s7dfjk23", "223fgh425kj2g3"),
         cids = emptyList(),
         lids = emptyList(),
         followers = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73"),
@@ -27,7 +27,7 @@ val users = listOf(
         bio = "The best things come from living outside of your comfort zone",
         dateOfBirth = Date(),
         photoUrl = "https://sun9-33.userapi.com/impg/OCpXCGU_onFqorHoOKdIpd-PpTTv9LVLVf7GUw/-YnVlqx9i4s.jpg?size=2560x2560&quality=95&sign=c438255c1a90959632cfdbdba900bbb4&type=album",
-        pids = listOf("9882735230", "12895729800", "9723400864"),
+        aids = listOf("9882735230", "12895729800", "9723400864"),
         cids = emptyList(),
         lids = emptyList(),
         followers = listOf("237465719432", "354h6g13fh25jk7l73"),
@@ -40,7 +40,7 @@ val users = listOf(
         bio = "I’m a cupcake in search of her stud muffin",
         dateOfBirth = Date(),
         photoUrl = "https://sun9-69.userapi.com/impg/00uihckUHW4fgg4-ZdihyAPUFnH1FtNmwBLSpA/lkt1MWMkUes.jpg?size=1029x1280&quality=95&sign=e294ed0dcb5bdf230f392ba9ba78a988&type=album",
-        pids = emptyList(),
+        aids = emptyList(),
         cids = emptyList(),
         lids = emptyList(),
         followers = listOf("237465719432", "hjk3h6j41204fsd"),
@@ -50,7 +50,7 @@ val users = listOf(
 
 val articles = listOf(
     Article(
-        rid = "89287892374",
+        aid = "89287892374",
         title = "Lady Bird",
         description = "Writer-director Greta Gerwig’s semiautobiographical Lady Bird is both generous " +
                 "and joyous, but when it stings, it stings deep. At one point, Saoirse Ronan, as " +
@@ -73,7 +73,7 @@ val articles = listOf(
         comments = emptyList()
     ),
     Article(
-        rid = "7656294214",
+        aid = "7656294214",
         title = "HIT ME HARD AND SOFT",
         description = "The pop star teams with her brother Finneas for their third album together, " +
                 "expanding the cooly dark vision of their sound. It’s an honest and ambitious album " +
@@ -90,7 +90,7 @@ val articles = listOf(
         date = Date()
     ),
     Article(
-        rid = "56288952340",
+        aid = "56288952340",
         title = "Poor Things",
         description = "The director of The Favourite teams up again with the fearless Hollywood star" +
                 " in a funny, filthy and explosively inventive spin on Frankenstein",
@@ -106,7 +106,7 @@ val articles = listOf(
         date = Date()
     ),
     Article(
-        rid = "9882735230",
+        aid = "9882735230",
         title = "Radical Optimism",
         description = "Dua Lipa’s star power sounds muffled on her much-anticipated third album, " +
                 "which has many interesting ideas for songs and a surprisingly low hit rate.",
@@ -121,7 +121,7 @@ val articles = listOf(
         date = Date()
     ),
     Article(
-        rid = "12895729800",
+        aid = "12895729800",
         title = "Dune",
         description = "Set on the desert planet Arrakis, Dune is the story of the boy Paul Atreides," +
                 " heir to a noble family tasked with ruling an inhospitable world where the only " +
@@ -138,7 +138,7 @@ val articles = listOf(
         date = Date()
     ),
     Article(
-        rid = "9723400864",
+        aid = "9723400864",
         title = "Fleabag",
         description = "Phoebe Waller-Bridge’s sitcom is full of people who are defeated and " +
                 "unlikable – including her own character who masturbates to Barack Obama speeches. " +
@@ -158,42 +158,42 @@ val articles = listOf(
 val posts = listOf(
     Post(
         pid = "45g2j23fd8723",
-        rid = "89287892374",
+        aid = "89287892374",
         uid = "237465719432",
         isReposted = false,
         date = Date()
     ),
     Post(
         pid = "jkef5s7dfjk23",
-        rid = "7656294214",
+        aid = "7656294214",
         uid = "237465719432",
         isReposted = false,
         date = Date()
     ),
     Post(
         pid = "223fgh425kj2g3",
-        rid = "56288952340",
+        aid = "56288952340",
         uid = "237465719432",
         isReposted = false,
         date = Date()
     ),
     Post(
         pid = "jh34k5hjk45h",
-        rid = "9882735230",
+        aid = "9882735230",
         uid = "hjk3h6j41204fsd",
         isReposted = false,
         date = Date()
     ),
     Post(
         pid = "d234gh5h43jh6g",
-        rid = "12895729800",
+        aid = "12895729800",
         uid = "hjk3h6j41204fsd",
         isReposted = false,
         date = Date()
     ),
     Post(
         pid = "23ghf5h34m6k3jh5",
-        rid = "9723400864",
+        aid = "9723400864",
         uid = "hjk3h6j41204fsd",
         isReposted = false,
         date = Date()
@@ -202,7 +202,7 @@ val posts = listOf(
 
 val comment = Comment(
     cid = "j4g5345hkj34h5kj3h246",
-    rid = "9882735230",
+    aid = "9882735230",
     article = articles[3],
     uid = "354h6g13fh25jk7l73",
     nickname = "fabkins4u",
@@ -212,3 +212,15 @@ val comment = Comment(
     date = Date(),
     likedBy = emptyList()
 )
+
+fun getArticleById(articleId: String?): Article? {
+    if (articleId == null) {
+        return null
+    }
+    for (article in articles) {
+        if (article.aid == articleId) {
+            return article
+        }
+    }
+    return null
+}
