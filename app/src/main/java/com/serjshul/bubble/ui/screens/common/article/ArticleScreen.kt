@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.serjshul.bubble.data.articles
-import com.serjshul.bubble.model.collections.Article
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun ArticleScreen(
@@ -17,24 +17,38 @@ fun ArticleScreen(
     viewModel: ArticleViewModel = hiltViewModel(),
     popUpScreen: () -> Unit,
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     ArticleScreenContent(
         modifier = modifier,
-        article = viewModel.article
+        uiState = uiState
     )
 }
 
 @Composable
 fun ArticleScreenContent(
     modifier: Modifier = Modifier,
-    article: Article,
+    uiState: ArticleUiState
 ) {
+    val articleState = when (uiState) {
+        is ArticleUiState.HasArticle -> uiState.article
+        is ArticleUiState.NoArticle -> null
+    }
+
     Scaffold(
         modifier = modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.padding(it)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
         ) {
-
+//            if (article != null) {
+//                Text(
+//                    modifier = Modifier.align(Alignment.CenterHorizontally),
+//                    text = article.aid!!
+//                )
+//            }
         }
     }
 }
@@ -42,7 +56,7 @@ fun ArticleScreenContent(
 @Preview
 @Composable
 fun ArticleScreenPreview() {
-    ArticleScreenContent(
-        article = articles[0]
-    )
+//    ArticleScreenContent(
+//        article = articles[0]
+//    )
 }
