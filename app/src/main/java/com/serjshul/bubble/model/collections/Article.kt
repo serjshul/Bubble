@@ -5,7 +5,7 @@ import com.serjshul.bubble.model.subcollections.Like
 import java.util.Date
 
 data class Article (
-    val rid: String? = null,
+    val aid: String? = null,
 
     val uid: String? = null,
     val title: String? = null,
@@ -24,7 +24,7 @@ data class Article (
 
     val lids: List<String> = emptyList(),
     val cids: List<String> = emptyList(),
-    val rids: List<String> = emptyList(),
+    val aids: List<String> = emptyList(),
     val sids: List<String> = emptyList(),
 
     var owner: User? = null,

@@ -71,7 +71,7 @@ fun Post(
 
     val isLiked by remember { mutableStateOf(currentUid in article.lids) }
     var isCommented by remember { mutableStateOf(currentUid in article.cids) }
-    val isReposted by remember { mutableStateOf(currentUid in article.rids) }
+    val isReposted by remember { mutableStateOf(currentUid in article.aids) }
     val isSaved by remember { mutableStateOf(currentUid in article.sids) }
 
     var isDropDownExpanded by remember { mutableStateOf(false) }

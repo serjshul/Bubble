@@ -113,7 +113,7 @@ fun Card(
                 ) {
                     TextOutlinedButton(
                         text = stringResource(id = R.string.button_read),
-                        onClick = { onArticleClick(openScreen, article.rid!!) },
+                        onClick = { onArticleClick(openScreen, article.aid!!) },
                         contentColor = md_theme_light_onSecondary,
                         modifier = Modifier.align(Alignment.CenterEnd)
                     )
