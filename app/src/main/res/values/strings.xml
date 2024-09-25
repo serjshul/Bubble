@@ -27,5 +27,6 @@
     <string name="icon_button_more">Button \"More\"</string>
 
     <string name="error_load">Loading error</string>
+    <string name="error_no_content">No content :(\nTry to refresh the page</string>
 
 </resources>
