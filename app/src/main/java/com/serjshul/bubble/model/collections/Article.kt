@@ -34,7 +34,7 @@ data class Article (
 )
 
 data class Paragraph (
-    val header: String? = null,
+    val title: String? = null,
     val imageUrl: String? = null,
     val text: String? = null
 )

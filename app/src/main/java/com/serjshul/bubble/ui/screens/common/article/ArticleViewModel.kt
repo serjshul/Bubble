@@ -8,7 +8,7 @@ import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.services.LogService
 import com.serjshul.bubble.ui.BubbleDestinationsArgs.ARTICLE_ID_ARG
 import com.serjshul.bubble.ui.BubbleViewModel
-import com.serjshul.bubble.ui.components.messages.ErrorMessage
+import com.serjshul.bubble.ui.components.text.ErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

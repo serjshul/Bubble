@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.components.messages
+package com.serjshul.bubble.ui.components.text
 
 import androidx.annotation.StringRes
 

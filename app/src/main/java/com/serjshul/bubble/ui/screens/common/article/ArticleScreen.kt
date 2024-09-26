@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,6 +37,7 @@ import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.loading.FullScreenLoading
 import com.serjshul.bubble.ui.components.loading.LoadingContent
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
+import com.serjshul.bubble.ui.components.text.Paragraph
 import com.serjshul.bubble.ui.theme.md_theme_gradient
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.utils.roundedCornerShape
@@ -210,6 +212,13 @@ private fun Content(
                     )
                 }
             }
+        }
+        items(article.content) { paragraph ->
+            Paragraph(
+                modifier = Modifier.padding(start = 15.dp, top = 15.dp, end = 15.dp),
+                paragraph = paragraph,
+                articleColor = article.color!!
+            )
         }
     }
 }

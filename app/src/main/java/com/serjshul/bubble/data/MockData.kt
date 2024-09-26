@@ -1,6 +1,7 @@
 package com.serjshul.bubble.data
 
 import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.model.subcollections.Comment
 import com.serjshul.bubble.model.subcollections.Post
@@ -64,6 +65,54 @@ val articles = listOf(
         tags = listOf("Comedy", "Drama"),
         quote = "Marion McPherson: I want you to be the very best version of yourself that you can be.\n" +
                 "Christine 'Lady Bird' McPherson: What if this is the best version?",
+        content = listOf(
+            Paragraph(
+                title = "The endearing shagginess and goofy imperfection",
+                imageUrl = "https://static01.nyt.com/images/2017/11/03/arts/03LADYBIRD1/03LADYBIRD1-superJumbo-v3.jpg",
+                text = "In the conversations that have ushered in its theatrical release, Lady Bird " +
+                        "has been described as Greta Gerwig’s directorial debut. Yet, with seven " +
+                        "screenplays to her name and a co-director credit on Joe Swanberg’s 2008 " +
+                        "mumblecore drama Nights and Weekends, it’s not as though she is new to " +
+                        "making movies. Still, the endearing shagginess and goofy imperfection " +
+                        "associated with Gerwig’s work in front of and behind the camera are " +
+                        "noticeably absent in this polished, muscular, Oscar-nominated debut proper. " +
+                        "Not a criticism exactly, but perhaps an explanation for why the film has " +
+                        "managed to transcend its indie dramedy trappings."
+            ),
+            Paragraph(
+                title = "Lady Bird’s coming of age",
+                imageUrl = "https://compote.slate.com/images/65093ba9-f66a-4912-92a7-090af2f5ef20.jpeg?crop=1560%2C1040%2Cx0%2Cy0",
+                text = "Set in Sacramento, California in 2002, it centres on Christine “Lady Bird” " +
+                        "McPherson (Saoirse Ronan), a high-schooler who behaves with the unselfconscious " +
+                        "conviction of a young kid. She insists she be called by her “given” name of " +
+                        "Lady Bird (“It was given to me, by me”), extols the benefits of bathtub " +
+                        "masturbation to her best friend Julie while eating communion wafers (“They’re " +
+                        "not consecrated!”) and jabs her crush in the shoulder, asking him to dance. " +
+                        "Gerwig’s pink-haired protagonist is seemingly unencumbered by the awkwardness " +
+                        "and fear that dogs most teenagers on the cusp of change. This cusp-ness " +
+                        "is where the film’s magic resides; its joyful, forward-rushing narrative " +
+                        "rhythm captures the feeling of adolescence ending before it has barely " +
+                        "begun.\nThough the film gives us milestones from Lady Bird’s coming of age, " +
+                        "its key preoccupation is the jagged relationship between Lady Bird and her " +
+                        "mother Marion (Laurie Metcalf), an overworked nurse whose blunt pragmatism " +
+                        "butts heads with her daughter’s dreams of moving to New York, “where culture " +
+                        "is”. The scenes between Ronan and Metcalf are electric; Gerwig maps their " +
+                        "inability to communicate with excruciating veracity."
+            ),
+            Paragraph(
+                title = "The small things that make a good movie great",
+                imageUrl = null,
+                text = "However, it is Gerwig’s tidy pacing, vividly drawn characters (see Timothée " +
+                        "Chalamet’s bit-part as a floppy-haired mobile phone sceptic who smokes " +
+                        "roll-ups and “trying as much as possible not to participate in our economy”), " +
+                        "and eye for period detail (like her use of the Dave Matthews Band) that " +
+                        "mark her as a keen observer of the small things that make a good movie great. " +
+                        "Her writing is alive with beautiful bon mots, but also an acute sense of " +
+                        "class anxiety in post-9/11, pre-financial crash suburban America, with " +
+                        "the McPherson family’s worries about Lady Bird’s tuition fees given as " +
+                        "much screen time as her romantic exploits."
+            )
+        ),
         coverUrl = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2F5d76f7c9-51f5-4c2b-ac33-8a55fc4cab74%2Fcover_horizontal.jpg?id=0c09df19-d385-4d62-b782-ebe306a4de9a&table=block&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=1880&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
         color = "#c22f2f",
         backgroundUrl = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2Fe25474fc-297a-4431-b785-639e62dd1937%2Fbackground.jpg?table=block&id=0c09df19-d385-4d62-b782-ebe306a4de9a&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=2000&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
