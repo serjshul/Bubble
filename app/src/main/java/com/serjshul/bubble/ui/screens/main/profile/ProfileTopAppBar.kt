@@ -106,7 +106,7 @@ fun ProfileTopAppBar(
             navigationIcon = {
                 IconButton(onClick = { onBackClick() }) {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.navigation_back),
+                        imageVector = ImageVector.vectorResource(id = R.drawable.action_back),
                         contentDescription = stringResource(id = R.string.icon_button_back)
                     )
                 }

@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,6 +23,9 @@ fun Paragraph(
     paragraph: Paragraph,
     articleColor: String
 ) {
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
+
     val texts = paragraph.text!!.split("\n")
 
     Column(
@@ -38,7 +42,7 @@ fun Paragraph(
             ParagraphAsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(screenHeight * 1/4)
                     .padding(top = 15.dp)
                     .roundedCornerShape(),
                 url = paragraph.imageUrl,
