@@ -12,6 +12,7 @@ data class Article (
     val description: String? = null,
     val creator: String? = null,
     val type: String? = null,
+    val year: Int? = null,
     val tags: List<String> = emptyList(),
     val color: String? = null,
     val content: List<Paragraph> = emptyList(),
