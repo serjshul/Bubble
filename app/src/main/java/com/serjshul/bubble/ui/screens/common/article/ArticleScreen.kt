@@ -94,7 +94,7 @@ private fun ArticleScreenContent(
                 is ArticleUiState.HasArticle ->
                     Content(article = uiState.article)
                 is ArticleUiState.NoArticle -> {
-                    if (uiState.errorMessages.isEmpty()) {
+                    if (uiState.errorTexts.isEmpty()) {
                         NoContent(onClick = { /* TODO */ })
                     } else {
                         Error()
@@ -225,7 +225,7 @@ private fun Content(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(20.dp)
+                            .height(15.dp)
                             .clip(RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
                             .background(md_theme_light_onPrimary)
                             .align(Alignment.BottomCenter)

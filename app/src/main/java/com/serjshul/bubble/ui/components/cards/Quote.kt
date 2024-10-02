@@ -1,6 +1,5 @@
 package com.serjshul.bubble.ui.components.cards
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
@@ -24,7 +23,6 @@ import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.roundedCornerShape
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Quote(
     modifier: Modifier = Modifier,

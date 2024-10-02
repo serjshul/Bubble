@@ -8,7 +8,7 @@ import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.services.LogService
 import com.serjshul.bubble.ui.BubbleDestinationsArgs.ARTICLE_ID_ARG
 import com.serjshul.bubble.ui.BubbleViewModel
-import com.serjshul.bubble.ui.components.text.ErrorMessage
+import com.serjshul.bubble.ui.components.text.ErrorText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -43,13 +43,13 @@ class ArticleViewModel @Inject constructor(
             val article = getArticleById(articleId)
             viewModelState.update {
                 if (article == null) {
-                    val errorMessages = it.errorMessages + ErrorMessage(
+                    val errorTexts = it.errorTexts + ErrorText(
                         id = UUID.randomUUID().mostSignificantBits,
                         messageId = R.string.error_load
                     )
                     it.copy(
                         isLoading = false,
-                        errorMessages = errorMessages
+                        errorTexts = errorTexts
                     )
                 } else {
                     it.copy(
@@ -64,36 +64,36 @@ class ArticleViewModel @Inject constructor(
 
 sealed interface ArticleUiState {
     val isLoading: Boolean
-    val errorMessages: List<ErrorMessage>
+    val errorTexts: List<ErrorText>
 
     data class NoArticle(
         override val isLoading: Boolean,
-        override val errorMessages: List<ErrorMessage>
+        override val errorTexts: List<ErrorText>
     ) : ArticleUiState
 
     data class HasArticle(
         val article: Article,
         override val isLoading: Boolean,
-        override val errorMessages: List<ErrorMessage>
+        override val errorTexts: List<ErrorText>
     ) : ArticleUiState
 }
 
 private data class ArticleViewModelState(
     val article: Article? = null,
     val isLoading: Boolean = false,
-    val errorMessages: List<ErrorMessage> = emptyList()
+    val errorTexts: List<ErrorText> = emptyList()
 ) {
     fun toUiState(): ArticleUiState =
         if (article == null) {
             ArticleUiState.NoArticle(
                 isLoading = isLoading,
-                errorMessages = errorMessages,
+                errorTexts = errorTexts,
             )
         } else {
             ArticleUiState.HasArticle(
                 article = article,
                 isLoading = isLoading,
-                errorMessages = errorMessages
+                errorTexts = errorTexts
             )
         }
 }
