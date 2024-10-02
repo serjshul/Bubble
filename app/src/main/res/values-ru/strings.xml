@@ -9,6 +9,9 @@
     <string name="tab_likes">Лайки</string>
     <string name="image_background">Фон</string>
     <string name="button_read">Читать</string>
+    <string name="button_like">Нравится</string>
+    <string name="button_comment">Комментировать</string>
+    <string name="button_repost">Поделиться</string>
     <string name="icon_button_menu">Кнопка \"Меню\"</string>
     <string name="icon_button_add_atricle">Кнопка \"Добавить статью\"</string>
     <string name="icon_button_search_atricle">Кнопка \"Найти статью\"</string>
