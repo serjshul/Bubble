@@ -50,6 +50,7 @@ import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
 import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.ui.components.interaction.InteractionPanelArticle
 import com.serjshul.bubble.ui.components.loading.FullScreenLoading
 import com.serjshul.bubble.ui.components.loading.LoadingContent
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
@@ -69,14 +70,22 @@ fun ArticleScreen(
 
     ArticleScreenContent(
         modifier = modifier,
-        uiState = uiState
+        uiState = uiState,
+        isCommentsOpened = viewModel.isCommentsOpened,
+        onLikeClick = viewModel::onLikeClick,
+        onCommentsClick = viewModel::onCommentsClick,
+        onRepostClick = viewModel::onRepostClick
     )
 }
 
 @Composable
 private fun ArticleScreenContent(
     modifier: Modifier = Modifier,
-    uiState: ArticleUiState
+    uiState: ArticleUiState,
+    isCommentsOpened: Boolean,
+    onLikeClick: () -> Unit,
+    onCommentsClick: () -> Unit,
+    onRepostClick: () -> Unit
 ) {
     Box(
         modifier = modifier.fillMaxSize()
@@ -93,7 +102,13 @@ private fun ArticleScreenContent(
         ) {
             when (uiState) {
                 is ArticleUiState.HasArticle ->
-                    Content(article = uiState.article)
+                    Content(
+                        article = uiState.article,
+                        isCommentsOpened = isCommentsOpened,
+                        onLikeClick = onLikeClick,
+                        onCommentsClick = onCommentsClick,
+                        onRepostClick = onRepostClick
+                    )
                 is ArticleUiState.NoArticle -> {
                     if (uiState.errorTexts.isEmpty()) {
                         NoContent(onClick = { /* TODO */ })
@@ -109,7 +124,11 @@ private fun ArticleScreenContent(
 @Composable
 private fun Content(
     modifier: Modifier = Modifier,
-    article: Article
+    article: Article,
+    isCommentsOpened: Boolean,
+    onLikeClick: () -> Unit,
+    onCommentsClick: () -> Unit,
+    onRepostClick: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
@@ -257,7 +276,15 @@ private fun Content(
                 }
             }
             item {
-
+                InteractionPanelArticle(
+                    modifier = Modifier.padding(15.dp, 20.dp),
+                    isLiked = article.isLiked!!,
+                    isCommentsOpened = isCommentsOpened,
+                    isReposted = article.isReposted!!,
+                    onLikeCLick = onLikeClick,
+                    onCommentsCLick = onCommentsClick,
+                    onRepostCLick = onRepostClick
+                )
             }
         }
 
@@ -369,7 +396,13 @@ fun ArticleTopAppBar(
 @Preview
 @Composable
 fun ContentPreview() {
-    Content(article = articles[0])
+    Content(
+        article = articles[0],
+        isCommentsOpened = false,
+        onLikeClick = { },
+        onCommentsClick = { },
+        onRepostClick = { }
+    )
 }
 
 @Preview

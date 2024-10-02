@@ -274,8 +274,13 @@ fun getArticleById(articleId: String?): Article? {
     }
     for (article in articles) {
         if (article.aid == articleId) {
-            return article
+            val result = article
+            result.isLiked = false
+            result.isReposted = false
+            return result
         }
     }
     return null
+
+    // TODO: check if it is liked or reposted
 }

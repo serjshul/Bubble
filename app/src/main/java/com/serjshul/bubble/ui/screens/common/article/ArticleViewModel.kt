@@ -1,5 +1,8 @@
 package com.serjshul.bubble.ui.screens.common.article
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.serjshul.bubble.R
@@ -37,6 +40,9 @@ class ArticleViewModel @Inject constructor(
             viewModelState.value.toUiState()
         )
 
+    var isCommentsOpened by mutableStateOf(false)
+        private set
+
     init {
         launchCatching {
             val articleId = savedStateHandle.get<String>(ARTICLE_ID_ARG)
@@ -57,6 +63,35 @@ class ArticleViewModel @Inject constructor(
                         article = article
                     )
                 }
+            }
+        }
+    }
+
+    fun onLikeClick() {
+        launchCatching {
+            // TODO: add like to the article and the user
+            viewModelState.update {
+                it.copy(
+                    isLoading = false,
+                    article = it.article!!.copy(isLiked = !it.article.isLiked!!)
+                )
+            }
+        }
+    }
+
+    fun onCommentsClick() {
+        isCommentsOpened = !isCommentsOpened
+        // TODO: open comments
+    }
+
+    fun onRepostClick() {
+        launchCatching {
+            // TODO: add repost to the article and the user
+            viewModelState.update {
+                it.copy(
+                    isLoading = false,
+                    article = it.article!!.copy(isReposted = !it.article.isReposted!!)
+                )
             }
         }
     }

@@ -31,7 +31,10 @@ data class Article (
     var owner: User? = null,
     val likes: List<Like> = emptyList(),
     val comments: List<Comment> = emptyList(),
-    val reposts: List<String> = emptyList()
+    val reposts: List<String> = emptyList(),
+
+    var isLiked: Boolean? = null,
+    var isReposted: Boolean? = null
 )
 
 data class Paragraph (
