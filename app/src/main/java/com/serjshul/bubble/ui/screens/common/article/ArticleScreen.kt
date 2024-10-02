@@ -54,6 +54,7 @@ import com.serjshul.bubble.ui.components.loading.FullScreenLoading
 import com.serjshul.bubble.ui.components.loading.LoadingContent
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
 import com.serjshul.bubble.ui.components.text.Paragraph
+import com.serjshul.bubble.ui.components.text.QuoteText
 import com.serjshul.bubble.ui.theme.md_theme_gradient
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
@@ -195,7 +196,7 @@ private fun Content(
                             Text(
                                 modifier = Modifier
                                     .weight(1f),
-                                text = article.type!!,
+                                text = article.year.toString(),
                                 overflow = TextOverflow.Ellipsis,
                                 textAlign = TextAlign.Center,
                                 color = md_theme_light_onPrimary,
@@ -245,6 +246,18 @@ private fun Content(
                     paragraph = paragraph,
                     articleColor = article.color!!
                 )
+            }
+            if (article.quote != null) {
+                item {
+                    QuoteText(
+                        modifier = Modifier.padding(start = 15.dp, top = 25.dp, end = 15.dp),
+                        quote = article.quote,
+                        color = article.color!!
+                    )
+                }
+            }
+            item {
+
             }
         }
 
