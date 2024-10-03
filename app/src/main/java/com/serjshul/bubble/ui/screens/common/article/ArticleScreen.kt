@@ -64,7 +64,7 @@ import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 fun ArticleScreen(
     modifier: Modifier = Modifier,
     viewModel: ArticleViewModel = hiltViewModel(),
-    popUpScreen: () -> Unit,
+    popUpScreen: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -74,7 +74,8 @@ fun ArticleScreen(
         isCommentsOpened = viewModel.isCommentsOpened,
         onLikeClick = viewModel::onLikeClick,
         onCommentsClick = viewModel::onCommentsClick,
-        onRepostClick = viewModel::onRepostClick
+        onRepostClick = viewModel::onRepostClick,
+        popUpScreen = popUpScreen
     )
 }
 
@@ -85,7 +86,8 @@ private fun ArticleScreenContent(
     isCommentsOpened: Boolean,
     onLikeClick: () -> Unit,
     onCommentsClick: () -> Unit,
-    onRepostClick: () -> Unit
+    onRepostClick: () -> Unit,
+    popUpScreen: () -> Unit
 ) {
     Box(
         modifier = modifier.fillMaxSize()
@@ -107,7 +109,8 @@ private fun ArticleScreenContent(
                         isCommentsOpened = isCommentsOpened,
                         onLikeClick = onLikeClick,
                         onCommentsClick = onCommentsClick,
-                        onRepostClick = onRepostClick
+                        onRepostClick = onRepostClick,
+                        popUpScreen = popUpScreen
                     )
                 is ArticleUiState.NoArticle -> {
                     if (uiState.errorTexts.isEmpty()) {
@@ -128,7 +131,8 @@ private fun Content(
     isCommentsOpened: Boolean,
     onLikeClick: () -> Unit,
     onCommentsClick: () -> Unit,
-    onRepostClick: () -> Unit
+    onRepostClick: () -> Unit,
+    popUpScreen: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
@@ -296,7 +300,7 @@ private fun Content(
             type = article.type!!,
             articleColor = article.color!!,
             isScrolledBelow = isScrolledBelow,
-            onBackClick = { }
+            onBackClick = popUpScreen
         )
     }
 }
@@ -401,14 +405,15 @@ fun ContentPreview() {
         isCommentsOpened = false,
         onLikeClick = { },
         onCommentsClick = { },
-        onRepostClick = { }
+        onRepostClick = { },
+        popUpScreen = { }
     )
 }
 
 @Preview
 @Composable
 fun NoContentPreview() {
-    NoContent(onClick = { /* TODO */ })
+    NoContent(onClick = { })
 }
 
 @Preview
