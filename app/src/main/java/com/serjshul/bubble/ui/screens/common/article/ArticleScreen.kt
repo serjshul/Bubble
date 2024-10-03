@@ -21,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
@@ -54,8 +55,9 @@ import com.serjshul.bubble.ui.components.interaction.InteractionPanelArticle
 import com.serjshul.bubble.ui.components.loading.FullScreenLoading
 import com.serjshul.bubble.ui.components.loading.LoadingContent
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
-import com.serjshul.bubble.ui.components.text.Paragraph
+import com.serjshul.bubble.ui.components.text.ParagraphText
 import com.serjshul.bubble.ui.components.text.QuoteText
+import com.serjshul.bubble.ui.theme.md_theme_dark_gradient
 import com.serjshul.bubble.ui.theme.md_theme_gradient
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
@@ -172,7 +174,7 @@ private fun Content(
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Brush.verticalGradient(md_theme_gradient))
+                            .background(Brush.verticalGradient(md_theme_dark_gradient))
                     )
 
                     Column(
@@ -264,7 +266,7 @@ private fun Content(
                 )
             }
             items(article.content) { paragraph ->
-                Paragraph(
+                ParagraphText(
                     modifier = Modifier.padding(start = 15.dp, top = 20.dp, end = 15.dp),
                     paragraph = paragraph,
                     articleColor = article.color!!
@@ -285,6 +287,7 @@ private fun Content(
                     isLiked = article.isLiked!!,
                     isCommentsOpened = isCommentsOpened,
                     isReposted = article.isReposted!!,
+                    date = article.date!!,
                     onLikeCLick = onLikeClick,
                     onCommentsCLick = onCommentsClick,
                     onRepostCLick = onRepostClick
@@ -362,39 +365,45 @@ fun ArticleTopAppBar(
         label = "shadowElevation"
     )
 
-    CenterAlignedTopAppBar(
-        modifier = modifier.height(50.dp),
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = containerColor,
-            titleContentColor = titleContentColor
-        ),
-        title = {
-            Box(
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .basicMarquee(),
-                    text = if (isScrolledBelow) title else type,
-                    maxLines = 1,
-                    color = titleContentColor,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-            }
-        },
-        navigationIcon = {
-            IconButton(onClick = { onBackClick() }) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.action_back),
-                    tint = titleContentColor,
-                    contentDescription = stringResource(id = R.string.icon_button_back)
-                )
-            }
-        },
-        scrollBehavior = scrollBehavior,
-    )
+    Surface(
+        modifier = modifier,
+        color = md_theme_gradient,
+        shadowElevation = shadowElevation
+    ) {
+        CenterAlignedTopAppBar(
+            modifier = modifier.height(50.dp),
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = containerColor,
+                titleContentColor = titleContentColor
+            ),
+            title = {
+                Box(
+                    modifier = Modifier.fillMaxHeight()
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .basicMarquee(),
+                        text = if (isScrolledBelow) title else type,
+                        maxLines = 1,
+                        color = titleContentColor,
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                }
+            },
+            navigationIcon = {
+                IconButton(onClick = { onBackClick() }) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.action_back),
+                        tint = titleContentColor,
+                        contentDescription = stringResource(id = R.string.icon_button_back)
+                    )
+                }
+            },
+            scrollBehavior = scrollBehavior,
+        )
+    }
 }
 
 @Preview
