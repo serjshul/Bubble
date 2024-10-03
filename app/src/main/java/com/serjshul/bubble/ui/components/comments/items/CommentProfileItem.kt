@@ -55,7 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.serjshul.bubble.R
-import com.serjshul.bubble.common.getCreatedTime
+import com.serjshul.bubble.common.getCreatedTimeShort
 import com.serjshul.bubble.data.comment
 import com.serjshul.bubble.model.subcollections.Comment
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
@@ -76,7 +76,7 @@ fun CommentProfileItem(
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
-    val createdTime = getCreatedTime(comment.date!!)
+    val createdTime = getCreatedTimeShort(comment.date!!)
     val isCurrentlyLiked = remember { mutableStateOf(false) }
     var isDropDownExpanded by remember { mutableStateOf(false) }
 
