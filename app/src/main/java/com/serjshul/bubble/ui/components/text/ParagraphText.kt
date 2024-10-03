@@ -18,7 +18,7 @@ import com.serjshul.bubble.ui.components.media.ParagraphAsyncImage
 import com.serjshul.bubble.ui.utils.roundedCornerShape
 
 @Composable
-fun Paragraph(
+fun ParagraphText(
     modifier: Modifier = Modifier,
     paragraph: Paragraph,
     articleColor: String
@@ -83,7 +83,7 @@ fun ParagraphPreview() {
                 "inability to communicate with excruciating veracity."
     )
 
-    Paragraph(
+    ParagraphText(
         paragraph = paragraph,
         articleColor = "#c22f2f"
     )
