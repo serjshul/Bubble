@@ -35,6 +35,7 @@ fun MainScreen(
         ) {
             composable(MainScreens.FEED_SCREEN) {
                 FeedScreen(
+                    openScreen = openScreen,
                     popUpScreen = popUpScreen
                 )
             }
