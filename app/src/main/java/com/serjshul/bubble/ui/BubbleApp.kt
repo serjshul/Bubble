@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.serjshul.bubble.ui.screens.common.addArticle.AddArticleScreen
 import com.serjshul.bubble.ui.screens.common.article.ArticleScreen
 import com.serjshul.bubble.ui.screens.main.MainScreen
 import kotlinx.coroutines.CoroutineScope
@@ -46,6 +47,13 @@ fun BubbleApp(
             )
         ) {
             ArticleScreen(
+                popUpScreen = {
+                    navActions.popUp()
+                }
+            )
+        }
+        composable(BubbleDestinations.ADD_ARTICLE_ROUTE) {
+            AddArticleScreen(
                 popUpScreen = {
                     navActions.popUp()
                 }
