@@ -1,5 +1,6 @@
 package com.serjshul.bubble.ui.screens.common.article
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,11 +14,13 @@ import com.serjshul.bubble.ui.BubbleDestinationsArgs.ARTICLE_ID_ARG
 import com.serjshul.bubble.ui.BubbleViewModel
 import com.serjshul.bubble.ui.components.text.ErrorText
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
@@ -64,6 +67,15 @@ class ArticleViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    fun showDevelopInfo(info: String, snackbarHostState: SnackbarHostState, scope: CoroutineScope) {
+        scope.launch {
+            snackbarHostState.showSnackbar(
+                message = info,
+                withDismissAction = true
+            )
         }
     }
 

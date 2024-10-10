@@ -24,6 +24,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -33,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -68,6 +72,7 @@ import com.serjshul.bubble.ui.theme.md_theme_dark_gradient
 import com.serjshul.bubble.ui.theme.md_theme_gradient
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun ArticleScreen(
@@ -84,6 +89,7 @@ fun ArticleScreen(
         onLikeClick = viewModel::onLikeClick,
         onCommentsClick = viewModel::onCommentsClick,
         onRepostClick = viewModel::onRepostClick,
+        showDevelopInfo = viewModel::showDevelopInfo,
         popUpScreen = popUpScreen
     )
 }
@@ -96,6 +102,7 @@ private fun ArticleScreenContent(
     onLikeClick: () -> Unit,
     onCommentsClick: () -> Unit,
     onRepostClick: () -> Unit,
+    showDevelopInfo: (String, SnackbarHostState, CoroutineScope) -> Unit,
     popUpScreen: () -> Unit
 ) {
     Box(
@@ -119,6 +126,7 @@ private fun ArticleScreenContent(
                         onLikeClick = onLikeClick,
                         onCommentsClick = onCommentsClick,
                         onRepostClick = onRepostClick,
+                        showDevelopInfo = showDevelopInfo,
                         popUpScreen = popUpScreen
                     )
                 is ArticleUiState.NoArticle -> {
@@ -141,10 +149,12 @@ private fun Content(
     onLikeClick: () -> Unit,
     onCommentsClick: () -> Unit,
     onRepostClick: () -> Unit,
-    popUpScreen: () -> Unit
+    showDevelopInfo: (String, SnackbarHostState, CoroutineScope) -> Unit,
+    popUpScreen: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
+
     val listState = rememberLazyListState()
     val isScrolledBelow by remember {
         derivedStateOf {
@@ -152,173 +162,188 @@ private fun Content(
         }
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize()
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        }
     ) {
-        LazyColumn(
-            modifier = modifier.fillMaxSize(),
-            state = listState
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
         ) {
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(screenHeight * 1 / 2)
-                ) {
-                    if (article.backgroundUrl != null) {
-                        BackgroundAsyncImage(
-                            modifier = Modifier.fillMaxSize(),
-                            url = article.backgroundUrl,
-                            contentDescription = "Background image"
-                        )
-                    } else {
+            LazyColumn(
+                modifier = modifier.fillMaxSize(),
+                state = listState
+            ) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(screenHeight * 1 / 2)
+                    ) {
+                        if (article.backgroundUrl != null) {
+                            BackgroundAsyncImage(
+                                modifier = Modifier.fillMaxSize(),
+                                url = article.backgroundUrl,
+                                contentDescription = "Background image"
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(article.color!!.toColor())
+                            )
+                        }
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .background(article.color!!.toColor())
+                                .background(Brush.verticalGradient(md_theme_dark_gradient))
                         )
-                    }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Brush.verticalGradient(md_theme_dark_gradient))
-                    )
-                    Owner(
-                        modifier = Modifier
-                            .padding(top = 55.dp)
-                            .align(Alignment.TopCenter),
-                        nickname = article.owner!!.nickname!!,
-                        photoUrl = article.owner!!.photoUrl!!,
-                        onOwnerClick = { }
-                    )
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 15.dp, top = 15.dp, bottom = 40.dp, end = 15.dp)
-                            .align(Alignment.BottomCenter)
-                    ) {
-                        Text(
+                        Owner(
+                            modifier = Modifier
+                                .padding(top = 55.dp)
+                                .align(Alignment.TopCenter),
+                            nickname = article.owner!!.nickname!!,
+                            photoUrl = article.owner!!.photoUrl!!,
+                            onOwnerClick = {
+                                // TODO: open owner's profile method
+                                showDevelopInfo("TODO: open owner's profile method", snackbarHostState, scope)
+                            }
+                        )
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 15.dp)
-                                .basicMarquee(),
-                            text = article.title!!,
-                            textAlign = TextAlign.Center,
-                            color = md_theme_light_onPrimary,
-                            fontWeight = FontWeight.Bold,
-                            style = MaterialTheme.typography.titleLarge,
-                        )
-                        Row(
-                            modifier = modifier
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
+                                .padding(start = 15.dp, top = 15.dp, bottom = 40.dp, end = 15.dp)
+                                .align(Alignment.BottomCenter)
                         ) {
                             Text(
                                 modifier = Modifier
-                                    .weight(1f),
-                                text = article.creator!!,
-                                overflow = TextOverflow.Ellipsis,
+                                    .fillMaxWidth()
+                                    .padding(bottom = 15.dp)
+                                    .basicMarquee(),
+                                text = article.title!!,
                                 textAlign = TextAlign.Center,
-                                color = md_theme_light_onPrimary,
-                                style = MaterialTheme.typography.bodyMedium,
-                                maxLines = 4
-                            )
-                            Text(
-                                modifier = Modifier
-                                    .padding(10.dp, 0.dp),
-                                text = "/",
                                 color = md_theme_light_onPrimary,
                                 fontWeight = FontWeight.Bold,
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.titleLarge,
                             )
-                            Text(
-                                modifier = Modifier
-                                    .weight(1f),
-                                text = article.year.toString(),
-                                overflow = TextOverflow.Ellipsis,
-                                textAlign = TextAlign.Center,
-                                color = md_theme_light_onPrimary,
-                                style = MaterialTheme.typography.bodyMedium,
-                                maxLines = 4
-                            )
-                            Text(
-                                modifier = Modifier
-                                    .padding(10.dp, 0.dp),
-                                text = "/",
-                                color = md_theme_light_onPrimary,
-                                fontWeight = FontWeight.Bold,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                            Text(
-                                modifier = Modifier
-                                    .weight(1f),
-                                text = article.tags.joinToString(),
-                                overflow = TextOverflow.Ellipsis,
-                                textAlign = TextAlign.Center,
-                                color = md_theme_light_onPrimary,
-                                style = MaterialTheme.typography.bodyMedium,
-                                maxLines = 4
-                            )
+                            Row(
+                                modifier = modifier
+                                    .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    modifier = Modifier
+                                        .weight(1f),
+                                    text = article.creator!!,
+                                    overflow = TextOverflow.Ellipsis,
+                                    textAlign = TextAlign.Center,
+                                    color = md_theme_light_onPrimary,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    maxLines = 4
+                                )
+                                Text(
+                                    modifier = Modifier
+                                        .padding(10.dp, 0.dp),
+                                    text = "/",
+                                    color = md_theme_light_onPrimary,
+                                    fontWeight = FontWeight.Bold,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    modifier = Modifier
+                                        .weight(1f),
+                                    text = article.year.toString(),
+                                    overflow = TextOverflow.Ellipsis,
+                                    textAlign = TextAlign.Center,
+                                    color = md_theme_light_onPrimary,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    maxLines = 4
+                                )
+                                Text(
+                                    modifier = Modifier
+                                        .padding(10.dp, 0.dp),
+                                    text = "/",
+                                    color = md_theme_light_onPrimary,
+                                    fontWeight = FontWeight.Bold,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    modifier = Modifier
+                                        .weight(1f),
+                                    text = article.tags.joinToString(),
+                                    overflow = TextOverflow.Ellipsis,
+                                    textAlign = TextAlign.Center,
+                                    color = md_theme_light_onPrimary,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    maxLines = 4
+                                )
+                            }
                         }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(15.dp)
+                                .clip(RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
+                                .background(md_theme_light_onPrimary)
+                                .align(Alignment.BottomCenter)
+                        )
                     }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(15.dp)
-                            .clip(RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
-                            .background(md_theme_light_onPrimary)
-                            .align(Alignment.BottomCenter)
-                    )
                 }
-            }
-            item {
-                Text(
-                    modifier = Modifier.padding(start = 15.dp, end = 15.dp),
-                    text = article.description!!,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-            items(article.content) { paragraph ->
-                ParagraphText(
-                    modifier = Modifier.padding(start = 15.dp, top = 20.dp, end = 15.dp),
-                    paragraph = paragraph,
-                    articleColor = article.color!!
-                )
-            }
-            if (article.quote != null) {
                 item {
-                    QuoteText(
-                        modifier = Modifier.padding(start = 15.dp, top = 25.dp, end = 15.dp),
-                        quote = article.quote,
-                        color = article.color!!
+                    Text(
+                        modifier = Modifier.padding(start = 15.dp, end = 15.dp),
+                        text = article.description!!,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+                items(article.content) { paragraph ->
+                    ParagraphText(
+                        modifier = Modifier.padding(start = 15.dp, top = 20.dp, end = 15.dp),
+                        paragraph = paragraph,
+                        articleColor = article.color!!
+                    )
+                }
+                if (article.quote != null) {
+                    item {
+                        QuoteText(
+                            modifier = Modifier.padding(start = 15.dp, top = 25.dp, end = 15.dp),
+                            quote = article.quote,
+                            color = article.color!!
+                        )
+                    }
+                }
+                item {
+                    InteractionPanelArticle(
+                        modifier = Modifier.padding(15.dp, 20.dp),
+                        isLiked = article.isLiked!!,
+                        isCommentsOpened = isCommentsOpened,
+                        isReposted = article.isReposted!!,
+                        date = article.date!!,
+                        onLikeCLick = onLikeClick,
+                        onCommentsCLick = onCommentsClick,
+                        onRepostCLick = onRepostClick
                     )
                 }
             }
-            item {
-                InteractionPanelArticle(
-                    modifier = Modifier.padding(15.dp, 20.dp),
-                    isLiked = article.isLiked!!,
-                    isCommentsOpened = isCommentsOpened,
-                    isReposted = article.isReposted!!,
-                    date = article.date!!,
-                    onLikeCLick = onLikeClick,
-                    onCommentsCLick = onCommentsClick,
-                    onRepostCLick = onRepostClick
-                )
-            }
-        }
 
-        ArticleTopAppBar(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.TopCenter),
-            title = article.title!!,
-            type = article.type!!,
-            articleColor = article.color!!,
-            isScrolledBelow = isScrolledBelow,
-            onBackClick = popUpScreen
-        )
+            ArticleTopAppBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter),
+                title = article.title!!,
+                type = article.type!!,
+                articleColor = article.color!!,
+                isScrolledBelow = isScrolledBelow,
+                onBackClick = popUpScreen
+            )
+        }
     }
 }
 
@@ -477,6 +502,7 @@ fun ContentPreview() {
         onLikeClick = { },
         onCommentsClick = { },
         onRepostClick = { },
+        showDevelopInfo = { _, _, _ -> },
         popUpScreen = { }
     )
 }
