@@ -69,7 +69,7 @@ import com.serjshul.bubble.ui.components.media.ProfileAsyncImage
 import com.serjshul.bubble.ui.components.text.ParagraphText
 import com.serjshul.bubble.ui.components.text.QuoteText
 import com.serjshul.bubble.ui.theme.md_theme_dark_gradient
-import com.serjshul.bubble.ui.theme.md_theme_gradient
+import com.serjshul.bubble.ui.theme.md_theme_transparent
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import kotlinx.coroutines.CoroutineScope
@@ -406,7 +406,7 @@ fun ArticleTopAppBar(
 
     Surface(
         modifier = modifier,
-        color = md_theme_gradient,
+        color = md_theme_transparent,
         shadowElevation = shadowElevation
     ) {
         CenterAlignedTopAppBar(
@@ -446,7 +446,7 @@ fun ArticleTopAppBar(
 }
 
 @Composable
-fun Owner(
+private fun Owner(
     modifier: Modifier = Modifier,
     nickname: String,
     photoUrl: String,
