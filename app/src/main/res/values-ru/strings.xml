@@ -8,6 +8,7 @@
     <string name="tab_comments">Комментарии</string>
     <string name="tab_likes">Лайки</string>
     <string name="image_background">Фон</string>
+    <string name="image_user_photo">Фото пользователя</string>
     <string name="button_read">Читать</string>
     <string name="button_like">Нравится</string>
     <string name="button_comment">Комментировать</string>

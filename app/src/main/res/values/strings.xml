@@ -12,6 +12,7 @@
     <string name="title_quote">"Favourite quote"</string>
 
     <string name="image_background">Background image</string>
+    <string name="image_user_photo">User\'s photo</string>
 
     <string name="button_read">Read</string>
     <string name="button_like">Like</string>
