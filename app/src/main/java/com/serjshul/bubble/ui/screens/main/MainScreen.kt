@@ -34,7 +34,9 @@ fun MainScreen(
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(MainScreens.FEED_SCREEN) {
-                FeedScreen()
+                FeedScreen(
+                    popUpScreen = popUpScreen
+                )
             }
             composable(MainScreens.HOME_SCREEN) {
                 HomeScreen(

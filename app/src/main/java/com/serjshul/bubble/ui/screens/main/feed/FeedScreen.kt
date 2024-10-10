@@ -8,10 +8,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.serjshul.bubble.ui.screens.common.addArticle.AddArticleViewModel
 
 @Composable
 fun FeedScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: AddArticleViewModel = hiltViewModel(),
+    popUpScreen: () -> Unit
+) {
+    FeedScreenContent(
+        modifier = modifier,
+        popUpScreen = popUpScreen
+    )
+}
+
+@Composable
+fun FeedScreenContent(
+    modifier: Modifier = Modifier,
+    popUpScreen: () -> Unit
 ) {
     Box (
         modifier = Modifier
@@ -24,4 +40,12 @@ fun FeedScreen(
             modifier = Modifier.align(Alignment.Center)
         )
     }
+}
+
+@Preview
+@Composable
+fun FeedScreenContentPreview() {
+    FeedScreenContent(
+        popUpScreen = { }
+    )
 }
