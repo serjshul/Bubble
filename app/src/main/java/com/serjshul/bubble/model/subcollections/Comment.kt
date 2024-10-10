@@ -6,7 +6,7 @@ import java.util.Date
 data class Comment(
     val cid: String? = null,
 
-    val rid: String? = null,
+    val aid: String? = null,
     val article: Article? = null,
 
     val uid: String? = null,

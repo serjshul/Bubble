@@ -1,8 +1,7 @@
-package com.serjshul.bubble.ui.components.cards
+package com.serjshul.bubble.ui.components.text
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,31 +17,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
-import com.serjshul.bubble.data.articles
-import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.roundedCornerShape
 
 @Composable
-fun Quote(
+fun QuoteText(
     modifier: Modifier = Modifier,
-    article: Article,
-    onOpenClick: () -> Unit
+    quote: String,
+    color: String
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(10.dp, 15.dp)
             .roundedCornerShape()
-            .background(article.color!!.toColor())
-            .clickable { onOpenClick() }
+            .background(color.toColor())
             .padding(15.dp)
     ) {
-        val paragraphs = article.quote!!.split("\n")
+        val paragraphs = quote.split("\n")
 
         Text(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(bottom = 5.dp)
                 .basicMarquee(),
             text = stringResource(id = R.string.title_quote),
             color = md_theme_light_onSecondary,
@@ -50,20 +46,6 @@ fun Quote(
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium
-        )
-
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp)
-                .basicMarquee(),
-            text = article.title!!,
-            color = md_theme_light_onSecondary,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge
         )
 
         for (paragraph in paragraphs) {
@@ -81,9 +63,10 @@ fun Quote(
 
 @Preview
 @Composable
-fun QuotePreview() {
-    Quote(
-        article = articles[0],
-        onOpenClick = { }
+fun QuoteTextPreview() {
+    QuoteText(
+        quote = "Marion McPherson: I want you to be the very best version of yourself that you can be.\n" +
+                "Christine 'Lady Bird' McPherson: What if this is the best version?",
+        color = "#c22f2f"
     )
 }

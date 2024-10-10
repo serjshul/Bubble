@@ -1,6 +1,7 @@
 package com.serjshul.bubble.data
 
 import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.model.subcollections.Comment
 import com.serjshul.bubble.model.subcollections.Post
@@ -14,7 +15,7 @@ val users = listOf(
         bio = "Graduated from SPbSTU, read a lot of books just to download yet another app",
         dateOfBirth = Date(),
         photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-        pids = listOf("45g2j23fd8723", "jkef5s7dfjk23", "223fgh425kj2g3"),
+        aids = listOf("45g2j23fd8723", "jkef5s7dfjk23", "223fgh425kj2g3"),
         cids = emptyList(),
         lids = emptyList(),
         followers = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73"),
@@ -27,7 +28,7 @@ val users = listOf(
         bio = "The best things come from living outside of your comfort zone",
         dateOfBirth = Date(),
         photoUrl = "https://sun9-33.userapi.com/impg/OCpXCGU_onFqorHoOKdIpd-PpTTv9LVLVf7GUw/-YnVlqx9i4s.jpg?size=2560x2560&quality=95&sign=c438255c1a90959632cfdbdba900bbb4&type=album",
-        pids = listOf("9882735230", "12895729800", "9723400864"),
+        aids = listOf("9882735230", "12895729800", "9723400864"),
         cids = emptyList(),
         lids = emptyList(),
         followers = listOf("237465719432", "354h6g13fh25jk7l73"),
@@ -40,7 +41,7 @@ val users = listOf(
         bio = "I’m a cupcake in search of her stud muffin",
         dateOfBirth = Date(),
         photoUrl = "https://sun9-69.userapi.com/impg/00uihckUHW4fgg4-ZdihyAPUFnH1FtNmwBLSpA/lkt1MWMkUes.jpg?size=1029x1280&quality=95&sign=e294ed0dcb5bdf230f392ba9ba78a988&type=album",
-        pids = emptyList(),
+        aids = emptyList(),
         cids = emptyList(),
         lids = emptyList(),
         followers = listOf("237465719432", "hjk3h6j41204fsd"),
@@ -50,7 +51,7 @@ val users = listOf(
 
 val articles = listOf(
     Article(
-        rid = "89287892374",
+        aid = "89287892374",
         title = "Lady Bird",
         description = "Writer-director Greta Gerwig’s semiautobiographical Lady Bird is both generous " +
                 "and joyous, but when it stings, it stings deep. At one point, Saoirse Ronan, as " +
@@ -61,9 +62,58 @@ val articles = listOf(
                 "woman can barely cover the family groceries.",
         creator = "Greta Gerwig",
         type = "Movie",
+        year = 2018,
         tags = listOf("Comedy", "Drama"),
         quote = "Marion McPherson: I want you to be the very best version of yourself that you can be.\n" +
                 "Christine 'Lady Bird' McPherson: What if this is the best version?",
+        content = listOf(
+            Paragraph(
+                title = "The endearing shagginess and goofy imperfection",
+                imageUrl = "https://static01.nyt.com/images/2017/11/03/arts/03LADYBIRD1/03LADYBIRD1-superJumbo-v3.jpg",
+                text = "In the conversations that have ushered in its theatrical release, Lady Bird " +
+                        "has been described as Greta Gerwig’s directorial debut. Yet, with seven " +
+                        "screenplays to her name and a co-director credit on Joe Swanberg’s 2008 " +
+                        "mumblecore drama Nights and Weekends, it’s not as though she is new to " +
+                        "making movies. Still, the endearing shagginess and goofy imperfection " +
+                        "associated with Gerwig’s work in front of and behind the camera are " +
+                        "noticeably absent in this polished, muscular, Oscar-nominated debut proper. " +
+                        "Not a criticism exactly, but perhaps an explanation for why the film has " +
+                        "managed to transcend its indie dramedy trappings."
+            ),
+            Paragraph(
+                title = "Lady Bird’s coming of age",
+                imageUrl = "https://compote.slate.com/images/65093ba9-f66a-4912-92a7-090af2f5ef20.jpeg?crop=1560%2C1040%2Cx0%2Cy0",
+                text = "Set in Sacramento, California in 2002, it centres on Christine “Lady Bird” " +
+                        "McPherson (Saoirse Ronan), a high-schooler who behaves with the unselfconscious " +
+                        "conviction of a young kid. She insists she be called by her “given” name of " +
+                        "Lady Bird (“It was given to me, by me”), extols the benefits of bathtub " +
+                        "masturbation to her best friend Julie while eating communion wafers (“They’re " +
+                        "not consecrated!”) and jabs her crush in the shoulder, asking him to dance. " +
+                        "Gerwig’s pink-haired protagonist is seemingly unencumbered by the awkwardness " +
+                        "and fear that dogs most teenagers on the cusp of change. This cusp-ness " +
+                        "is where the film’s magic resides; its joyful, forward-rushing narrative " +
+                        "rhythm captures the feeling of adolescence ending before it has barely " +
+                        "begun.\nThough the film gives us milestones from Lady Bird’s coming of age, " +
+                        "its key preoccupation is the jagged relationship between Lady Bird and her " +
+                        "mother Marion (Laurie Metcalf), an overworked nurse whose blunt pragmatism " +
+                        "butts heads with her daughter’s dreams of moving to New York, “where culture " +
+                        "is”. The scenes between Ronan and Metcalf are electric; Gerwig maps their " +
+                        "inability to communicate with excruciating veracity."
+            ),
+            Paragraph(
+                title = "The small things that make a good movie great",
+                imageUrl = null,
+                text = "However, it is Gerwig’s tidy pacing, vividly drawn characters (see Timothée " +
+                        "Chalamet’s bit-part as a floppy-haired mobile phone sceptic who smokes " +
+                        "roll-ups and “trying as much as possible not to participate in our economy”), " +
+                        "and eye for period detail (like her use of the Dave Matthews Band) that " +
+                        "mark her as a keen observer of the small things that make a good movie great. " +
+                        "Her writing is alive with beautiful bon mots, but also an acute sense of " +
+                        "class anxiety in post-9/11, pre-financial crash suburban America, with " +
+                        "the McPherson family’s worries about Lady Bird’s tuition fees given as " +
+                        "much screen time as her romantic exploits."
+            )
+        ),
         coverUrl = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2F5d76f7c9-51f5-4c2b-ac33-8a55fc4cab74%2Fcover_horizontal.jpg?id=0c09df19-d385-4d62-b782-ebe306a4de9a&table=block&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=1880&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
         color = "#c22f2f",
         backgroundUrl = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2Fe25474fc-297a-4431-b785-639e62dd1937%2Fbackground.jpg?table=block&id=0c09df19-d385-4d62-b782-ebe306a4de9a&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=2000&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
@@ -73,13 +123,14 @@ val articles = listOf(
         comments = emptyList()
     ),
     Article(
-        rid = "7656294214",
+        aid = "7656294214",
         title = "HIT ME HARD AND SOFT",
         description = "The pop star teams with her brother Finneas for their third album together, " +
                 "expanding the cooly dark vision of their sound. It’s an honest and ambitious album " +
                 "when it’s not inert and repetitive.",
         creator = "Billie Eilish",
         type = "Music",
+        year = 2024,
         tags = listOf("Pop", "R&B"),
         quote = "PEOPLE SAY I LOOK HAPPY JUST BECAUSE I GOT SKINNY BUT THE OLD ME IS STILL ME AND MAYBE THE REAL ME AND I THINK SHE’S PRETTY",
         coverUrl = "https://billboard.it/wp-content/uploads/2024/04/billie-eilish-hit-me-hard-and-soft-tracklist-album-1.jpg",
@@ -90,12 +141,13 @@ val articles = listOf(
         date = Date()
     ),
     Article(
-        rid = "56288952340",
+        aid = "56288952340",
         title = "Poor Things",
         description = "The director of The Favourite teams up again with the fearless Hollywood star" +
                 " in a funny, filthy and explosively inventive spin on Frankenstein",
         creator = "Yorgos Lanthimos",
         type = "Movie",
+        year = 2023,
         tags = listOf("Comedy", "Drama", "Romance"),
         quote = "Dr. Godwin Baxter: My father once told me, \"Always carve with compassion.\" He was a fucking idiot, but it's not bad advice.",
         coverUrl = "https://www.lab111.nl/wp-content/uploads/2024/01/Poor-Things-Banner-2.jpg",
@@ -106,12 +158,13 @@ val articles = listOf(
         date = Date()
     ),
     Article(
-        rid = "9882735230",
+        aid = "9882735230",
         title = "Radical Optimism",
         description = "Dua Lipa’s star power sounds muffled on her much-anticipated third album, " +
                 "which has many interesting ideas for songs and a surprisingly low hit rate.",
         creator = "Dua Lipa",
         type = "Music",
+        year = 2024,
         tags = listOf("Pop", "R&B"),
         coverUrl = "https://hips.hearstapps.com/hmg-prod/images/dua-lipa-radical-optimism-release-date-track-list-660fd4e9658a1.jpg?crop=1xw:0.5625xh;center,top",
         color = "#055c62",
@@ -121,7 +174,7 @@ val articles = listOf(
         date = Date()
     ),
     Article(
-        rid = "12895729800",
+        aid = "12895729800",
         title = "Dune",
         description = "Set on the desert planet Arrakis, Dune is the story of the boy Paul Atreides," +
                 " heir to a noble family tasked with ruling an inhospitable world where the only " +
@@ -130,6 +183,7 @@ val articles = listOf(
                 "worth killing for...",
         creator = "Frank Herbert",
         type = "Movie",
+        year = 2021,
         tags = listOf("Science Fiction", "Fantasy", "Adventure"),
         coverUrl = "https://static1.colliderimages.com/wordpress/wp-content/uploads/2021/08/dune-poster-social-featured.jpg",
         color = "#a46d58",
@@ -138,13 +192,14 @@ val articles = listOf(
         date = Date()
     ),
     Article(
-        rid = "9723400864",
+        aid = "9723400864",
         title = "Fleabag",
         description = "Phoebe Waller-Bridge’s sitcom is full of people who are defeated and " +
                 "unlikable – including her own character who masturbates to Barack Obama speeches. " +
                 "But it’s utterly riveting",
         creator = "Phoebe Waller-Bridge",
         type = "Series",
+        year = 2016,
         tags = listOf("Comedy", "Drama"),
         coverUrl = "https://media.myshows.me/shows/760/d/9d/d9df55dc471adbc0376a47f398cafa82.jpg",
         color = "#5f4f5b",
@@ -158,42 +213,42 @@ val articles = listOf(
 val posts = listOf(
     Post(
         pid = "45g2j23fd8723",
-        rid = "89287892374",
+        aid = "89287892374",
         uid = "237465719432",
         isReposted = false,
         date = Date()
     ),
     Post(
         pid = "jkef5s7dfjk23",
-        rid = "7656294214",
+        aid = "7656294214",
         uid = "237465719432",
         isReposted = false,
         date = Date()
     ),
     Post(
         pid = "223fgh425kj2g3",
-        rid = "56288952340",
+        aid = "56288952340",
         uid = "237465719432",
         isReposted = false,
         date = Date()
     ),
     Post(
         pid = "jh34k5hjk45h",
-        rid = "9882735230",
+        aid = "9882735230",
         uid = "hjk3h6j41204fsd",
         isReposted = false,
         date = Date()
     ),
     Post(
         pid = "d234gh5h43jh6g",
-        rid = "12895729800",
+        aid = "12895729800",
         uid = "hjk3h6j41204fsd",
         isReposted = false,
         date = Date()
     ),
     Post(
         pid = "23ghf5h34m6k3jh5",
-        rid = "9723400864",
+        aid = "9723400864",
         uid = "hjk3h6j41204fsd",
         isReposted = false,
         date = Date()
@@ -202,7 +257,7 @@ val posts = listOf(
 
 val comment = Comment(
     cid = "j4g5345hkj34h5kj3h246",
-    rid = "9882735230",
+    aid = "9882735230",
     article = articles[3],
     uid = "354h6g13fh25jk7l73",
     nickname = "fabkins4u",
@@ -212,3 +267,20 @@ val comment = Comment(
     date = Date(),
     likedBy = emptyList()
 )
+
+fun getArticleById(articleId: String?): Article? {
+    if (articleId == null) {
+        return null
+    }
+    for (article in articles) {
+        if (article.aid == articleId) {
+            val result = article
+            result.isLiked = false
+            result.isReposted = false
+            return result
+        }
+    }
+    return null
+
+    // TODO: check if it is liked or reposted
+}

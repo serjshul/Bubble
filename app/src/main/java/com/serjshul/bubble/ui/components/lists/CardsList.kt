@@ -30,7 +30,9 @@ import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 fun CardsList(
     modifier: Modifier = Modifier,
     title: String,
-    content: List<Article>
+    content: List<Article>,
+    openScreen: (String) -> Unit,
+    onArticleClick: ((String) -> Unit, String) -> Unit
 ) {
     Column(
         modifier = modifier.padding(start = 0.dp, end = 0.dp, top = 15.dp, bottom = 25.dp)
@@ -70,7 +72,8 @@ fun CardsList(
                 Spacer(modifier = Modifier.width(10.dp))
                 Card(
                     article = article,
-                    onOpenClick = { }
+                    openScreen = openScreen,
+                    onArticleClick = onArticleClick
                 )
             }
             item {
@@ -85,6 +88,8 @@ fun CardsList(
 fun CardsCategoryPreview() {
     CardsList(
         title = "Demo articles",
-        content = articles
+        content = articles,
+        openScreen = { },
+        onArticleClick = { _, _ -> }
     )
 }

@@ -38,7 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import com.serjshul.bubble.common.getCreatedTime
+import com.serjshul.bubble.common.getCreatedTimeShort
 import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.buttons.CommentIconToggleButton
@@ -71,12 +71,12 @@ fun Post(
 
     val isLiked by remember { mutableStateOf(currentUid in article.lids) }
     var isCommented by remember { mutableStateOf(currentUid in article.cids) }
-    val isReposted by remember { mutableStateOf(currentUid in article.rids) }
+    val isReposted by remember { mutableStateOf(currentUid in article.aids) }
     val isSaved by remember { mutableStateOf(currentUid in article.sids) }
 
     var isDropDownExpanded by remember { mutableStateOf(false) }
 
-    val createdTime = getCreatedTime(article.date!!)
+    val createdTime = getCreatedTimeShort(article.date!!)
 
     Box(
         modifier = modifier

@@ -20,7 +20,7 @@ fun CoverAsyncImage(
         model = url,
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
-        placeholder = debugPlaceholder(R.drawable.post_cover)
+        placeholder = debugPlaceholder(R.drawable.article_cover)
     )
 }
 
@@ -35,7 +35,7 @@ fun BackgroundAsyncImage(
         model = url,
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
-        placeholder = debugPlaceholder(R.drawable.post_background)
+        placeholder = debugPlaceholder(R.drawable.article_background)
     )
 }
 
@@ -51,6 +51,21 @@ fun ProfileAsyncImage(
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
         placeholder = debugPlaceholder(R.drawable.profile_photo)
+    )
+}
+
+@Composable
+fun ParagraphAsyncImage(
+    modifier: Modifier = Modifier,
+    url: String,
+    contentDescription: String
+) {
+    AsyncImage(
+        modifier = modifier,
+        model = url,
+        contentDescription = contentDescription,
+        contentScale = ContentScale.Crop,
+        placeholder = debugPlaceholder(R.drawable.article_paragraph)
     )
 }
 

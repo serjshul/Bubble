@@ -5,9 +5,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.serjshul.bubble.ui.screens.common.article.ArticleScreen
 import com.serjshul.bubble.ui.screens.main.MainScreen
 import kotlinx.coroutines.CoroutineScope
 
@@ -27,7 +30,26 @@ fun BubbleApp(
         modifier = modifier
     ) {
         composable(BubbleDestinations.MAIN_ROUTE) {
-            MainScreen()
+            MainScreen(
+                openScreen = { route ->
+                    navActions.navigate(route)
+                },
+                popUpScreen = {
+                    navActions.popUp()
+                }
+            )
+        }
+        composable(
+            route = "${BubbleDestinations.ARTCILE_ROUTE}/{${BubbleDestinationsArgs.ARTICLE_ID_ARG}}",
+            arguments = listOf(
+                navArgument(BubbleDestinationsArgs.ARTICLE_ID_ARG) { type = NavType.StringType }
+            )
+        ) {
+            ArticleScreen(
+                popUpScreen = {
+                    navActions.popUp()
+                }
+            )
         }
     }
 }

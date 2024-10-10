@@ -15,7 +15,7 @@ data class User(
     val email: String? = null,
     val phone: String? = null,
 
-    val pids: List<String> = emptyList(),
+    val aids: List<String> = emptyList(),
     val cids: List<String> = emptyList(),
     val lids: List<String> = emptyList(),
 
