@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
 import com.serjshul.bubble.model.collections.User
+import com.serjshul.bubble.ui.components.cards.Owner
 import com.serjshul.bubble.ui.components.media.ProfileAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_background_gradient
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
@@ -42,6 +43,7 @@ fun AddArticleScreen(
     popUpScreen: () -> Unit
 ) {
     AddArticleScreenContent(
+        modifier = modifier,
         currentUser = viewModel.currentUser
     )
 }
@@ -71,7 +73,8 @@ fun AddArticleScreenContent(
                         .padding(top = 55.dp)
                         .align(Alignment.TopCenter),
                     nickname = currentUser.nickname!!,
-                    photoUrl = currentUser.photoUrl!!
+                    photoUrl = currentUser.photoUrl!!,
+                    onOwnerClick = { }
                 )
             }
         }
@@ -95,49 +98,5 @@ fun AddArticleScreenContentPreview() {
             followers = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73"),
             following = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73")
         )
-    )
-}
-
-@Composable
-private fun Owner(
-    modifier: Modifier = Modifier,
-    nickname: String,
-    photoUrl: String
-) {
-    Row(
-        modifier = modifier
-    ) {
-        ProfileAsyncImage(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape),
-            url = photoUrl,
-            contentDescription = stringResource(id = R.string.image_user_photo)
-        )
-        Text(
-            modifier = Modifier
-                .padding(start = 15.dp)
-                .align(Alignment.CenterVertically),
-            text = buildAnnotatedString {
-                append("by ")
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("@${nickname}")
-                }
-            },
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            color = md_theme_light_onPrimary,
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
-}
-
-@Preview
-@Composable
-fun OwnerPreview() {
-    Owner(
-        modifier = Modifier.background(Color.Gray),
-        nickname = "serjshul",
-        photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
     )
 }

@@ -61,6 +61,7 @@ import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
 import com.serjshul.bubble.data.articles
 import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.ui.components.cards.Owner
 import com.serjshul.bubble.ui.components.interaction.InteractionPanelArticle
 import com.serjshul.bubble.ui.components.loading.FullScreenLoading
 import com.serjshul.bubble.ui.components.loading.LoadingContent
@@ -443,54 +444,6 @@ fun ArticleTopAppBar(
             scrollBehavior = scrollBehavior,
         )
     }
-}
-
-@Composable
-private fun Owner(
-    modifier: Modifier = Modifier,
-    nickname: String,
-    photoUrl: String,
-    onOwnerClick: () -> Unit
-) {
-    Row(
-        modifier = modifier
-    ) {
-        ProfileAsyncImage(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .clickable { onOwnerClick() },
-            url = photoUrl,
-            contentDescription = stringResource(id = R.string.image_user_photo)
-        )
-        Text(
-            modifier = Modifier
-                .padding(start = 15.dp)
-                .align(Alignment.CenterVertically)
-                .clickable { onOwnerClick() },
-            text = buildAnnotatedString {
-                append("by ")
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("@${nickname}")
-                }
-            },
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            color = md_theme_light_onPrimary,
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
-}
-
-@Preview
-@Composable
-fun OwnerPreview() {
-    Owner(
-        modifier = Modifier.background(Color.Gray),
-        nickname = "serjshul",
-        photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-        onOwnerClick = { }
-    )
 }
 
 @Preview
