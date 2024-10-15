@@ -8,7 +8,7 @@ data class Article (
     val aid: String? = null,
 
     val uid: String? = null,
-    val title: String? = null,
+    var title: String? = null,
     val description: String? = null,
     val creator: String? = null,
     val type: String? = null,

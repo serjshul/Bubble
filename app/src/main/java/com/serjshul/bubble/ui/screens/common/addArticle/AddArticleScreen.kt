@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,12 +22,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.ui.components.cards.Owner
 import com.serjshul.bubble.ui.components.text.TextInput
@@ -43,16 +44,26 @@ fun AddArticleScreen(
 ) {
     AddArticleScreenContent(
         modifier = modifier,
-        article = viewModel.article,
-        currentUser = viewModel.currentUser
+        title = viewModel.title,
+        creator = viewModel.creator,
+        year = viewModel.year,
+        currentUser = viewModel.currentUser,
+        onTitleValueChange = viewModel::onTitleValueChange,
+        onCreatorValueChange = viewModel::onCreatorValueChange,
+        onYearValueChange = viewModel::onYearValueChange
     )
 }
 
 @Composable
 fun AddArticleScreenContent(
     modifier: Modifier = Modifier,
-    article: Article,
-    currentUser: User
+    title: String,
+    creator: String,
+    year: String,
+    currentUser: User,
+    onTitleValueChange: (String) -> Unit,
+    onCreatorValueChange: (String) -> Unit,
+    onYearValueChange: (String) -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
@@ -92,7 +103,7 @@ fun AddArticleScreenContent(
                             modifier = Modifier
                                 .padding(bottom = 15.dp)
                                 .align(Alignment.CenterHorizontally),
-                            text = article.title!!,
+                            text = title,
                             placeholderText = "Title",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
@@ -100,34 +111,26 @@ fun AddArticleScreenContent(
                             textColor = md_theme_light_onPrimary,
                             placeholderTextColor = md_theme_transparent_gray,
                             textAlign = TextAlign.Center,
-                            onValueChange = { }
+                            onValueChange = onTitleValueChange
                         )
-//                        Text(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .padding(bottom = 15.dp)
-//                                .basicMarquee(),
-//                            text = "title!!",
-//                            textAlign = TextAlign.Center,
-//                            color = md_theme_light_onPrimary,
-//                            fontWeight = FontWeight.Bold,
-//                            style = MaterialTheme.typography.titleLarge,
-//                        )
+                        // TODO: type
                         Row(
                             modifier = modifier
                                 .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            Text(
+                            TextInput(
                                 modifier = Modifier
                                     .weight(1f),
-                                text = "creator!!",
-                                overflow = TextOverflow.Ellipsis,
-                                textAlign = TextAlign.Center,
-                                color = md_theme_light_onPrimary,
+                                text = creator,
+                                placeholderText = "Creator",
                                 style = MaterialTheme.typography.bodyMedium,
-                                maxLines = 4
+                                maxLines = 4,
+                                textColor = md_theme_light_onPrimary,
+                                placeholderTextColor = md_theme_transparent_gray,
+                                textAlign = TextAlign.Center,
+                                onValueChange = onCreatorValueChange
                             )
                             Text(
                                 modifier = Modifier
@@ -137,15 +140,20 @@ fun AddArticleScreenContent(
                                 fontWeight = FontWeight.Bold,
                                 style = MaterialTheme.typography.bodyMedium
                             )
-                            Text(
+                            TextInput(
                                 modifier = Modifier
                                     .weight(1f),
-                                text = "year",
-                                overflow = TextOverflow.Ellipsis,
-                                textAlign = TextAlign.Center,
-                                color = md_theme_light_onPrimary,
+                                text = year,
+                                placeholderText = "Year",
                                 style = MaterialTheme.typography.bodyMedium,
-                                maxLines = 4
+                                maxLines = 4,
+                                textColor = md_theme_light_onPrimary,
+                                placeholderTextColor = md_theme_transparent_gray,
+                                textAlign = TextAlign.Center,
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    keyboardType = KeyboardType.Number
+                                ),
+                                onValueChange = onYearValueChange
                             )
                             Text(
                                 modifier = Modifier
@@ -199,13 +207,11 @@ fun AddArticleScreenContentPreview() {
             followers = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73"),
             following = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73")
         ),
-        article = Article(
-            title = "",
-            description = "",
-            creator = "",
-            type = "",
-            color = ""
-
-        )
+        title = "",
+        creator = "",
+        year = "",
+        onTitleValueChange = { },
+        onCreatorValueChange = { },
+        onYearValueChange = { }
     )
 }
