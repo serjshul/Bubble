@@ -95,6 +95,7 @@ fun AddArticleScreenContent(
                             text = article.title!!,
                             placeholderText = "Title",
                             style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
                             maxLines = 4,
                             textColor = md_theme_light_onPrimary,
                             placeholderTextColor = md_theme_transparent_gray,

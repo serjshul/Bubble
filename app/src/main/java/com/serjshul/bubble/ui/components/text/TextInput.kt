@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
@@ -26,6 +27,7 @@ fun TextInput(
     textColor: Color = md_theme_light_onPrimary,
     placeholderTextColor: Color = md_theme_transparent_gray,
     style: TextStyle = MaterialTheme.typography.bodyMedium,
+    fontWeight: FontWeight? = null,
     maxLines: Int = Int.MAX_VALUE,
     textAlign: TextAlign = TextAlign.Center,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -41,13 +43,14 @@ fun TextInput(
                 modifier = Modifier.fillMaxWidth(),
                 text = placeholderText,
                 textAlign = textAlign,
-                style = style
+                style = style,
+                fontWeight = fontWeight
             )
         },
         textStyle = TextStyle(
             fontSize = style.fontSize,
             textAlign = textAlign,
-            fontWeight = style.fontWeight,
+            fontWeight = fontWeight,
             lineHeight = style.lineHeight
         ),
         maxLines = maxLines,
@@ -82,6 +85,8 @@ fun TextInputTextPreview() {
         enabled = true,
         placeholderText = "Title",
         maxLines = 1,
+        style = MaterialTheme.typography.titleLarge,
+        fontWeight = FontWeight.Bold,
         onValueChange = { }
     )
 }
@@ -95,6 +100,8 @@ fun TextInputPlaceholderPreview() {
         enabled = true,
         placeholderText = "Title",
         maxLines = 1,
+        style = MaterialTheme.typography.titleLarge,
+        fontWeight = FontWeight.Bold,
         onValueChange = { }
     )
 }
