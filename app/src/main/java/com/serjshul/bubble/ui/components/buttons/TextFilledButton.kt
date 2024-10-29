@@ -21,12 +21,14 @@ import com.serjshul.bubble.ui.theme.md_theme_light_secondary
 fun TextFilledButton(
     modifier: Modifier = Modifier,
     text: String,
+    enabled: Boolean = true,
     containerColor: Color,
     contentColor: Color,
     onClick: () -> Unit
 ) {
     Button(
         modifier = modifier,
+        enabled = enabled,
         onClick = { onClick() },
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
