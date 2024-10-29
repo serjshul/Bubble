@@ -2,6 +2,7 @@ package com.serjshul.bubble.data
 
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.model.collections.Paragraph
+import com.serjshul.bubble.model.collections.Tag
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.model.subcollections.Comment
 import com.serjshul.bubble.model.subcollections.Post
@@ -268,6 +269,67 @@ val comment = Comment(
     likedBy = emptyList()
 )
 
+val tags = listOf(
+    Tag(tid = "1ertf", type = "Film", value = "Drama"),
+    Tag(tid = "2jghg", type = "Film", value = "Mystery"),
+    Tag(tid = "3sdfe", type = "Film", value = "Thriller"),
+    Tag(tid = "iuou4", type = "Film", value = "Fantasy"),
+    Tag(tid = "5rtys", type = "Film", value = "Horror"),
+    Tag(tid = "6regh", type = "Film", value = "Comedy"),
+    Tag(tid = "7dfgr", type = "Film", value = "Romance"),
+    Tag(tid = "8rtyg", type = "Film", value = "Crime"),
+    Tag(tid = "9rtyy", type = "Film", value = "Sci-Fi"),
+    Tag(tid = "10uut", type = "Film", value = "Biography"),
+    Tag(tid = "1ytu1", type = "Film", value = "Historical drama"),
+    Tag(tid = "1hhj2", type = "Film", value = "Musical"),
+    Tag(tid = "13dgk", type = "Film", value = "War"),
+    Tag(tid = "43614", type = "Film", value = "Noir"),
+    Tag(tid = "1gfh5", type = "Film", value = "Western"),
+    Tag(tid = "1sd6f", type = "Book", value = "Fantasy"),
+    Tag(tid = "2fg4j", type = "Book", value = "Science Fiction"),
+    Tag(tid = "3bvnt", type = "Book", value = "Dystopian"),
+    Tag(tid = "4iert", type = "Book", value = "Action"),
+    Tag(tid = "5dfgd", type = "Book", value = "Adventure"),
+    Tag(tid = "6vcbj", type = "Book", value = "Mystery"),
+    Tag(tid = "7tyud", type = "Book", value = "Thriller"),
+    Tag(tid = "8dfgg", type = "Book", value = "Suspense"),
+    Tag(tid = "9dfgd", type = "Book", value = "Historical Fiction"),
+    Tag(tid = "10uyi", type = "Book", value = "Classics"),
+    Tag(tid = "11uir", type = "Book", value = "Graphic Novel"),
+    Tag(tid = "12dfg", type = "Book", value = "Comic Book"),
+    Tag(tid = "13aer", type = "Book", value = "Detective"),
+    Tag(tid = "1", type = "Music", value = "Rock"),
+    Tag(tid = "2", type = "Music", value = "Pop"),
+    Tag(tid = "3", type = "Music", value = "Jazz"),
+    Tag(tid = "4", type = "Music", value = "Classical"),
+    Tag(tid = "5", type = "Music", value = "Hip-hop"),
+    Tag(tid = "6", type = "Music", value = "Reggae"),
+    Tag(tid = "7", type = "Music", value = "Blues"),
+    Tag(tid = "8", type = "Music", value = "Country"),
+    Tag(tid = "9", type = "Music", value = "Electronic"),
+    Tag(tid = "10", type = "Music", value = "Metal"),
+    Tag(tid = "11", type = "Music", value = "Folk"),
+    Tag(tid = "12", type = "Music", value = "Indie"),
+    Tag(tid = "13", type = "Music", value = "Soul"),
+    Tag(tid = "14", type = "Music", value = "R&B"),
+    Tag(tid = "15", type = "Music", value = "Gospel"),
+    Tag(tid = "16", type = "Music", value = "Alternative"),
+    Tag(tid = "17", type = "Music", value = "Punk"),
+    Tag(tid = "18", type = "Music", value = "Ska"),
+    Tag(tid = "19", type = "Music", value = "Latin"),
+    Tag(tid = "20", type = "Music", value = "House"),
+    Tag(tid = "21", type = "Music", value = "Trance"),
+    Tag(tid = "22", type = "Music", value = "Disco"),
+    Tag(tid = "23", type = "Music", value = "K-Pop"),
+    Tag(tid = "24", type = "Music", value = "Grunge"),
+    Tag(tid = "25", type = "Music", value = "Synthpop"),
+    Tag(tid = "26", type = "Music", value = "New Wave"),
+    Tag(tid = "27", type = "Music", value = "Ambient"),
+    Tag(tid = "28", type = "Music", value = "Jazz Fusion"),
+    Tag(tid = "29", type = "Music", value = "Progressive Rock"),
+    Tag(tid = "30", type = "Music", value = "Post-Rock")
+)
+
 fun getArticleById(articleId: String?): Article? {
     if (articleId == null) {
         return null
@@ -283,4 +345,8 @@ fun getArticleById(articleId: String?): Article? {
     return null
 
     // TODO: check if it is liked or reposted
+}
+
+fun getTagsByType(type: String): List<Tag> {
+    return tags.filter { it.type == type }
 }
