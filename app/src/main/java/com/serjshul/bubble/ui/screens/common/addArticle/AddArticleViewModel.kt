@@ -20,6 +20,8 @@ class AddArticleViewModel @Inject constructor(
 
     var title by mutableStateOf("")
         private set
+    var type by mutableStateOf("")
+        private set
     var creator by mutableStateOf("")
         private set
     var year by mutableStateOf("")
@@ -36,6 +38,11 @@ class AddArticleViewModel @Inject constructor(
 
     fun onTitleValueChange(input: String) {
         title = input
+        checkArticleOnValid()
+    }
+
+    fun onTypeSelect(input: String) {
+        type = input
         checkArticleOnValid()
     }
 
