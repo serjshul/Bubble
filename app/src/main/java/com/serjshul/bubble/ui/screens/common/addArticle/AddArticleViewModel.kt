@@ -41,7 +41,7 @@ class AddArticleViewModel @Inject constructor(
         checkArticleOnValid()
     }
 
-    fun onTypeSelect(input: String) {
+    fun onTypeValueChange(input: String) {
         type = input
         checkArticleOnValid()
     }

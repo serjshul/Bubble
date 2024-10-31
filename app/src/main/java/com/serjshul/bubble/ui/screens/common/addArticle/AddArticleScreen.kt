@@ -10,19 +10,26 @@ import androidx.compose.foundation.layout.ContextualFlowRow
 import androidx.compose.foundation.layout.ContextualFlowRowOverflow
 import androidx.compose.foundation.layout.ContextualFlowRowOverflowScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.InputChip
+import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
@@ -54,12 +61,12 @@ import com.serjshul.bubble.data.getTagsByType
 import com.serjshul.bubble.model.collections.Tag
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
-import com.serjshul.bubble.ui.components.buttons.TextOutlinedButton
 import com.serjshul.bubble.ui.components.cards.Owner
 import com.serjshul.bubble.ui.components.text.TextInput
 import com.serjshul.bubble.ui.theme.md_theme_background_gradient
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
+import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_light_primary
@@ -81,7 +88,7 @@ fun AddArticleScreen(
         year = viewModel.year,
         currentUser = viewModel.currentUser,
         onTitleValueChange = viewModel::onTitleValueChange,
-        onTypeSelect = viewModel::onTypeSelect,
+        onTypeValueChange = viewModel::onTypeValueChange,
         onCreatorValueChange = viewModel::onCreatorValueChange,
         onYearValueChange = viewModel::onYearValueChange
     )
@@ -96,7 +103,7 @@ fun AddArticleScreenContent(
     year: String,
     currentUser: User,
     onTitleValueChange: (String) -> Unit,
-    onTypeSelect: (String) -> Unit,
+    onTypeValueChange: (String) -> Unit,
     onCreatorValueChange: (String) -> Unit,
     onYearValueChange: (String) -> Unit
 ) {
@@ -239,12 +246,12 @@ fun AddArticleScreenContent(
         }
         if (isSelectTypeOpened) {
             SelectType(
-                selectedType = type,
+                type = type,
                 types = listOf(
                     "Film", "TV Show", "Book", "Music", "Podcast", "Blogger", "Youtube", "Tiktok",
                     "Instagram", "Twitch", "X", "Threads", "Reddit", "Brand", "Meme"
                 ),
-                onDone = onTypeSelect,
+                onTypeValueChange = onTypeValueChange,
                 onDismissRequest = { isSelectTypeOpened = false }
             )
         }
@@ -273,7 +280,7 @@ fun AddArticleScreenContentPreview() {
         creator = "",
         year = "",
         onTitleValueChange = { },
-        onTypeSelect = { },
+        onTypeValueChange = { },
         onCreatorValueChange = { },
         onYearValueChange = { }
     )
@@ -283,12 +290,15 @@ fun AddArticleScreenContentPreview() {
 @Composable
 fun SelectType(
     modifier: Modifier = Modifier,
-    selectedType: String,
+    type: String,
     types: List<String>,
-    onDone: (String) -> Unit,
+    onTypeValueChange: (String) -> Unit,
     onDismissRequest: () -> Unit
 ) {
-    var currentlySelectedType by remember { mutableStateOf(selectedType) }
+    var typeSelected by remember { mutableStateOf(type) }
+    var typeTyped by remember { mutableStateOf(if (type !in types) type else "") }
+
+    var inputChipEnabled by remember { mutableStateOf(type !in types && typeTyped != "") }
 
     Dialog(
         onDismissRequest = onDismissRequest
@@ -305,57 +315,105 @@ fun SelectType(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Choose the type",
+                    text = "Select the type",
                     color = md_theme_light_onBackground,
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center
                 )
-                ContextualFlowRow(
+                FlowRow(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 20.dp)
                         .wrapContentHeight(align = Alignment.Top),
-                    horizontalArrangement = Arrangement.Center,
-                    itemCount = types.size
-                ) { index ->
-                    FilterChip(
-                        modifier = Modifier
-                            .padding(5.dp, 0.dp),
-                        onClick = { currentlySelectedType = types[index] },
-                        label = {
-                            Text(
-                                text = types[index],
-                                style = MaterialTheme.typography.bodyMedium
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    for (typeChip in types) {
+                        FilterChip(
+                            modifier = Modifier
+                                .padding(5.dp, 0.dp),
+                            onClick = {
+                                if (typeSelected == typeChip) {
+                                    typeSelected = ""
+                                } else {
+                                    inputChipEnabled = false
+                                    typeSelected = typeChip
+                                    typeTyped = ""
+                                }
+                            },
+                            label = {
+                                Text(
+                                    text = typeChip,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            },
+                            colors = FilterChipDefaults.filterChipColors(
+                                containerColor = md_theme_light_background,
+                                labelColor = md_theme_light_onBackground,
+                                selectedContainerColor = md_theme_light_primary,
+                                selectedLabelColor = md_theme_light_onPrimary
+                            ),
+                            selected = typeSelected == typeChip
+                        )
+                    }
+                    if (inputChipEnabled) {
+                        InputChip(
+                            onClick = {
+                                inputChipEnabled = false
+                                typeSelected = ""
+                                typeTyped = ""
+                            },
+                            label = { Text(typeTyped) },
+                            selected = inputChipEnabled,
+                            trailingIcon = {
+                                Icon(
+                                    Icons.Default.Close,
+                                    contentDescription = "Localized description",
+                                    Modifier.size(InputChipDefaults.IconSize)
+                                )
+                            },
+                            colors = InputChipDefaults.inputChipColors(
+                                selectedContainerColor = md_theme_light_primary,
+                                selectedLabelColor = md_theme_light_onPrimary,
+                                selectedTrailingIconColor = md_theme_light_onPrimary
                             )
-                        },
-                        colors =  FilterChipDefaults.filterChipColors(
-                            containerColor = md_theme_light_background,
-                            labelColor = md_theme_light_onBackground,
-                            selectedContainerColor = md_theme_light_primary,
-                            selectedLabelColor = md_theme_light_onPrimary
-                        ),
-                        selected = currentlySelectedType == types[index]
-                    )
+                        )
+                    }
                 }
-                TextOutlinedButton(
+                TextInput(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 30.dp),
-                    text = "Add the type",
-                    contentColor = md_theme_light_onBackground,
-                    onClick = { }
+                        .padding(top = 20.dp),
+                    text = typeTyped,
+                    placeholderText = "Or you can add the type",
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1,
+                    textColor = md_theme_light_onBackground,
+                    placeholderTextColor = md_theme_light_onBackgroundVariant,
+                    keyboardActions = KeyboardActions(onDone = {
+                        onTypeValueChange(typeTyped)
+                        onDismissRequest()
+                    }),
+                    textAlign = TextAlign.Center,
+                    onValueChange = {
+                        typeTyped = it
+                        typeSelected = ""
+                        inputChipEnabled = typeTyped != ""
+                    }
                 )
                 TextFilledButton(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 3.dp),
+                        .fillMaxWidth(),
                     text = "Done",
-                    enabled = currentlySelectedType != "",
+                    enabled = typeSelected != "" || typeTyped != "",
                     containerColor = md_theme_light_primary,
                     contentColor = md_theme_light_onPrimary,
                     onClick = {
-                        onDone(currentlySelectedType)
+                        if (typeSelected != "") {
+                            onTypeValueChange(typeSelected)
+                        } else if (typeTyped != "") {
+                            onTypeValueChange(typeTyped)
+                        }
                         onDismissRequest()
                     }
                 )
@@ -380,12 +438,12 @@ fun SelectType(
 @Composable
 fun SelectTypePreview() {
     SelectType(
-        selectedType = "",
+        type = "",
         types = listOf(
             "Film", "TV Show", "Book", "Music", "Podcast", "Blogger", "Youtube", "Tiktok",
             "Instagram", "Twitch", "X", "Threads", "Reddit", "Brand", "Meme"
         ),
-        onDone = { },
+        onTypeValueChange = { },
         onDismissRequest = { }
     )
 }
