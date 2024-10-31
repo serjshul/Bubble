@@ -2,6 +2,7 @@ package com.serjshul.bubble.ui.components.text
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,6 +31,7 @@ fun TextInput(
     fontWeight: FontWeight? = null,
     maxLines: Int = Int.MAX_VALUE,
     textAlign: TextAlign = TextAlign.Center,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onValueChange: (String) -> Unit
 ) {
@@ -55,6 +57,7 @@ fun TextInput(
         ),
         maxLines = maxLines,
         singleLine = maxLines == 1,
+        keyboardActions = keyboardActions,
         keyboardOptions = keyboardOptions,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = md_theme_transparent,
