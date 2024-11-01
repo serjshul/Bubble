@@ -331,6 +331,19 @@ fun SelectTagsDialog(
 @Composable
 fun SelectTagsDialogPreview() {
     SelectTagsDialog(
+        type = "Film",
+        tags = listOf(),
+        onSearchTag = { _ -> listOf() },
+        onTagsAdd = { },
+        setIsSelectTypeOpened = { },
+        onDismissRequest = { }
+    )
+}
+
+@Preview
+@Composable
+fun SelectTagsDialogNoTypePreview() {
+    SelectTagsDialog(
         type = "",
         tags = listOf(),
         onSearchTag = { _ -> listOf() },
