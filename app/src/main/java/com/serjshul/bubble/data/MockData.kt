@@ -290,7 +290,6 @@ val tags = listOf(
     Tag(tid = "3bvnt", type = "Book", value = "Dystopian"),
     Tag(tid = "4iert", type = "Book", value = "Action"),
     Tag(tid = "5dfgd", type = "Book", value = "Adventure"),
-    Tag(tid = "6vcbj", type = "Book", value = "Mystery"),
     Tag(tid = "7tyud", type = "Book", value = "Thriller"),
     Tag(tid = "8dfgg", type = "Book", value = "Suspense"),
     Tag(tid = "9dfgd", type = "Book", value = "Historical Fiction"),
@@ -347,6 +346,6 @@ fun getArticleById(articleId: String?): Article? {
     // TODO: check if it is liked or reposted
 }
 
-fun getTagsByType(type: String): List<Tag> {
-    return tags.filter { it.type == type }
+fun searchTags(query: String): List<Tag> {
+    return tags.filter { it.value!!.contains(query, ignoreCase = true) }
 }
