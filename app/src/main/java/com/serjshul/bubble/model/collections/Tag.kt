@@ -5,4 +5,9 @@ data class Tag (
 
     val type: String? = null,
     val value: String? = null,
-)
+) {
+    @Override
+    override fun toString(): String {
+        return this.value.toString()
+    }
+}
