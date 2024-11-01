@@ -420,7 +420,8 @@ fun SelectType(
             }
             IconButton(
                 modifier = Modifier
-                    .padding(5.dp)
+                    .padding(17.dp)
+                    .size(25.dp)
                     .align(Alignment.TopEnd),
                 onClick = { onDismissRequest() }
             ) {
