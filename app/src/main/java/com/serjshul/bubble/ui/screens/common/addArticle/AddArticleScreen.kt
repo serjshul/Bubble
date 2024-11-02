@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -29,13 +30,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.serjshul.bubble.R
 import com.serjshul.bubble.model.collections.Tag
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.ui.components.cards.Owner
 import com.serjshul.bubble.ui.components.dialogs.SelectTagsDialog
 import com.serjshul.bubble.ui.components.dialogs.SelectTypeDialog
+import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
 import com.serjshul.bubble.ui.components.text.TextInput
 import com.serjshul.bubble.ui.theme.md_theme_background_gradient
+import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
+import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import java.util.Date
@@ -55,6 +60,8 @@ fun AddArticleScreen(
         creator = viewModel.creator,
         year = viewModel.year,
         tags = viewModel.tags,
+        description = viewModel.description,
+        backgroundUri = viewModel.backgroundUri,
         currentUser = viewModel.currentUser,
         setIsSelectTypeOpened = viewModel::setIsSelectTypeOpened,
         setIsSelectTagsOpened = viewModel::setIsSelectTagsOpened,
@@ -63,7 +70,8 @@ fun AddArticleScreen(
         onCreatorValueChange = viewModel::onCreatorValueChange,
         onYearValueChange = viewModel::onYearValueChange,
         onSearchTag = viewModel::onSearchTag,
-        onTagsAdd = viewModel::onTagsAdd
+        onTagsAdd = viewModel::onTagsAdd,
+        onDescriptionValueChange = viewModel::onDescriptionValueChange
     )
 }
 
@@ -77,6 +85,8 @@ fun AddArticleScreenContent(
     creator: String,
     year: String,
     tags: List<Tag>,
+    description: String,
+    backgroundUri: String,
     currentUser: User,
     setIsSelectTypeOpened: (Boolean) -> Unit,
     setIsSelectTagsOpened: (Boolean) -> Unit,
@@ -85,7 +95,8 @@ fun AddArticleScreenContent(
     onCreatorValueChange: (String) -> Unit,
     onYearValueChange: (String) -> Unit,
     onSearchTag: (String) -> List<Tag>,
-    onTagsAdd: (List<Tag>) -> Unit
+    onTagsAdd: (List<Tag>) -> Unit,
+    onDescriptionValueChange: (String) -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
@@ -100,13 +111,24 @@ fun AddArticleScreenContent(
         ) {
             item {
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(screenHeight * 1 / 2)
-                        .background(
-                            Brush.verticalGradient(md_theme_background_gradient)
-                        )
+                    modifier = Modifier.fillMaxWidth()
                 ) {
+                    if (backgroundUri != "") {
+                        BackgroundAsyncImage(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(screenHeight * 1 / 2),
+                            url = backgroundUri,
+                            contentDescription = stringResource(id = R.string.image_background)
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(screenHeight * 1 / 2)
+                                .background(Brush.verticalGradient(md_theme_background_gradient))
+                        )
+                    }
                     Owner(
                         modifier = Modifier
                             .padding(top = 55.dp)
@@ -118,12 +140,11 @@ fun AddArticleScreenContent(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 15.dp, top = 15.dp, bottom = 40.dp, end = 15.dp)
-                            .align(Alignment.BottomCenter)
+                            .padding(top = screenHeight * 1 / 2 - 210.dp)
                     ) {
                         TextInput(
                             modifier = Modifier
-                                .padding(bottom = 5.dp)
+                                .padding(start = 15.dp, end = 15.dp, bottom = 10.dp)
                                 .align(Alignment.CenterHorizontally),
                             text = title,
                             placeholderText = "Title",
@@ -138,7 +159,7 @@ fun AddArticleScreenContent(
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 15.dp)
+                                .padding(start = 15.dp, end = 15.dp, bottom = 15.dp)
                                 .align(Alignment.CenterHorizontally)
                                 .clickable { setIsSelectTypeOpened(true) },
                             text = if (type == "") "Type" else type,
@@ -150,7 +171,8 @@ fun AddArticleScreenContent(
                         )
                         Row(
                             modifier = modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .padding(start = 15.dp, end = 15.dp, bottom = 15.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center
                         ) {
@@ -210,17 +232,29 @@ fun AddArticleScreenContent(
                                 maxLines = 4
                             )
                         }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
+                                .background(md_theme_light_onPrimary)
+                        ) {
+                            TextInput(
+                                text = description,
+                                placeholderText = "Description",
+                                style = MaterialTheme.typography.bodyMedium,
+                                textColor = md_theme_light_onBackground,
+                                placeholderTextColor = md_theme_light_onBackgroundVariant,
+                                textAlign = TextAlign.Start,
+                                onValueChange = onDescriptionValueChange
+                            )
+                        }
                     }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(15.dp)
-                            .clip(RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
-                            .background(md_theme_light_onPrimary)
-                            .align(Alignment.BottomCenter)
-                    )
+
                 }
             }
+//            item {
+//
+//            }
         }
         if (isSelectTypeOpened) {
             SelectTypeDialog(
@@ -270,6 +304,8 @@ fun AddArticleScreenContentPreview() {
         creator = "",
         year = "",
         tags = listOf(),
+        description = "",
+        backgroundUri = "",
         setIsSelectTypeOpened = { },
         setIsSelectTagsOpened = { },
         onTitleValueChange = { },
@@ -277,6 +313,7 @@ fun AddArticleScreenContentPreview() {
         onCreatorValueChange = { },
         onYearValueChange = { },
         onSearchTag = { _ -> listOf() },
-        onTagsAdd = { }
+        onTagsAdd = { },
+        onDescriptionValueChange = { }
     )
 }

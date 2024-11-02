@@ -36,6 +36,11 @@ class AddArticleViewModel @Inject constructor(
         private set
     var tags = mutableStateListOf<Tag>()
         private set
+    var description by mutableStateOf("")
+        private set
+
+    var backgroundUri by mutableStateOf("")
+
     var isArticleValid by mutableStateOf(false)
         private set
 
@@ -43,7 +48,8 @@ class AddArticleViewModel @Inject constructor(
 //        isArticleValid = article.title != "" && article.description != "" &&
 //                article.creator != "" && article.type != "" && article.color != "" &&
 //                article.year != null && article.coverUrl != null && !article.content.isEmpty()
-        isArticleValid = title != "" && type != "" && creator != "" && year != "" && tags.isNotEmpty()
+        isArticleValid = title != "" && type != "" && creator != "" && year != "" &&
+                tags.isNotEmpty() && description != ""
     }
 
     fun setIsSelectTypeOpened(input: Boolean) {
@@ -82,5 +88,10 @@ class AddArticleViewModel @Inject constructor(
 
     fun onSearchTag(query: String): List<Tag> {
         return searchTags(query)
+    }
+
+    fun onDescriptionValueChange(input: String) {
+        description = input
+        checkArticleOnValid()
     }
 }
