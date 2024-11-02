@@ -8,8 +8,13 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
@@ -19,6 +24,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onLike
+import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.theme.md_theme_light_primary
+import com.serjshul.bubble.ui.theme.md_theme_light_secondary
 
 @Composable
 fun LikeIconToggleButton(
@@ -211,6 +220,33 @@ fun SaveIconToggleButton(
     }
 }
 
+@Composable
+fun CloseIconToggleButton(
+    modifier: Modifier = Modifier,
+    backgroundColor: Color,
+    tint: Color,
+    onClick: () -> Unit
+) {
+    IconToggleButton(
+        modifier = modifier,
+        checked = true,
+        onCheckedChange = { onClick() }
+    ) {
+        Box(
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(backgroundColor)
+        ) {
+            Icon(
+                modifier = Modifier.padding(4.dp),
+                imageVector = Icons.Outlined.Clear,
+                tint = tint,
+                contentDescription = "Close"
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
 fun LikeIconToggleButtonPreview() {
@@ -243,6 +279,16 @@ fun RepostIconToggleButtonPreview() {
 fun SaveIconToggleButtonPreview() {
     SaveIconToggleButton(
         isSaved = true,
+        onClick = {}
+    )
+}
+
+@Preview
+@Composable
+fun CloseIconToggleButtonPreview() {
+    CloseIconToggleButton(
+        backgroundColor = md_theme_light_secondary,
+        tint = md_theme_light_onSecondary,
         onClick = {}
     )
 }
