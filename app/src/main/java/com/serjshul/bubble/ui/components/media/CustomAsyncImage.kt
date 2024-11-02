@@ -27,7 +27,7 @@ fun CoverAsyncImage(
 @Composable
 fun BackgroundAsyncImage(
     modifier: Modifier = Modifier,
-    url: String,
+    url: Any?,
     contentDescription: String
 ) {
     AsyncImage(
