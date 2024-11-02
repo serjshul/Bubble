@@ -1,5 +1,8 @@
 package com.serjshul.bubble.ui.screens.common.addArticle
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +36,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
 import com.serjshul.bubble.model.collections.Tag
 import com.serjshul.bubble.model.collections.User
+import com.serjshul.bubble.ui.components.buttons.AddTextFilledButton
+import com.serjshul.bubble.ui.components.buttons.CloseIconToggleButton
 import com.serjshul.bubble.ui.components.cards.Owner
 import com.serjshul.bubble.ui.components.dialogs.SelectTagsDialog
 import com.serjshul.bubble.ui.components.dialogs.SelectTypeDialog
@@ -43,6 +48,8 @@ import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
+import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
+import com.serjshul.bubble.ui.theme.md_theme_light_secondary
 import java.util.Date
 
 @Composable
@@ -71,7 +78,8 @@ fun AddArticleScreen(
         onYearValueChange = viewModel::onYearValueChange,
         onSearchTag = viewModel::onSearchTag,
         onTagsAdd = viewModel::onTagsAdd,
-        onDescriptionValueChange = viewModel::onDescriptionValueChange
+        onDescriptionValueChange = viewModel::onDescriptionValueChange,
+        setLauncherBackgroundUri = viewModel::setLauncherBackgroundUri
     )
 }
 
@@ -86,7 +94,7 @@ fun AddArticleScreenContent(
     year: String,
     tags: List<Tag>,
     description: String,
-    backgroundUri: String,
+    backgroundUri: Uri?,
     currentUser: User,
     setIsSelectTypeOpened: (Boolean) -> Unit,
     setIsSelectTagsOpened: (Boolean) -> Unit,
@@ -96,10 +104,17 @@ fun AddArticleScreenContent(
     onYearValueChange: (String) -> Unit,
     onSearchTag: (String) -> List<Tag>,
     onTagsAdd: (List<Tag>) -> Unit,
-    onDescriptionValueChange: (String) -> Unit
+    onDescriptionValueChange: (String) -> Unit,
+    setLauncherBackgroundUri: (Uri?) -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        setLauncherBackgroundUri(uri)
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize()
@@ -113,13 +128,21 @@ fun AddArticleScreenContent(
                 Box(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    if (backgroundUri != "") {
+                    if (backgroundUri != null) {
                         BackgroundAsyncImage(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(screenHeight * 1 / 2),
                             url = backgroundUri,
                             contentDescription = stringResource(id = R.string.image_background)
+                        )
+                        CloseIconToggleButton(
+                            modifier = Modifier
+                                .padding(top = 50.dp, end = 10.dp)
+                                .align(Alignment.TopEnd),
+                            backgroundColor = md_theme_light_secondary,
+                            tint = md_theme_light_onSecondary,
+                            onClick = { setLauncherBackgroundUri(null) }
                         )
                     } else {
                         Box(
@@ -137,6 +160,17 @@ fun AddArticleScreenContent(
                         photoUrl = currentUser.photoUrl!!,
                         onOwnerClick = { }
                     )
+                    if (backgroundUri == null) {
+                        AddTextFilledButton(
+                            modifier = Modifier
+                                .padding(top = 110.dp)
+                                .align(Alignment.TopCenter),
+                            text = "Add a background",
+                            onClick = { launcher.launch("image/*") },
+                            contentColor = md_theme_light_onSecondary,
+                            containerColor = md_theme_light_secondary
+                        )
+                    }
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -249,7 +283,6 @@ fun AddArticleScreenContent(
                             )
                         }
                     }
-
                 }
             }
 //            item {
@@ -305,7 +338,7 @@ fun AddArticleScreenContentPreview() {
         year = "",
         tags = listOf(),
         description = "",
-        backgroundUri = "",
+        backgroundUri = null,
         setIsSelectTypeOpened = { },
         setIsSelectTagsOpened = { },
         onTitleValueChange = { },
@@ -314,6 +347,7 @@ fun AddArticleScreenContentPreview() {
         onYearValueChange = { },
         onSearchTag = { _ -> listOf() },
         onTagsAdd = { },
-        onDescriptionValueChange = { }
+        onDescriptionValueChange = { },
+        setLauncherBackgroundUri = { }
     )
 }

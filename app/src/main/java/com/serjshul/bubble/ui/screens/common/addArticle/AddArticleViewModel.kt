@@ -1,5 +1,6 @@
 package com.serjshul.bubble.ui.screens.common.addArticle
 
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -39,7 +40,7 @@ class AddArticleViewModel @Inject constructor(
     var description by mutableStateOf("")
         private set
 
-    var backgroundUri by mutableStateOf("")
+    var backgroundUri by mutableStateOf<Uri?>(null)
 
     var isArticleValid by mutableStateOf(false)
         private set
@@ -93,5 +94,9 @@ class AddArticleViewModel @Inject constructor(
     fun onDescriptionValueChange(input: String) {
         description = input
         checkArticleOnValid()
+    }
+
+    fun setLauncherBackgroundUri(uri: Uri?) {
+        backgroundUri = uri
     }
 }
