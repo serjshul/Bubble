@@ -41,6 +41,7 @@ class AddArticleViewModel @Inject constructor(
         private set
 
     var backgroundUri by mutableStateOf<Uri?>(null)
+    var coverUri by mutableStateOf<Uri?>(null)
 
     var isArticleValid by mutableStateOf(false)
         private set
@@ -96,7 +97,11 @@ class AddArticleViewModel @Inject constructor(
         checkArticleOnValid()
     }
 
-    fun setLauncherBackgroundUri(uri: Uri?) {
+    fun onBackgroundUriValueChange(uri: Uri?) {
         backgroundUri = uri
+    }
+
+    fun onCoverUriValueChange(uri: Uri?) {
+        coverUri = uri
     }
 }

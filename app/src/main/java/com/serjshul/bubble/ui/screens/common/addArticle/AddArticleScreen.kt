@@ -3,6 +3,9 @@ package com.serjshul.bubble.ui.screens.common.addArticle
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,6 +24,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +50,7 @@ import com.serjshul.bubble.ui.components.cards.Owner
 import com.serjshul.bubble.ui.components.dialogs.SelectTagsDialog
 import com.serjshul.bubble.ui.components.dialogs.SelectTypeDialog
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
+import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.components.text.TextInput
 import com.serjshul.bubble.ui.theme.md_theme_background_gradient
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
@@ -69,6 +78,7 @@ fun AddArticleScreen(
         tags = viewModel.tags,
         description = viewModel.description,
         backgroundUri = viewModel.backgroundUri,
+        coverUri = viewModel.coverUri,
         currentUser = viewModel.currentUser,
         setIsSelectTypeOpened = viewModel::setIsSelectTypeOpened,
         setIsSelectTagsOpened = viewModel::setIsSelectTagsOpened,
@@ -79,7 +89,8 @@ fun AddArticleScreen(
         onSearchTag = viewModel::onSearchTag,
         onTagsAdd = viewModel::onTagsAdd,
         onDescriptionValueChange = viewModel::onDescriptionValueChange,
-        setLauncherBackgroundUri = viewModel::setLauncherBackgroundUri
+        onBackgroundUriValueChange = viewModel::onBackgroundUriValueChange,
+        onCoverUriValueChange = viewModel::onCoverUriValueChange
     )
 }
 
@@ -95,6 +106,7 @@ fun AddArticleScreenContent(
     tags: List<Tag>,
     description: String,
     backgroundUri: Uri?,
+    coverUri: Uri?,
     currentUser: User,
     setIsSelectTypeOpened: (Boolean) -> Unit,
     setIsSelectTagsOpened: (Boolean) -> Unit,
@@ -105,15 +117,23 @@ fun AddArticleScreenContent(
     onSearchTag: (String) -> List<Tag>,
     onTagsAdd: (List<Tag>) -> Unit,
     onDescriptionValueChange: (String) -> Unit,
-    setLauncherBackgroundUri: (Uri?) -> Unit
+    onBackgroundUriValueChange: (Uri?) -> Unit,
+    onCoverUriValueChange: (Uri?) -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+
+    var isCoverLauncher by remember { mutableStateOf(false) }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        setLauncherBackgroundUri(uri)
+        if (isCoverLauncher) {
+            onCoverUriValueChange(uri)
+        } else {
+            onBackgroundUriValueChange(uri)
+        }
     }
 
     Scaffold(
@@ -142,7 +162,7 @@ fun AddArticleScreenContent(
                                 .align(Alignment.TopEnd),
                             backgroundColor = md_theme_light_secondary,
                             tint = md_theme_light_onSecondary,
-                            onClick = { setLauncherBackgroundUri(null) }
+                            onClick = { onBackgroundUriValueChange(null) }
                         )
                     } else {
                         Box(
@@ -152,24 +172,69 @@ fun AddArticleScreenContent(
                                 .background(Brush.verticalGradient(md_theme_background_gradient))
                         )
                     }
-                    Owner(
+                    AnimatedVisibility(
+                        visible = coverUri != null,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        CoverAsyncImage(
+                            modifier = Modifier
+                                .padding(start = 15.dp, top = 47.dp)
+                                .size(
+                                    screenWidth * 1 / 2 - 98.dp,
+                                    screenWidth * 1 / 2 - 140.dp
+                                )
+                                .clip(RoundedCornerShape(5.dp))
+                                .clickable { /* TODO: */ },
+                            url = coverUri,
+                            contentDescription = "Cover URL"
+                        )
+                    }
+                    Column(
                         modifier = Modifier
                             .padding(top = 55.dp)
-                            .align(Alignment.TopCenter),
-                        nickname = currentUser.nickname!!,
-                        photoUrl = currentUser.photoUrl!!,
-                        onOwnerClick = { }
-                    )
-                    if (backgroundUri == null) {
-                        AddTextFilledButton(
+                            .align(Alignment.TopCenter)
+                    ) {
+                        Owner(
                             modifier = Modifier
-                                .padding(top = 110.dp)
-                                .align(Alignment.TopCenter),
-                            text = "Add a background",
-                            onClick = { launcher.launch("image/*") },
-                            contentColor = md_theme_light_onSecondary,
-                            containerColor = md_theme_light_secondary
+                                .padding(bottom = 10.dp)
+                                .align(Alignment.CenterHorizontally),
+                            nickname = currentUser.nickname!!,
+                            photoUrl = currentUser.photoUrl!!,
+                            onOwnerClick = { }
                         )
+                        AnimatedVisibility(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            visible = backgroundUri == null,
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
+                            AddTextFilledButton(
+                                text = "Add a background",
+                                onClick = {
+                                    isCoverLauncher = false
+                                    launcher.launch("image/*")
+                                },
+                                contentColor = md_theme_light_onSecondary,
+                                containerColor = md_theme_light_secondary
+                            )
+                        }
+                        AnimatedVisibility(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            visible = coverUri == null,
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
+                            AddTextFilledButton(
+                                text = "Add a cover",
+                                onClick = {
+                                    isCoverLauncher = true
+                                    launcher.launch("image/*")
+                                },
+                                contentColor = md_theme_light_onSecondary,
+                                containerColor = md_theme_light_secondary
+                            )
+                        }
                     }
                     Column(
                         modifier = Modifier
@@ -315,7 +380,7 @@ fun AddArticleScreenContent(
 
 @Preview
 @Composable
-fun AddArticleScreenContentPreview() {
+fun AddArticleScreenContentNoDataPreview() {
     AddArticleScreenContent(
         currentUser = User(
             uid = "237465719432",
@@ -339,6 +404,7 @@ fun AddArticleScreenContentPreview() {
         tags = listOf(),
         description = "",
         backgroundUri = null,
+        coverUri = null,
         setIsSelectTypeOpened = { },
         setIsSelectTagsOpened = { },
         onTitleValueChange = { },
@@ -348,6 +414,48 @@ fun AddArticleScreenContentPreview() {
         onSearchTag = { _ -> listOf() },
         onTagsAdd = { },
         onDescriptionValueChange = { },
-        setLauncherBackgroundUri = { }
+        onBackgroundUriValueChange = { },
+        onCoverUriValueChange = { }
+    )
+}
+
+@Preview
+@Composable
+fun AddArticleScreenContentWithDataPreview() {
+    AddArticleScreenContent(
+        currentUser = User(
+            uid = "237465719432",
+            nickname = "serjshul",
+            name = "Serge, 21",
+            bio = "Graduated from SPbSTU, read a lot of books just to download yet another app",
+            dateOfBirth = Date(),
+            photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
+            aids = listOf("45g2j23fd8723", "jkef5s7dfjk23", "223fgh425kj2g3"),
+            cids = emptyList(),
+            lids = emptyList(),
+            followers = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73"),
+            following = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73")
+        ),
+        isSelectTypeOpened = false,
+        isSelectTagsOpened = false,
+        title = "",
+        type = "",
+        creator = "",
+        year = "",
+        tags = listOf(),
+        description = "",
+        backgroundUri = Uri.EMPTY,
+        coverUri = Uri.EMPTY,
+        setIsSelectTypeOpened = { },
+        setIsSelectTagsOpened = { },
+        onTitleValueChange = { },
+        onTypeValueChange = { },
+        onCreatorValueChange = { },
+        onYearValueChange = { },
+        onSearchTag = { _ -> listOf() },
+        onTagsAdd = { },
+        onDescriptionValueChange = { },
+        onBackgroundUriValueChange = { },
+        onCoverUriValueChange = { }
     )
 }
