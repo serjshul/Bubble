@@ -12,7 +12,7 @@ import com.serjshul.bubble.R
 @Composable
 fun CoverAsyncImage(
     modifier: Modifier = Modifier,
-    url: String,
+    url: Any?,
     contentDescription: String
 ) {
     AsyncImage(
