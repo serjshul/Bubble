@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -44,13 +43,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
 import com.serjshul.bubble.model.collections.Tag
 import com.serjshul.bubble.model.collections.User
+import com.serjshul.bubble.ui.components.buttons.AddCoverButton
 import com.serjshul.bubble.ui.components.buttons.AddTextFilledButton
-import com.serjshul.bubble.ui.components.buttons.CloseIconToggleButton
+import com.serjshul.bubble.ui.components.buttons.TextFilledButton
 import com.serjshul.bubble.ui.components.cards.Owner
+import com.serjshul.bubble.ui.components.dialogs.CoverDialog
 import com.serjshul.bubble.ui.components.dialogs.SelectTagsDialog
 import com.serjshul.bubble.ui.components.dialogs.SelectTypeDialog
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
-import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.components.text.TextInput
 import com.serjshul.bubble.ui.theme.md_theme_background_gradient
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
@@ -125,7 +125,6 @@ fun AddArticleScreenContent(
     val screenWidth = configuration.screenWidthDp.dp
 
     var isCoverLauncher by remember { mutableStateOf(false) }
-
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
@@ -135,6 +134,8 @@ fun AddArticleScreenContent(
             onBackgroundUriValueChange(uri)
         }
     }
+
+    var isCoverOpened by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = modifier.fillMaxSize()
@@ -156,12 +157,13 @@ fun AddArticleScreenContent(
                             url = backgroundUri,
                             contentDescription = stringResource(id = R.string.image_background)
                         )
-                        CloseIconToggleButton(
+                        TextFilledButton(
                             modifier = Modifier
-                                .padding(top = 50.dp, end = 10.dp)
+                                .padding(top = 50.dp, end = 12.dp)
                                 .align(Alignment.TopEnd),
-                            backgroundColor = md_theme_light_secondary,
-                            tint = md_theme_light_onSecondary,
+                            text = "Remove",
+                            containerColor = md_theme_light_secondary,
+                            contentColor = md_theme_light_onSecondary,
                             onClick = { onBackgroundUriValueChange(null) }
                         )
                     } else {
@@ -172,24 +174,17 @@ fun AddArticleScreenContent(
                                 .background(Brush.verticalGradient(md_theme_background_gradient))
                         )
                     }
-                    AnimatedVisibility(
-                        visible = coverUri != null,
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
-                        CoverAsyncImage(
-                            modifier = Modifier
-                                .padding(start = 15.dp, top = 47.dp)
-                                .size(
-                                    screenWidth * 1 / 2 - 98.dp,
-                                    screenWidth * 1 / 2 - 140.dp
-                                )
-                                .clip(RoundedCornerShape(5.dp))
-                                .clickable { /* TODO: */ },
-                            url = coverUri,
-                            contentDescription = "Cover URL"
-                        )
-                    }
+                    AddCoverButton(
+                        modifier = Modifier.padding(start = 15.dp, top = 48.dp),
+                        width = screenWidth * 1 / 2 - 100.dp,
+                        height = (screenWidth * 1 / 2 - 100.dp) * 9 / 16,
+                        coverUri = coverUri,
+                        onCoverClick = { isCoverOpened = true },
+                        onAddCoverClick = {
+                            isCoverLauncher = true
+                            launcher.launch("image/*")
+                        }
+                    )
                     Column(
                         modifier = Modifier
                             .padding(top = 55.dp)
@@ -197,11 +192,11 @@ fun AddArticleScreenContent(
                     ) {
                         Owner(
                             modifier = Modifier
-                                .padding(bottom = 10.dp)
+                                .padding(bottom = 30.dp)
                                 .align(Alignment.CenterHorizontally),
                             nickname = currentUser.nickname!!,
                             photoUrl = currentUser.photoUrl!!,
-                            onOwnerClick = { }
+                            onOwnerClick = { /* TODO: */}
                         )
                         AnimatedVisibility(
                             modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -213,22 +208,6 @@ fun AddArticleScreenContent(
                                 text = "Add a background",
                                 onClick = {
                                     isCoverLauncher = false
-                                    launcher.launch("image/*")
-                                },
-                                contentColor = md_theme_light_onSecondary,
-                                containerColor = md_theme_light_secondary
-                            )
-                        }
-                        AnimatedVisibility(
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                            visible = coverUri == null,
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            AddTextFilledButton(
-                                text = "Add a cover",
-                                onClick = {
-                                    isCoverLauncher = true
                                     launcher.launch("image/*")
                                 },
                                 contentColor = md_theme_light_onSecondary,
@@ -373,6 +352,17 @@ fun AddArticleScreenContent(
                 onTagsAdd = onTagsAdd,
                 setIsSelectTypeOpened = setIsSelectTypeOpened,
                 onDismissRequest = { setIsSelectTagsOpened(false) }
+            )
+        }
+        if (isCoverOpened) {
+            CoverDialog(
+                coverUri = coverUri,
+                onCoverUriValueChange = onCoverUriValueChange,
+                onLauncherOpen = {
+                    isCoverLauncher = true
+                    launcher.launch("image/*")
+                },
+                onDismissRequest = { isCoverOpened = false }
             )
         }
     }
