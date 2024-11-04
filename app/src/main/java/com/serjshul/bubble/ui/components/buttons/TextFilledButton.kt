@@ -43,6 +43,24 @@ fun TextFilledButton(
     }
 }
 
+@Preview
+@Composable
+fun TextFilledButtonPreview() {
+    Box(
+        modifier = Modifier
+            .size(200.dp)
+            .background(Color.Black)
+    ) {
+        TextFilledButton(
+            modifier = Modifier.align(Alignment.Center),
+            text = stringResource(id = R.string.button_read),
+            containerColor = md_theme_light_secondary,
+            contentColor = md_theme_light_onSecondary,
+            onClick = {}
+        )
+    }
+}
+
 @Composable
 fun AddTextFilledButton(
     modifier: Modifier = Modifier,
@@ -67,24 +85,6 @@ fun AddTextFilledButton(
             contentDescription = ""
         )
         Text(text)
-    }
-}
-
-@Preview
-@Composable
-fun TextFilledButtonPreview() {
-    Box(
-        modifier = Modifier
-            .size(200.dp)
-            .background(Color.Black)
-    ) {
-        TextFilledButton(
-            modifier = Modifier.align(Alignment.Center),
-            text = stringResource(id = R.string.button_read),
-            containerColor = md_theme_light_secondary,
-            contentColor = md_theme_light_onSecondary,
-            onClick = {}
-        )
     }
 }
 

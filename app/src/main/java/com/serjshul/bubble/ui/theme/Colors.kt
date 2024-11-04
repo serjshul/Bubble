@@ -49,3 +49,5 @@ val md_theme_background_gradient = listOf(
 
 val md_theme_transparent = Color(0x00000000)
 val md_theme_transparent_gray = Color(0x80EEEEEE)
+
+val md_theme_white = Color(0xFFFFFFFF)
