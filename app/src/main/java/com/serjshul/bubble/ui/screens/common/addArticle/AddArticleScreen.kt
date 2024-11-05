@@ -428,12 +428,18 @@ fun AddArticleScreenContentWithDataPreview() {
         ),
         isSelectTypeOpened = false,
         isSelectTagsOpened = false,
-        title = "",
-        type = "",
-        creator = "",
-        year = "",
-        tags = listOf(),
-        description = "",
+        title = "Lady Bird",
+        type = "Movie",
+        creator = "Greta Gerwig",
+        year = "2018",
+        tags = listOf(Tag(value = "Drama"), Tag(value = "Comedy")),
+        description = "Writer-director Greta Gerwig’s semiautobiographical Lady Bird is both generous " +
+                "and joyous, but when it stings, it stings deep. At one point, Saoirse Ronan, as " +
+                "disgruntled high school senior Christine, begs her mother, Laurie Metcalf’s Marion, " +
+                "for a magazine at the supermarket: “It’s only \$3! I’m having a bad week!” Marion " +
+                "brushes her off, and it could be the usual mom move of just saying no–until she " +
+                "reaches the cash register and you realize that this respectable-looking suburban " +
+                "woman can barely cover the family groceries.",
         backgroundUri = Uri.EMPTY,
         coverUri = Uri.EMPTY,
         setIsSelectTypeOpened = { },
