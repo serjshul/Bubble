@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,8 +44,9 @@ fun CoverDialog(
         ) {
             Box {
                 AddCoverButton(
-                    width = coverWidth,
-                    height = coverHeight,
+                    modifier = Modifier
+                        .size(coverWidth, coverHeight)
+                        .clip(RoundedCornerShape(5.dp)),
                     coverUri = coverUri,
                     onCoverClick = { /*TODO*/ },
                     onAddCoverClick = { onLauncherOpen() }
@@ -61,7 +64,6 @@ fun CoverDialog(
                     .align(Alignment.CenterHorizontally)
             ) {
                 TextFilledButton(
-                    modifier = Modifier.width(95.dp),
                     text = "Remove",
                     enabled = true,
                     containerColor = md_theme_light_primary,
