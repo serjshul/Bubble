@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_dark_gradient
@@ -22,27 +21,19 @@ import com.serjshul.bubble.ui.theme.md_theme_light_secondary
 @Composable
 fun AddCoverButton(
     modifier: Modifier = Modifier,
-    width: Dp,
-    height: Dp,
     coverUri: Uri?,
     onCoverClick: () -> Unit,
     onAddCoverClick: () -> Unit
 ) {
     if (coverUri != null) {
         CoverAsyncImage(
-            modifier = modifier
-                .size(width, height)
-                .clip(RoundedCornerShape(5.dp))
-                .clickable { onCoverClick() },
+            modifier = modifier.clickable { onCoverClick() },
             url = coverUri,
             contentDescription = "Cover URL"
         )
     } else {
         Box(
-            modifier = modifier
-                .size(width, height)
-                .clip(RoundedCornerShape(5.dp))
-                .background(Brush.verticalGradient(md_theme_dark_gradient))
+            modifier = modifier.background(Brush.verticalGradient(md_theme_dark_gradient))
         ) {
             AddIconToggleButton(
                 modifier = Modifier.align(Alignment.Center),
@@ -61,8 +52,9 @@ fun AddCoverButtonWithImagePreview() {
     val coverHeight = coverWidth * 10 / 19
 
     AddCoverButton(
-        width = coverWidth,
-        height = coverHeight,
+        modifier = Modifier
+            .size(coverWidth, coverHeight)
+            .clip(RoundedCornerShape(5.dp)),
         coverUri = Uri.EMPTY,
         onCoverClick = { },
         onAddCoverClick = { }
@@ -76,8 +68,9 @@ fun AddCoverButtonWithoutImagePreview() {
     val coverHeight = coverWidth * 10 / 19
 
     AddCoverButton(
-        width = coverWidth,
-        height = coverHeight,
+        modifier = Modifier
+            .size(coverWidth, coverHeight)
+            .clip(RoundedCornerShape(5.dp)),
         coverUri = null,
         onCoverClick = { },
         onAddCoverClick = { }
