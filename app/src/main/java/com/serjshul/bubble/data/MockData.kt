@@ -70,7 +70,7 @@ val articles = listOf(
         content = listOf(
             Paragraph(
                 title = "The endearing shagginess and goofy imperfection",
-                imageUrl = "https://static01.nyt.com/images/2017/11/03/arts/03LADYBIRD1/03LADYBIRD1-superJumbo-v3.jpg",
+                imageUri = "https://static01.nyt.com/images/2017/11/03/arts/03LADYBIRD1/03LADYBIRD1-superJumbo-v3.jpg",
                 text = "In the conversations that have ushered in its theatrical release, Lady Bird " +
                         "has been described as Greta Gerwig’s directorial debut. Yet, with seven " +
                         "screenplays to her name and a co-director credit on Joe Swanberg’s 2008 " +
@@ -83,7 +83,7 @@ val articles = listOf(
             ),
             Paragraph(
                 title = "Lady Bird’s coming of age",
-                imageUrl = "https://compote.slate.com/images/65093ba9-f66a-4912-92a7-090af2f5ef20.jpeg?crop=1560%2C1040%2Cx0%2Cy0",
+                imageUri = "https://compote.slate.com/images/65093ba9-f66a-4912-92a7-090af2f5ef20.jpeg?crop=1560%2C1040%2Cx0%2Cy0",
                 text = "Set in Sacramento, California in 2002, it centres on Christine “Lady Bird” " +
                         "McPherson (Saoirse Ronan), a high-schooler who behaves with the unselfconscious " +
                         "conviction of a young kid. She insists she be called by her “given” name of " +
@@ -103,7 +103,7 @@ val articles = listOf(
             ),
             Paragraph(
                 title = "The small things that make a good movie great",
-                imageUrl = null,
+                imageUri = null,
                 text = "However, it is Gerwig’s tidy pacing, vividly drawn characters (see Timothée " +
                         "Chalamet’s bit-part as a floppy-haired mobile phone sceptic who smokes " +
                         "roll-ups and “trying as much as possible not to participate in our economy”), " +

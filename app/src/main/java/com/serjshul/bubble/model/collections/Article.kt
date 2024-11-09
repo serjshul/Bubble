@@ -38,7 +38,8 @@ data class Article (
 )
 
 data class Paragraph (
-    val title: String? = null,
-    val imageUrl: String? = null,
-    val text: String? = null
+    val pid: String? = null,
+    var title: String? = null,
+    var imageUri: String? = null,
+    var text: String? = null
 )
