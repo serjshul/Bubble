@@ -26,8 +26,6 @@ fun ParagraphText(
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
-    val texts = paragraph.text!!.split("\n")
-
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
@@ -38,24 +36,22 @@ fun ParagraphText(
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.titleLarge,
         )
-        if (paragraph.imageUrl != null) {
+        if (paragraph.imageUri != null) {
             ParagraphAsyncImage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(screenHeight * 1/4)
                     .padding(top = 15.dp)
                     .roundedCornerShape(),
-                url = paragraph.imageUrl,
+                url = paragraph.imageUri!!,
                 contentDescription = "Paragraph image"
             )
         }
-        for (text in texts) {
-            Text(
-                modifier = Modifier.padding(top = 15.dp),
-                text = text,
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
+        Text(
+            modifier = Modifier.padding(top = 15.dp),
+            text = paragraph.text!!,
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
@@ -64,7 +60,7 @@ fun ParagraphText(
 fun ParagraphPreview() {
     val paragraph = Paragraph(
         title = "Lady Bird’s coming of age",
-        imageUrl = "https://compote.slate.com/images/65093ba9-f66a-4912-92a7-090af2f5ef20.jpeg?crop=1560%2C1040%2Cx0%2Cy0",
+        imageUri = "https://compote.slate.com/images/65093ba9-f66a-4912-92a7-090af2f5ef20.jpeg?crop=1560%2C1040%2Cx0%2Cy0",
         text = "Set in Sacramento, California in 2002, it centres on Christine “Lady Bird” " +
                 "McPherson (Saoirse Ronan), a high-schooler who behaves with the unselfconscious " +
                 "conviction of a young kid. She insists she be called by her “given” name of " +
@@ -75,7 +71,7 @@ fun ParagraphPreview() {
                 "and fear that dogs most teenagers on the cusp of change. This cusp-ness " +
                 "is where the film’s magic resides; its joyful, forward-rushing narrative " +
                 "rhythm captures the feeling of adolescence ending before it has barely " +
-                "begun.\nThough the film gives us milestones from Lady Bird’s coming of age, " +
+                "begun.\n\nThough the film gives us milestones from Lady Bird’s coming of age, " +
                 "its key preoccupation is the jagged relationship between Lady Bird and her " +
                 "mother Marion (Laurie Metcalf), an overworked nurse whose blunt pragmatism " +
                 "butts heads with her daughter’s dreams of moving to New York, “where culture " +
