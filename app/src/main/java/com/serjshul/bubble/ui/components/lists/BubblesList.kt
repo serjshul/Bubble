@@ -36,7 +36,7 @@ fun BubblesList(
     title: String,
     content: List<Article>
 ) {
-    val filteredContent = content.filter { it.backgroundUrl != null }
+    val filteredContent = content.filter { it.backgroundUri != null }
     val pagerState = rememberPagerState(
         pageCount = { filteredContent.size }
     )

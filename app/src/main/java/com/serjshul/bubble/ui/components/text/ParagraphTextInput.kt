@@ -40,7 +40,7 @@ fun ParagraphTextInput(
             placeholderText = "Paragraph's title",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            maxLines = 2,
+            maxLines = 3,
             textColor = articleColor?.toColor() ?: md_theme_light_onBackground,
             placeholderTextColor = md_theme_light_onBackgroundVariant,
             textAlign = TextAlign.Start,

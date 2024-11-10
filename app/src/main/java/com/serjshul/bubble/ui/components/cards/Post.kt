@@ -80,14 +80,14 @@ fun Post(
             .padding(0.dp, 5.dp)
             .fillMaxWidth()
     ) {
-        if (article.backgroundUrl != null) {
+        if (article.backgroundUri != null) {
             BackgroundAsyncImage(
                 modifier = Modifier
                     .padding(top = 55.dp)
                     .fillMaxWidth()
                     .height(screenWidth * 1 / 2)
                     .clickable { openArticleScreen() },
-                url = article.backgroundUrl,
+                url = article.backgroundUri,
                 contentDescription = "Background URL"
             )
         }
@@ -165,7 +165,7 @@ fun Post(
         }
 
         Column(
-            modifier = Modifier.padding(top = if (article.backgroundUrl != null) 220.dp else 55.dp)
+            modifier = Modifier.padding(top = if (article.backgroundUri != null) 220.dp else 55.dp)
         ) {
             Row(
                 modifier = Modifier.padding(10.dp, 0.dp)
@@ -175,7 +175,7 @@ fun Post(
                         .size(screenWidth * 1 / 2 - 30.dp, screenWidth * 1 / 2 - 100.dp)
                         .clip(RoundedCornerShape(5.dp))
                         .clickable { openArticleScreen() },
-                    url = article.coverUrl!!,
+                    url = article.coverUri!!,
                     contentDescription = "Cover URL"
                 )
 

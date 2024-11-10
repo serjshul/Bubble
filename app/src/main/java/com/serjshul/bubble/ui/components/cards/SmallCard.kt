@@ -57,7 +57,7 @@ fun SmallCard(
                     .size(screenWidth * 1 / 2 - 60.dp, screenWidth * 1 / 2 - 100.dp)
                     .roundedCornerShape()
                     .clickable { onOpenClick() },
-                url = article.coverUrl!!,
+                url = article.coverUri!!,
                 contentDescription = "Cover URL"
             )
 

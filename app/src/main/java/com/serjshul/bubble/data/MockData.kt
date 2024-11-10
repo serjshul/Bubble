@@ -119,9 +119,9 @@ val articles = listOf(
                         "much screen time as her romantic exploits."
             )
         ),
-        coverUrl = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2F5d76f7c9-51f5-4c2b-ac33-8a55fc4cab74%2Fcover_horizontal.jpg?id=0c09df19-d385-4d62-b782-ebe306a4de9a&table=block&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=1880&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
+        coverUri = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2F5d76f7c9-51f5-4c2b-ac33-8a55fc4cab74%2Fcover_horizontal.jpg?id=0c09df19-d385-4d62-b782-ebe306a4de9a&table=block&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=1880&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
         color = "#c22f2f",
-        backgroundUrl = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2Fe25474fc-297a-4431-b785-639e62dd1937%2Fbackground.jpg?table=block&id=0c09df19-d385-4d62-b782-ebe306a4de9a&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=2000&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
+        backgroundUri = "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ff629b099-4698-40c7-8c31-9f270dd5e243%2Fe25474fc-297a-4431-b785-639e62dd1937%2Fbackground.jpg?table=block&id=0c09df19-d385-4d62-b782-ebe306a4de9a&spaceId=f629b099-4698-40c7-8c31-9f270dd5e243&width=2000&userId=db0bfdfe-2f6e-4646-b69c-7397cf9bd8d0&cache=v2",
         userId = "237465719432",
         owner = users[0],
         date = Date(),
@@ -141,9 +141,9 @@ val articles = listOf(
             Tag(id = "14", typeId = "Music", value = "R&B")
         ),
         quote = "PEOPLE SAY I LOOK HAPPY JUST BECAUSE I GOT SKINNY BUT THE OLD ME IS STILL ME AND MAYBE THE REAL ME AND I THINK SHE’S PRETTY",
-        coverUrl = "https://billboard.it/wp-content/uploads/2024/04/billie-eilish-hit-me-hard-and-soft-tracklist-album-1.jpg",
+        coverUri = "https://billboard.it/wp-content/uploads/2024/04/billie-eilish-hit-me-hard-and-soft-tracklist-album-1.jpg",
         color = "#46475c",
-        backgroundUrl = "https://readrange.com/wp-content/uploads/elementor/thumbs/2-7-qo9bqja2cuxqfv906vv81m0sg3hdsh3ufo4uhy1hxs.jpg",
+        backgroundUri = "https://readrange.com/wp-content/uploads/elementor/thumbs/2-7-qo9bqja2cuxqfv906vv81m0sg3hdsh3ufo4uhy1hxs.jpg",
         userId = "237465719432",
         owner = users[0],
         date = Date()
@@ -162,9 +162,9 @@ val articles = listOf(
             Tag(id = "7dfgr", typeId = "Film", value = "Romance")
         ),
         quote = "Dr. Godwin Baxter: My father once told me, \"Always carve with compassion.\" He was a fucking idiot, but it's not bad advice.",
-        coverUrl = "https://www.lab111.nl/wp-content/uploads/2024/01/Poor-Things-Banner-2.jpg",
+        coverUri = "https://www.lab111.nl/wp-content/uploads/2024/01/Poor-Things-Banner-2.jpg",
         color = "#719faf",
-        backgroundUrl = "https://media.npr.org/assets/img/2023/12/07/poor-things-022_054_poorthings_ov_v30464704_fp_dpo_prohq_uhd-sdr_24_eng-166_eng-5120_a_ops9z8mjw_tiff53_rgb_custom-dbfbdcbf8bfa378f9047be6e3e78ff32b595dc84.jpg",
+        backgroundUri = "https://media.npr.org/assets/img/2023/12/07/poor-things-022_054_poorthings_ov_v30464704_fp_dpo_prohq_uhd-sdr_24_eng-166_eng-5120_a_ops9z8mjw_tiff53_rgb_custom-dbfbdcbf8bfa378f9047be6e3e78ff32b595dc84.jpg",
         userId = "237465719432",
         owner = users[0],
         date = Date()
@@ -181,9 +181,9 @@ val articles = listOf(
             Tag(id = "2", typeId = "Music", value = "Pop"),
             Tag(id = "14", typeId = "Music", value = "R&B")
         ),
-        coverUrl = "https://hips.hearstapps.com/hmg-prod/images/dua-lipa-radical-optimism-release-date-track-list-660fd4e9658a1.jpg?crop=1xw:0.5625xh;center,top",
+        coverUri = "https://hips.hearstapps.com/hmg-prod/images/dua-lipa-radical-optimism-release-date-track-list-660fd4e9658a1.jpg?crop=1xw:0.5625xh;center,top",
         color = "#055c62",
-        backgroundUrl = "https://www.rollingstone.com/wp-content/uploads/2024/05/dua-lipa-album-is-out.jpg?w=1581&h=1054&crop=1",
+        backgroundUri = "https://www.rollingstone.com/wp-content/uploads/2024/05/dua-lipa-album-is-out.jpg?w=1581&h=1054&crop=1",
         userId = "hjk3h6j41204fsd",
         owner = users[1],
         date = Date()
@@ -203,7 +203,7 @@ val articles = listOf(
             Tag(id = "2fg4j", typeId = "Book", value = "Science Fiction"),
             Tag(id = "5dfgd", typeId = "Book", value = "Adventure")
         ),
-        coverUrl = "https://static1.colliderimages.com/wordpress/wp-content/uploads/2021/08/dune-poster-social-featured.jpg",
+        coverUri = "https://static1.colliderimages.com/wordpress/wp-content/uploads/2021/08/dune-poster-social-featured.jpg",
         color = "#a46d58",
         userId = "hjk3h6j41204fsd",
         owner = users[1],
@@ -222,9 +222,9 @@ val articles = listOf(
             Tag(id = "1ertf", typeId = "Film", value = "Drama"),
             Tag(id = "6regh", typeId = "Film", value = "Comedy")
         ),
-        coverUrl = "https://media.myshows.me/shows/760/d/9d/d9df55dc471adbc0376a47f398cafa82.jpg",
+        coverUri = "https://media.myshows.me/shows/760/d/9d/d9df55dc471adbc0376a47f398cafa82.jpg",
         color = "#5f4f5b",
-        backgroundUrl = "https://media.vanityfair.com/photos/593f04ebe9423741a1f17696/master/pass/Phoebe-Waller-Bridge-Fleabag.jpg",
+        backgroundUri = "https://media.vanityfair.com/photos/593f04ebe9423741a1f17696/master/pass/Phoebe-Waller-Bridge-Fleabag.jpg",
         userId = "hjk3h6j41204fsd",
         owner = users[1],
         date = Date()

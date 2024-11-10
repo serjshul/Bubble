@@ -59,7 +59,7 @@ fun Bubble(
                 .size(screenWidth - 60.dp)
                 .clip(CircleShape)
                 .align(Alignment.TopCenter),
-            url = article.backgroundUrl!!,
+            url = article.backgroundUri!!,
             contentDescription = stringResource(id = R.string.image_background)
         )
         Box(

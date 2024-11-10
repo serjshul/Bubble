@@ -180,10 +180,10 @@ private fun Content(
                             .fillMaxWidth()
                             .height(screenHeight * 1 / 2)
                     ) {
-                        if (article.backgroundUrl != null) {
+                        if (article.backgroundUri != null) {
                             BackgroundAsyncImage(
                                 modifier = Modifier.fillMaxSize(),
-                                url = article.backgroundUrl,
+                                url = article.backgroundUri,
                                 contentDescription = "Background image"
                             )
                         } else {

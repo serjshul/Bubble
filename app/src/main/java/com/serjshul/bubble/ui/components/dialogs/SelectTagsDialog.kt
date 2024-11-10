@@ -284,7 +284,7 @@ fun SelectTagsDialog(
                             maxLines = 1,
                             textColor = md_theme_light_onBackground,
                             placeholderTextColor = md_theme_light_onBackgroundVariant,
-                            keyboardOptions = KeyboardOptions(
+                            keyboardOptions = KeyboardOptions.Default.copy(
                                 imeAction = androidx.compose.ui.text.input.ImeAction.Done, // Указываем действие для клавиши Enter
                                 keyboardType = KeyboardType.Text
                             ),

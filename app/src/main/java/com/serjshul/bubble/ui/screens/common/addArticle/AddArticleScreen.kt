@@ -80,9 +80,6 @@ fun AddArticleScreen(
         isSelectTagsOpened = viewModel.isSelectTagsOpened,
         article = viewModel.article,
         types = viewModel.types,
-        paragraphs = viewModel.paragraphs,
-        backgroundUri = viewModel.backgroundUri,
-        coverUri = viewModel.coverUri,
         currentUser = viewModel.currentUser,
         setIsSelectTypeOpened = viewModel::setIsSelectTypeOpened,
         setIsSelectTagsOpened = viewModel::setIsSelectTagsOpened,
@@ -107,10 +104,6 @@ fun AddArticleScreenContent(
     isSelectTagsOpened: Boolean,
     article: Article,
     types: List<Type>,
-
-    paragraphs: List<Paragraph>,
-    backgroundUri: Uri?,
-    coverUri: Uri?,
     currentUser: User,
     setIsSelectTypeOpened: (Boolean) -> Unit,
     setIsSelectTagsOpened: (Boolean) -> Unit,
@@ -155,12 +148,12 @@ fun AddArticleScreenContent(
                 Box(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    if (backgroundUri != null) {
+                    if (article.backgroundUri != null) {
                         BackgroundAsyncImage(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(screenHeight * 1 / 2),
-                            url = backgroundUri,
+                            url = article.backgroundUri,
                             contentDescription = stringResource(id = R.string.image_background)
                         )
                         TextFilledButton(
@@ -188,7 +181,7 @@ fun AddArticleScreenContent(
                                 (screenWidth * 1 / 2 - 100.dp) * 9 / 16
                             )
                             .clip(RoundedCornerShape(5.dp)),
-                        coverUri = coverUri,
+                        coverUri = article.coverUri,
                         onCoverClick = { isCoverOpened = true },
                         onAddCoverClick = {
                             isCoverLauncher = true
@@ -210,7 +203,7 @@ fun AddArticleScreenContent(
                         )
                         AnimatedVisibility(
                             modifier = Modifier.align(Alignment.CenterHorizontally),
-                            visible = backgroundUri == null,
+                            visible = article.backgroundUri == null,
                             enter = fadeIn(),
                             exit = fadeOut()
                         ) {
@@ -339,7 +332,7 @@ fun AddArticleScreenContent(
                     }
                 }
             }
-            items(paragraphs, key = { it.id!! }) { paragraph ->
+            items(article.content, key = { it.id!! }) { paragraph ->
                 ParagraphTextInput(
                     paragraph = paragraph,
                     articleColor = null,
@@ -383,7 +376,7 @@ fun AddArticleScreenContent(
         }
         if (isCoverOpened) {
             CoverDialog(
-                coverUri = coverUri,
+                coverUri = article.coverUri,
                 onCoverUriValueChange = onCoverUriValueChange,
                 onLauncherOpen = {
                     isCoverLauncher = true
@@ -416,16 +409,13 @@ fun AddArticleScreenContentNoDataPreview() {
         isSelectTagsOpened = false,
         article = Article(
             title = "",
-            type = Type(),
+            type = null,
             creator = "",
-            year = "".toInt(),
+            year = null,
             tags = emptyList(),
             description = "",
         ),
         types = emptyList(),
-        paragraphs = listOf(),
-        backgroundUri = null,
-        coverUri = null,
         setIsSelectTypeOpened = { },
         setIsSelectTagsOpened = { },
         onTitleValueChange = { },
@@ -466,7 +456,10 @@ fun AddArticleScreenContentWithDataPreview() {
             type = Type(value = "Movie"),
             creator = "Greta Gerwig",
             year = 2018,
-            tags = emptyList(), //listOf(Tag(value = "Drama"), Tag(value = "Comedy")),
+            tags = listOf(
+                Tag(id = "1ertf", typeId = "Film", value = "Drama"),
+                Tag(id = "6regh", typeId = "Film", value = "Comedy")
+            ),
             description = "Writer-director Greta Gerwig’s semiautobiographical Lady Bird is both generous " +
                     "and joyous, but when it stings, it stings deep. At one point, Saoirse Ronan, as " +
                     "disgruntled high school senior Christine, begs her mother, Laurie Metcalf’s Marion, " +
@@ -474,61 +467,59 @@ fun AddArticleScreenContentWithDataPreview() {
                     "brushes her off, and it could be the usual mom move of just saying no–until she " +
                     "reaches the cash register and you realize that this respectable-looking suburban " +
                     "woman can barely cover the family groceries.",
-        ),
-        types = emptyList(),
-        paragraphs = listOf(
-            Paragraph(
-                id = "klajsdfl",
-                title = "The endearing shagginess and goofy imperfection",
-                imageUri = "https://static01.nyt.com/images/2017/11/03/arts/03LADYBIRD1/03LADYBIRD1-superJumbo-v3.jpg",
-                text = "In the conversations that have ushered in its theatrical release, Lady Bird " +
-                        "has been described as Greta Gerwig’s directorial debut. Yet, with seven " +
-                        "screenplays to her name and a co-director credit on Joe Swanberg’s 2008 " +
-                        "mumblecore drama Nights and Weekends, it’s not as though she is new to " +
-                        "making movies. Still, the endearing shagginess and goofy imperfection " +
-                        "associated with Gerwig’s work in front of and behind the camera are " +
-                        "noticeably absent in this polished, muscular, Oscar-nominated debut proper. " +
-                        "Not a criticism exactly, but perhaps an explanation for why the film has " +
-                        "managed to transcend its indie dramedy trappings."
-            ),
-            Paragraph(
-                id = "dsnwlkn",
-                title = "Lady Bird’s coming of age",
-                imageUri = "https://compote.slate.com/images/65093ba9-f66a-4912-92a7-090af2f5ef20.jpeg?crop=1560%2C1040%2Cx0%2Cy0",
-                text = "Set in Sacramento, California in 2002, it centres on Christine “Lady Bird” " +
-                        "McPherson (Saoirse Ronan), a high-schooler who behaves with the unselfconscious " +
-                        "conviction of a young kid. She insists she be called by her “given” name of " +
-                        "Lady Bird (“It was given to me, by me”), extols the benefits of bathtub " +
-                        "masturbation to her best friend Julie while eating communion wafers (“They’re " +
-                        "not consecrated!”) and jabs her crush in the shoulder, asking him to dance. " +
-                        "Gerwig’s pink-haired protagonist is seemingly unencumbered by the awkwardness " +
-                        "and fear that dogs most teenagers on the cusp of change. This cusp-ness " +
-                        "is where the film’s magic resides; its joyful, forward-rushing narrative " +
-                        "rhythm captures the feeling of adolescence ending before it has barely " +
-                        "begun.\nThough the film gives us milestones from Lady Bird’s coming of age, " +
-                        "its key preoccupation is the jagged relationship between Lady Bird and her " +
-                        "mother Marion (Laurie Metcalf), an overworked nurse whose blunt pragmatism " +
-                        "butts heads with her daughter’s dreams of moving to New York, “where culture " +
-                        "is”. The scenes between Ronan and Metcalf are electric; Gerwig maps their " +
-                        "inability to communicate with excruciating veracity."
-            ),
-            Paragraph(
-                id = "klsnwemdsfklnrw",
-                title = "The small things that make a good movie great",
-                imageUri = null,
-                text = "However, it is Gerwig’s tidy pacing, vividly drawn characters (see Timothée " +
-                        "Chalamet’s bit-part as a floppy-haired mobile phone sceptic who smokes " +
-                        "roll-ups and “trying as much as possible not to participate in our economy”), " +
-                        "and eye for period detail (like her use of the Dave Matthews Band) that " +
-                        "mark her as a keen observer of the small things that make a good movie great. " +
-                        "Her writing is alive with beautiful bon mots, but also an acute sense of " +
-                        "class anxiety in post-9/11, pre-financial crash suburban America, with " +
-                        "the McPherson family’s worries about Lady Bird’s tuition fees given as " +
-                        "much screen time as her romantic exploits."
+            content = listOf(
+                Paragraph(
+                    id = "klajsdfl",
+                    title = "The endearing shagginess and goofy imperfection",
+                    imageUri = "https://static01.nyt.com/images/2017/11/03/arts/03LADYBIRD1/03LADYBIRD1-superJumbo-v3.jpg",
+                    text = "In the conversations that have ushered in its theatrical release, Lady Bird " +
+                            "has been described as Greta Gerwig’s directorial debut. Yet, with seven " +
+                            "screenplays to her name and a co-director credit on Joe Swanberg’s 2008 " +
+                            "mumblecore drama Nights and Weekends, it’s not as though she is new to " +
+                            "making movies. Still, the endearing shagginess and goofy imperfection " +
+                            "associated with Gerwig’s work in front of and behind the camera are " +
+                            "noticeably absent in this polished, muscular, Oscar-nominated debut proper. " +
+                            "Not a criticism exactly, but perhaps an explanation for why the film has " +
+                            "managed to transcend its indie dramedy trappings."
+                ),
+                Paragraph(
+                    id = "dsnwlkn",
+                    title = "Lady Bird’s coming of age",
+                    imageUri = "https://compote.slate.com/images/65093ba9-f66a-4912-92a7-090af2f5ef20.jpeg?crop=1560%2C1040%2Cx0%2Cy0",
+                    text = "Set in Sacramento, California in 2002, it centres on Christine “Lady Bird” " +
+                            "McPherson (Saoirse Ronan), a high-schooler who behaves with the unselfconscious " +
+                            "conviction of a young kid. She insists she be called by her “given” name of " +
+                            "Lady Bird (“It was given to me, by me”), extols the benefits of bathtub " +
+                            "masturbation to her best friend Julie while eating communion wafers (“They’re " +
+                            "not consecrated!”) and jabs her crush in the shoulder, asking him to dance. " +
+                            "Gerwig’s pink-haired protagonist is seemingly unencumbered by the awkwardness " +
+                            "and fear that dogs most teenagers on the cusp of change. This cusp-ness " +
+                            "is where the film’s magic resides; its joyful, forward-rushing narrative " +
+                            "rhythm captures the feeling of adolescence ending before it has barely " +
+                            "begun.\nThough the film gives us milestones from Lady Bird’s coming of age, " +
+                            "its key preoccupation is the jagged relationship between Lady Bird and her " +
+                            "mother Marion (Laurie Metcalf), an overworked nurse whose blunt pragmatism " +
+                            "butts heads with her daughter’s dreams of moving to New York, “where culture " +
+                            "is”. The scenes between Ronan and Metcalf are electric; Gerwig maps their " +
+                            "inability to communicate with excruciating veracity."
+                ),
+                Paragraph(
+                    id = "klsnwemdsfklnrw",
+                    title = "The small things that make a good movie great",
+                    imageUri = null,
+                    text = "However, it is Gerwig’s tidy pacing, vividly drawn characters (see Timothée " +
+                            "Chalamet’s bit-part as a floppy-haired mobile phone sceptic who smokes " +
+                            "roll-ups and “trying as much as possible not to participate in our economy”), " +
+                            "and eye for period detail (like her use of the Dave Matthews Band) that " +
+                            "mark her as a keen observer of the small things that make a good movie great. " +
+                            "Her writing is alive with beautiful bon mots, but also an acute sense of " +
+                            "class anxiety in post-9/11, pre-financial crash suburban America, with " +
+                            "the McPherson family’s worries about Lady Bird’s tuition fees given as " +
+                            "much screen time as her romantic exploits."
+                )
             )
         ),
-        backgroundUri = Uri.EMPTY,
-        coverUri = Uri.EMPTY,
+        types = emptyList(),
         setIsSelectTypeOpened = { },
         setIsSelectTagsOpened = { },
         onTitleValueChange = { },

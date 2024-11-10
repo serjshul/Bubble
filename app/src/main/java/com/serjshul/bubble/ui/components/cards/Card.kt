@@ -47,10 +47,10 @@ fun Card(
     Column(
         modifier = modifier
             .width(screenWidth - 40.dp)
-            .height(if (article.backgroundUrl != null) screenWidth - 60.dp else screenWidth - 200.dp)
+            .height(if (article.backgroundUri != null) screenWidth - 60.dp else screenWidth - 200.dp)
             .roundedCornerShape()
     ) {
-        if (article.backgroundUrl != null) {
+        if (article.backgroundUri != null) {
             Box(
                 modifier = Modifier
                     .weight(3f)
@@ -58,7 +58,7 @@ fun Card(
             ) {
                 BackgroundAsyncImage(
                     modifier = Modifier.fillMaxWidth(),
-                    url = article.backgroundUrl,
+                    url = article.backgroundUri,
                     contentDescription = stringResource(id = R.string.image_background)
                 )
             }

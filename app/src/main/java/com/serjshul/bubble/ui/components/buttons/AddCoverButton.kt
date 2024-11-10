@@ -21,7 +21,7 @@ import com.serjshul.bubble.ui.theme.md_theme_light_secondary
 @Composable
 fun AddCoverButton(
     modifier: Modifier = Modifier,
-    coverUri: Uri?,
+    coverUri: Any?,
     onCoverClick: () -> Unit,
     onAddCoverClick: () -> Unit
 ) {

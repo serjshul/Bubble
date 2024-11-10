@@ -175,7 +175,7 @@ fun CommentProfileItem(
                         .size(screenWidth * 1 / 2 - 65.dp, screenWidth * 1 / 2 - 120.dp)
                         .clip(RoundedCornerShape(5.dp))
                         .clickable { openArticleScreen() },
-                    url = comment.article!!.coverUrl!!,
+                    url = comment.article!!.coverUri!!,
                     contentDescription = "Cover URL"
                 )
 

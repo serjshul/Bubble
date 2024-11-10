@@ -41,21 +41,8 @@ class AddArticleViewModel @Inject constructor(
             title = "",
             description = "",
             creator = "",
-            coverUrl = null,
-            backgroundUrl = null,
         )
     )
-
-
-    var paragraphs = mutableStateListOf<Paragraph>()
-        private set
-
-    var backgroundUri by mutableStateOf<Uri?>(null)
-    var coverUri by mutableStateOf<Uri?>(null)
-
-
-
-
 
     init {
         val allTypes = getAllTypes()
@@ -99,45 +86,47 @@ class AddArticleViewModel @Inject constructor(
         return searchTags(query)
     }
 
-
-
-
     fun onDescriptionValueChange(input: String) {
         article = article.copy(description = input)
         checkArticleOnValid()
     }
 
-    fun onBackgroundUriValueChange(uri: Uri?) {
-        backgroundUri = uri
-    }
-
-    fun onCoverUriValueChange(uri: Uri?) {
-        coverUri = uri
-    }
-
-    fun onParagraphTitleChangeValue(pid: String, input: String) {
-        for (paragraph in paragraphs) {
-            if (paragraph.id == pid) {
-                val index = paragraphs.indexOf(paragraph)
-                paragraphs[index] = paragraphs[index].copy(title = input)
-            }
-        }
-
-    }
-
     fun onAddParagraph() {
-        paragraphs.add(
-            Paragraph(
-                id = UUID.randomUUID().toString(),
-                title = "",
-                text = ""
-            )
+        val newParagraph = Paragraph(
+            id = UUID.randomUUID().toString(),
+            title = "",
+            text = ""
         )
+        val updatedParagraphs = article.content + newParagraph
+        article = article.copy(content = updatedParagraphs)
     }
 
     fun onRemoveParagraph(index: Int) {
-        paragraphs.removeAt(index)
+//        paragraphs.removeAt(index)
     }
+
+    fun onParagraphTitleChangeValue(id: String, input: String) {
+        val updatedParagraphs = article.content.map { paragraph ->
+            if (paragraph.id == id) {
+                paragraph.copy(title = input)
+            } else {
+                paragraph
+            }
+        }
+        article = article.copy(content = updatedParagraphs)
+    }
+
+    fun onBackgroundUriValueChange(uri: Uri?) {
+        article = article.copy(backgroundUri = if (uri == null) null else uri.toString())
+    }
+
+    fun onCoverUriValueChange(uri: Uri?) {
+        article = article.copy(coverUri = if (uri == null) null else uri.toString())
+    }
+
+
+
+
 
 
 

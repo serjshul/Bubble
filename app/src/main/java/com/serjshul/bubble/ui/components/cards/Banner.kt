@@ -56,10 +56,10 @@ fun Banner(
                 .padding(10.dp, 15.dp)
                 .roundedCornerShape()
         ) {
-            if (article.backgroundUrl != null) {
+            if (article.backgroundUri != null) {
                 BackgroundAsyncImage(
                     modifier = Modifier.fillMaxSize(),
-                    url = article.backgroundUrl,
+                    url = article.backgroundUri,
                     contentDescription = stringResource(id = R.string.image_background)
                 )
             } else {

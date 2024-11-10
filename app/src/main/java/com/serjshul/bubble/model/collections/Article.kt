@@ -20,8 +20,8 @@ data class Article (
     val content: List<Paragraph> = emptyList(),
     var quote: String? = null,
 
-    val coverUrl: String? = null,
-    val backgroundUrl: String? = null,
+    val coverUri: String? = null,
+    val backgroundUri: String? = null,
 
     val date: Date? = null,
 

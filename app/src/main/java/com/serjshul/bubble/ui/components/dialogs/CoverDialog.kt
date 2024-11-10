@@ -27,7 +27,7 @@ import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
 @Composable
 fun CoverDialog(
     modifier: Modifier = Modifier,
-    coverUri: Uri?,
+    coverUri: Any?,
     onCoverUriValueChange: (Uri?) -> Unit,
     onLauncherOpen: () -> Unit,
     onDismissRequest: () -> Unit
