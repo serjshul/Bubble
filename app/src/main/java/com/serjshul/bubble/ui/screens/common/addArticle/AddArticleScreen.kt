@@ -62,6 +62,7 @@ import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
+import com.serjshul.bubble.ui.theme.md_theme_light_primary
 import com.serjshul.bubble.ui.theme.md_theme_light_secondary
 import java.util.Date
 
@@ -348,19 +349,23 @@ fun AddArticleScreenContent(
                     paragraph = paragraph,
                     articleColor = null,
                     onTitleValueChange = onParagraphTitleChangeValue,
-                    onTextValueChange = { },
-                    onAddClick = { }
+                    onTextValueChange = { }
                 )
             }
             item {
-                ParagraphTextInput(
-                    enabled = false,
-                    paragraph = Paragraph(id = ""),
-                    articleColor = null,
-                    onTitleValueChange = { _, _ -> },
-                    onTextValueChange = { },
-                    onAddClick = onAddParagraph
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 15.dp, bottom = 40.dp)
+                ) {
+                    AddTextFilledButton(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = "Add a paragraph",
+                        contentColor = md_theme_light_onPrimary,
+                        containerColor = md_theme_light_primary,
+                        onClick = onAddParagraph
+                    )
+                }
             }
         }
         if (isSelectTypeOpened) {
