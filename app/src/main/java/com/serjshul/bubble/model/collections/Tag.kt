@@ -1,7 +1,7 @@
 package com.serjshul.bubble.model.collections
 
 data class Tag (
-    val tid: String? = null,
+    val id: String? = null,
 
     val type: String? = null,
     val value: String? = null,

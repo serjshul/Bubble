@@ -4,7 +4,7 @@ import com.serjshul.bubble.model.subcollections.Post
 import java.util.Date
 
 data class User(
-    val uid: String? = null,
+    val id: String? = null,
 
     val nickname: String? = null,
     val name: String? = null,
@@ -15,9 +15,9 @@ data class User(
     val email: String? = null,
     val phone: String? = null,
 
-    val aids: List<String> = emptyList(),
-    val cids: List<String> = emptyList(),
-    val lids: List<String> = emptyList(),
+    val articleIds: List<String> = emptyList(),
+    val commentIds: List<String> = emptyList(),
+    val likeIds: List<String> = emptyList(),
 
     val followers: List<String> = emptyList(),
     val following: List<String> = emptyList(),

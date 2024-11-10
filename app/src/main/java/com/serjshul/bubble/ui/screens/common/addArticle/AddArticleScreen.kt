@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
+import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.collections.Tag
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.ui.components.buttons.AddCoverButton
@@ -51,6 +54,7 @@ import com.serjshul.bubble.ui.components.dialogs.CoverDialog
 import com.serjshul.bubble.ui.components.dialogs.SelectTagsDialog
 import com.serjshul.bubble.ui.components.dialogs.SelectTypeDialog
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
+import com.serjshul.bubble.ui.components.text.ParagraphTextInput
 import com.serjshul.bubble.ui.components.text.TextInput
 import com.serjshul.bubble.ui.theme.md_theme_background_gradient
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
@@ -77,6 +81,7 @@ fun AddArticleScreen(
         year = viewModel.year,
         tags = viewModel.tags,
         description = viewModel.description,
+        paragraphs = viewModel.paragraphs,
         backgroundUri = viewModel.backgroundUri,
         coverUri = viewModel.coverUri,
         currentUser = viewModel.currentUser,
@@ -89,6 +94,8 @@ fun AddArticleScreen(
         onSearchTag = viewModel::onSearchTag,
         onTagsAdd = viewModel::onTagsAdd,
         onDescriptionValueChange = viewModel::onDescriptionValueChange,
+        onParagraphTitleChangeValue = viewModel::onParagraphTitleChangeValue,
+        onAddParagraph = viewModel::onAddParagraph,
         onBackgroundUriValueChange = viewModel::onBackgroundUriValueChange,
         onCoverUriValueChange = viewModel::onCoverUriValueChange
     )
@@ -105,6 +112,7 @@ fun AddArticleScreenContent(
     year: String,
     tags: List<Tag>,
     description: String,
+    paragraphs: List<Paragraph>,
     backgroundUri: Uri?,
     coverUri: Uri?,
     currentUser: User,
@@ -117,6 +125,8 @@ fun AddArticleScreenContent(
     onSearchTag: (String) -> List<Tag>,
     onTagsAdd: (List<Tag>) -> Unit,
     onDescriptionValueChange: (String) -> Unit,
+    onParagraphTitleChangeValue: (String, String) -> Unit,
+    onAddParagraph: () -> Unit,
     onBackgroundUriValueChange: (Uri?) -> Unit,
     onCoverUriValueChange: (Uri?) -> Unit
 ) {
@@ -175,9 +185,13 @@ fun AddArticleScreenContent(
                         )
                     }
                     AddCoverButton(
-                        modifier = Modifier.padding(start = 15.dp, top = 48.dp),
-                        width = screenWidth * 1 / 2 - 100.dp,
-                        height = (screenWidth * 1 / 2 - 100.dp) * 9 / 16,
+                        modifier = Modifier
+                            .padding(start = 15.dp, top = 48.dp)
+                            .size(
+                                screenWidth * 1 / 2 - 100.dp,
+                                (screenWidth * 1 / 2 - 100.dp) * 9 / 16
+                            )
+                            .clip(RoundedCornerShape(5.dp)),
                         coverUri = coverUri,
                         onCoverClick = { isCoverOpened = true },
                         onAddCoverClick = {
@@ -206,12 +220,12 @@ fun AddArticleScreenContent(
                         ) {
                             AddTextFilledButton(
                                 text = "Add a background",
+                                contentColor = md_theme_light_onSecondary,
+                                containerColor = md_theme_light_secondary,
                                 onClick = {
                                     isCoverLauncher = false
                                     launcher.launch("image/*")
-                                },
-                                contentColor = md_theme_light_onSecondary,
-                                containerColor = md_theme_light_secondary
+                                }
                             )
                         }
                     }
@@ -329,9 +343,25 @@ fun AddArticleScreenContent(
                     }
                 }
             }
-//            item {
-//
-//            }
+            items(paragraphs, key = { it.id!! }) { paragraph ->
+                ParagraphTextInput(
+                    paragraph = paragraph,
+                    articleColor = null,
+                    onTitleValueChange = onParagraphTitleChangeValue,
+                    onTextValueChange = { },
+                    onAddClick = { }
+                )
+            }
+            item {
+                ParagraphTextInput(
+                    enabled = false,
+                    paragraph = Paragraph(id = ""),
+                    articleColor = null,
+                    onTitleValueChange = { _, _ -> },
+                    onTextValueChange = { },
+                    onAddClick = onAddParagraph
+                )
+            }
         }
         if (isSelectTypeOpened) {
             SelectTypeDialog(
@@ -373,15 +403,15 @@ fun AddArticleScreenContent(
 fun AddArticleScreenContentNoDataPreview() {
     AddArticleScreenContent(
         currentUser = User(
-            uid = "237465719432",
+            id = "237465719432",
             nickname = "serjshul",
             name = "Serge, 21",
             bio = "Graduated from SPbSTU, read a lot of books just to download yet another app",
             dateOfBirth = Date(),
             photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-            aids = listOf("45g2j23fd8723", "jkef5s7dfjk23", "223fgh425kj2g3"),
-            cids = emptyList(),
-            lids = emptyList(),
+            articleIds = listOf("45g2j23fd8723", "jkef5s7dfjk23", "223fgh425kj2g3"),
+            commentIds = emptyList(),
+            likeIds = emptyList(),
             followers = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73"),
             following = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73")
         ),
@@ -393,6 +423,7 @@ fun AddArticleScreenContentNoDataPreview() {
         year = "",
         tags = listOf(),
         description = "",
+        paragraphs = listOf(),
         backgroundUri = null,
         coverUri = null,
         setIsSelectTypeOpened = { },
@@ -404,6 +435,8 @@ fun AddArticleScreenContentNoDataPreview() {
         onSearchTag = { _ -> listOf() },
         onTagsAdd = { },
         onDescriptionValueChange = { },
+        onParagraphTitleChangeValue = { _, _ -> },
+        onAddParagraph = { },
         onBackgroundUriValueChange = { },
         onCoverUriValueChange = { }
     )
@@ -414,15 +447,15 @@ fun AddArticleScreenContentNoDataPreview() {
 fun AddArticleScreenContentWithDataPreview() {
     AddArticleScreenContent(
         currentUser = User(
-            uid = "237465719432",
+            id = "237465719432",
             nickname = "serjshul",
             name = "Serge, 21",
             bio = "Graduated from SPbSTU, read a lot of books just to download yet another app",
             dateOfBirth = Date(),
             photoUrl = "https://sun9-13.userapi.com/impg/0hcngQRHKeTQupgE4o4CD5AYE0ezO-Jta_MTDg/e9YqYdkAXVw.jpg?size=1080x1350&quality=95&sign=468e9c0b5d080643534757230681000e&type=album",
-            aids = listOf("45g2j23fd8723", "jkef5s7dfjk23", "223fgh425kj2g3"),
-            cids = emptyList(),
-            lids = emptyList(),
+            articleIds = listOf("45g2j23fd8723", "jkef5s7dfjk23", "223fgh425kj2g3"),
+            commentIds = emptyList(),
+            likeIds = emptyList(),
             followers = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73"),
             following = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73")
         ),
@@ -440,6 +473,57 @@ fun AddArticleScreenContentWithDataPreview() {
                 "brushes her off, and it could be the usual mom move of just saying no–until she " +
                 "reaches the cash register and you realize that this respectable-looking suburban " +
                 "woman can barely cover the family groceries.",
+        paragraphs = listOf(
+            Paragraph(
+                id = "klajsdfl",
+                title = "The endearing shagginess and goofy imperfection",
+                imageUri = "https://static01.nyt.com/images/2017/11/03/arts/03LADYBIRD1/03LADYBIRD1-superJumbo-v3.jpg",
+                text = "In the conversations that have ushered in its theatrical release, Lady Bird " +
+                        "has been described as Greta Gerwig’s directorial debut. Yet, with seven " +
+                        "screenplays to her name and a co-director credit on Joe Swanberg’s 2008 " +
+                        "mumblecore drama Nights and Weekends, it’s not as though she is new to " +
+                        "making movies. Still, the endearing shagginess and goofy imperfection " +
+                        "associated with Gerwig’s work in front of and behind the camera are " +
+                        "noticeably absent in this polished, muscular, Oscar-nominated debut proper. " +
+                        "Not a criticism exactly, but perhaps an explanation for why the film has " +
+                        "managed to transcend its indie dramedy trappings."
+            ),
+            Paragraph(
+                id = "dsnwlkn",
+                title = "Lady Bird’s coming of age",
+                imageUri = "https://compote.slate.com/images/65093ba9-f66a-4912-92a7-090af2f5ef20.jpeg?crop=1560%2C1040%2Cx0%2Cy0",
+                text = "Set in Sacramento, California in 2002, it centres on Christine “Lady Bird” " +
+                        "McPherson (Saoirse Ronan), a high-schooler who behaves with the unselfconscious " +
+                        "conviction of a young kid. She insists she be called by her “given” name of " +
+                        "Lady Bird (“It was given to me, by me”), extols the benefits of bathtub " +
+                        "masturbation to her best friend Julie while eating communion wafers (“They’re " +
+                        "not consecrated!”) and jabs her crush in the shoulder, asking him to dance. " +
+                        "Gerwig’s pink-haired protagonist is seemingly unencumbered by the awkwardness " +
+                        "and fear that dogs most teenagers on the cusp of change. This cusp-ness " +
+                        "is where the film’s magic resides; its joyful, forward-rushing narrative " +
+                        "rhythm captures the feeling of adolescence ending before it has barely " +
+                        "begun.\nThough the film gives us milestones from Lady Bird’s coming of age, " +
+                        "its key preoccupation is the jagged relationship between Lady Bird and her " +
+                        "mother Marion (Laurie Metcalf), an overworked nurse whose blunt pragmatism " +
+                        "butts heads with her daughter’s dreams of moving to New York, “where culture " +
+                        "is”. The scenes between Ronan and Metcalf are electric; Gerwig maps their " +
+                        "inability to communicate with excruciating veracity."
+            ),
+            Paragraph(
+                id = "klsnwemdsfklnrw",
+                title = "The small things that make a good movie great",
+                imageUri = null,
+                text = "However, it is Gerwig’s tidy pacing, vividly drawn characters (see Timothée " +
+                        "Chalamet’s bit-part as a floppy-haired mobile phone sceptic who smokes " +
+                        "roll-ups and “trying as much as possible not to participate in our economy”), " +
+                        "and eye for period detail (like her use of the Dave Matthews Band) that " +
+                        "mark her as a keen observer of the small things that make a good movie great. " +
+                        "Her writing is alive with beautiful bon mots, but also an acute sense of " +
+                        "class anxiety in post-9/11, pre-financial crash suburban America, with " +
+                        "the McPherson family’s worries about Lady Bird’s tuition fees given as " +
+                        "much screen time as her romantic exploits."
+            )
+        ),
         backgroundUri = Uri.EMPTY,
         coverUri = Uri.EMPTY,
         setIsSelectTypeOpened = { },
@@ -451,6 +535,8 @@ fun AddArticleScreenContentWithDataPreview() {
         onSearchTag = { _ -> listOf() },
         onTagsAdd = { },
         onDescriptionValueChange = { },
+        onParagraphTitleChangeValue = { _, _ -> },
+        onAddParagraph = { },
         onBackgroundUriValueChange = { },
         onCoverUriValueChange = { }
     )

@@ -44,7 +44,6 @@ import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.buttons.CommentIconToggleButton
 import com.serjshul.bubble.ui.components.buttons.LikeIconToggleButton
 import com.serjshul.bubble.ui.components.buttons.RepostIconToggleButton
-import com.serjshul.bubble.ui.components.buttons.SaveIconToggleButton
 import com.serjshul.bubble.ui.components.comments.CommentsShortList
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
@@ -53,7 +52,6 @@ import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_primary
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Post(
     modifier: Modifier = Modifier,
@@ -69,10 +67,10 @@ fun Post(
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
-    val isLiked by remember { mutableStateOf(currentUid in article.lids) }
-    var isCommented by remember { mutableStateOf(currentUid in article.cids) }
-    val isReposted by remember { mutableStateOf(currentUid in article.aids) }
-    val isSaved by remember { mutableStateOf(currentUid in article.sids) }
+    val isLiked by remember { mutableStateOf(currentUid in article.likeIds) }
+    var isCommented by remember { mutableStateOf(currentUid in article.commentIds) }
+    val isReposted by remember { mutableStateOf(currentUid in article.repostIds) }
+    // TODO: val isSaved by remember { mutableStateOf(currentUid in article.sids) }
 
     var isDropDownExpanded by remember { mutableStateOf(false) }
 
@@ -278,12 +276,15 @@ fun Post(
                     isReposted = isReposted,
                     onClick = onRepostCLick
                 )
-                Spacer(modifier = Modifier.weight(4f))
+                Spacer(modifier = Modifier.weight(5f))
+                /*
+                TODO:
                 SaveIconToggleButton(
                     modifier = Modifier.weight(1f),
                     isSaved = isSaved,
                     onClick = onSaveCLick
                 )
+                 */
             }
         }
     }

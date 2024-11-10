@@ -5,9 +5,9 @@ import com.serjshul.bubble.model.subcollections.Like
 import java.util.Date
 
 data class Article (
-    val aid: String? = null,
+    val id: String? = null,
 
-    val uid: String? = null,
+    val userId: String? = null,
     var title: String? = null,
     val description: String? = null,
     val creator: String? = null,
@@ -23,10 +23,10 @@ data class Article (
 
     val date: Date? = null,
 
-    val lids: List<String> = emptyList(),
-    val cids: List<String> = emptyList(),
-    val aids: List<String> = emptyList(),
-    val sids: List<String> = emptyList(),
+    val likeIds: List<String> = emptyList(),
+    val commentIds: List<String> = emptyList(),
+    val repostIds: List<String> = emptyList(),
+    // TODO: val sids: List<String> = emptyList(),
 
     var owner: User? = null,
     val likes: List<Like> = emptyList(),
@@ -38,7 +38,7 @@ data class Article (
 )
 
 data class Paragraph (
-    val pid: String? = null,
+    val id: String? = null,
     var title: String? = null,
     var imageUri: String? = null,
     var text: String? = null

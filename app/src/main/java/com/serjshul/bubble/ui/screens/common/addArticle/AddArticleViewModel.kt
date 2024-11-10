@@ -8,10 +8,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import com.serjshul.bubble.data.searchTags
 import com.serjshul.bubble.data.users
+import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.collections.Tag
 import com.serjshul.bubble.services.LogService
 import com.serjshul.bubble.ui.BubbleViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,6 +40,8 @@ class AddArticleViewModel @Inject constructor(
     var tags = mutableStateListOf<Tag>()
         private set
     var description by mutableStateOf("")
+        private set
+    var paragraphs = mutableStateListOf<Paragraph>()
         private set
 
     var backgroundUri by mutableStateOf<Uri?>(null)
@@ -103,5 +107,29 @@ class AddArticleViewModel @Inject constructor(
 
     fun onCoverUriValueChange(uri: Uri?) {
         coverUri = uri
+    }
+
+    fun onParagraphTitleChangeValue(pid: String, input: String) {
+        for (paragraph in paragraphs) {
+            if (paragraph.id == pid) {
+                val index = paragraphs.indexOf(paragraph)
+                paragraphs[index] = paragraphs[index].copy(title = input)
+            }
+        }
+
+    }
+
+    fun onAddParagraph() {
+        paragraphs.add(
+            Paragraph(
+                id = UUID.randomUUID().toString(),
+                title = "",
+                text = ""
+            )
+        )
+    }
+
+    fun onRemoveParagraph(index: Int) {
+        paragraphs.removeAt(index)
     }
 }

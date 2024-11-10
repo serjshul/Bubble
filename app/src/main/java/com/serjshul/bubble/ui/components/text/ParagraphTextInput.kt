@@ -55,7 +55,7 @@ fun ParagraphTextInput(
                 textColor = if (articleColor != null) articleColor.toColor() else md_theme_light_onBackground,
                 placeholderTextColor = md_theme_light_onBackgroundVariant,
                 textAlign = TextAlign.Start,
-                onValueChange = { onTitleValueChange(paragraph.pid!!, it) }
+                onValueChange = { onTitleValueChange(paragraph.id!!, it) }
             )
             AddCoverButton(
                 modifier = Modifier
@@ -119,7 +119,7 @@ fun ParagraphTextInput(
 @Composable
 fun ParagraphTextInputWithoutDataPreview() {
     ParagraphTextInput(
-        paragraph = Paragraph(pid = "", title = "", text = ""),
+        paragraph = Paragraph(id = "", title = "", text = ""),
         articleColor = null,
         onTitleValueChange = { _, _ -> },
         onTextValueChange = { },
@@ -132,7 +132,7 @@ fun ParagraphTextInputWithoutDataPreview() {
 fun ParagraphTextInputWithDataPreview() {
     ParagraphTextInput(
         paragraph = Paragraph(
-            pid = "kldsjflsdk",
+            id = "kldsjflsdk",
             title = "Lady Bird’s coming of age",
             imageUri = "",
             text = "Set in Sacramento, California in 2002, it centres on Christine “Lady Bird” " +
@@ -164,7 +164,7 @@ fun ParagraphTextInputWithDataPreview() {
 fun ParagraphTextInputDisabledPreview() {
     ParagraphTextInput(
         enabled = false,
-        paragraph = Paragraph(pid = "", title = "", text = ""),
+        paragraph = Paragraph(id = "", title = "", text = ""),
         articleColor = null,
         onTitleValueChange = { _, _ -> },
         onTextValueChange = { },

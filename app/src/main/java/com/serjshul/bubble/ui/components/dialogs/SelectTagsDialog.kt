@@ -276,7 +276,7 @@ fun SelectTagsDialog(
                             keyboardActions = KeyboardActions(onDone = {
                                 // Adding new tag to lists `selectedTags` and `showingTags`
                                 val tag = Tag(
-                                    tid = UUID.randomUUID().toString(),
+                                    id = UUID.randomUUID().toString(),
                                     type = type,
                                     value = typedTag
                                 )

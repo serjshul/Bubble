@@ -3,10 +3,10 @@ package com.serjshul.bubble.model.subcollections
 import java.util.Date
 
 data class Like (
-    val lid: String? = null,
+    val id: String? = null,
 
-    val aid: String? = null,
-    val uid: String? = null,
+    val articleId: String? = null,
+    val userId: String? = null,
     val nickname: String? = null,
     val photoUrl: String? = null,
 
