@@ -45,7 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.model.collections.Paragraph
-import com.serjshul.bubble.model.collections.Tag
+import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.ui.components.buttons.AddCoverButton
@@ -107,7 +107,6 @@ fun AddArticleScreenContent(
     isSelectTagsOpened: Boolean,
     article: Article,
     types: List<Type>,
-
 
     paragraphs: List<Paragraph>,
     backgroundUri: Uri?,
@@ -374,8 +373,8 @@ fun AddArticleScreenContent(
         }
         if (isSelectTagsOpened) {
             SelectTagsDialog(
-                type = article.type!!.toString(),
-                tags = emptyList(),
+                type = article.type,
+                tags = article.tags,
                 onSearchTag = onSearchTag,
                 onTagsAdd = onTagsAdd,
                 setIsSelectTypeOpened = setIsSelectTypeOpened,
@@ -424,7 +423,6 @@ fun AddArticleScreenContentNoDataPreview() {
             description = "",
         ),
         types = emptyList(),
-
         paragraphs = listOf(),
         backgroundUri = null,
         coverUri = null,
@@ -478,7 +476,6 @@ fun AddArticleScreenContentWithDataPreview() {
                     "woman can barely cover the family groceries.",
         ),
         types = emptyList(),
-
         paragraphs = listOf(
             Paragraph(
                 id = "klajsdfl",

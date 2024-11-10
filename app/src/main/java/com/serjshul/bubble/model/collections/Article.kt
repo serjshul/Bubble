@@ -2,6 +2,7 @@ package com.serjshul.bubble.model.collections
 
 import com.serjshul.bubble.model.subcollections.Comment
 import com.serjshul.bubble.model.subcollections.Like
+import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.subcollections.Type
 import java.util.Date
 
@@ -14,7 +15,7 @@ data class Article (
     var creator: String? = null,
     var typeId: String? = null,
     var year: Int? = null,
-    val tags: List<String> = emptyList(),
+    val tagIds: List<String> = emptyList(),
     var color: String? = null,
     val content: List<Paragraph> = emptyList(),
     var quote: String? = null,
@@ -30,6 +31,7 @@ data class Article (
     // TODO: val sids: List<String> = emptyList(),
 
     var type: Type? = null,
+    val tags: List<Tag> = emptyList(),
 
     var owner: User? = null,
     val likes: List<Like> = emptyList(),

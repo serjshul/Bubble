@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -41,13 +42,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.serjshul.bubble.R
 import com.serjshul.bubble.data.searchTags
-import com.serjshul.bubble.model.collections.Tag
+import com.serjshul.bubble.model.subcollections.Tag
+import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
 import com.serjshul.bubble.ui.components.text.TextInput
 import com.serjshul.bubble.ui.theme.md_theme_light_background
@@ -65,7 +68,7 @@ import java.util.UUID
 @Composable
 fun SelectTagsDialog(
     modifier: Modifier = Modifier,
-    type: String,
+    type: Type?,
     tags: List<Tag>,
     onSearchTag: (String) -> List<Tag>,
     onTagsAdd: (List<Tag>) -> Unit,
@@ -87,7 +90,15 @@ fun SelectTagsDialog(
     val searchedTags = remember { mutableStateListOf<Tag>() }
     var query by remember { mutableStateOf("") }
     var isNothingFound by remember { mutableStateOf(false) }
-    var typedTag by remember { mutableStateOf("") }
+    var typedTag by remember {
+        mutableStateOf(
+            Tag(
+                id = UUID.randomUUID().toString(),
+                typeId = if (type == null) "" else type.id,
+                value = ""
+            )
+        )
+    }
 
     Dialog(
         onDismissRequest = onDismissRequest
@@ -104,7 +115,7 @@ fun SelectTagsDialog(
                     .background(md_theme_light_background)
                     .padding(15.dp)
             ) {
-                if (type == "") {
+                if (type == null) {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -226,13 +237,13 @@ fun SelectTagsDialog(
                                 onClick = { isExpanded = !isExpanded }
                             )
                         }
-                        if (isNothingFound && typedTag != "") {
+                        if (isNothingFound && typedTag.value != "") {
                             InputChip(
                                 modifier = Modifier.padding(start = 5.dp),
-                                onClick = { typedTag = "" },
+                                onClick = { typedTag.value = "" },
                                 label = {
                                     Text(
-                                        text = typedTag,
+                                        text = typedTag.toString(),
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                 },
@@ -253,7 +264,7 @@ fun SelectTagsDialog(
                         }
                     }
                     if (isNothingFound) {
-                        if (typedTag == "") {
+                        if (typedTag.value == "") {
                             Text(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -267,20 +278,19 @@ fun SelectTagsDialog(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 5.dp),
-                            text = typedTag,
+                            text = typedTag.toString(),
                             placeholderText = "So you can add your tag",
                             style = MaterialTheme.typography.bodyMedium,
                             maxLines = 1,
                             textColor = md_theme_light_onBackground,
                             placeholderTextColor = md_theme_light_onBackgroundVariant,
+                            keyboardOptions = KeyboardOptions(
+                                imeAction = androidx.compose.ui.text.input.ImeAction.Done, // Указываем действие для клавиши Enter
+                                keyboardType = KeyboardType.Text
+                            ),
                             keyboardActions = KeyboardActions(onDone = {
                                 // Adding new tag to lists `selectedTags` and `showingTags`
-                                val tag = Tag(
-                                    id = UUID.randomUUID().toString(),
-                                    type = type,
-                                    value = typedTag
-                                )
-                                selectedTags.add(tag)
+                                selectedTags.add(typedTag)
                                 showingTags.apply {
                                     clear()
                                     addAll(selectedTags + onSearchTag("").filter { it !in selectedTags })
@@ -288,10 +298,14 @@ fun SelectTagsDialog(
                                 // Refresh fields
                                 isNothingFound = false
                                 query = ""
-                                typedTag = ""
+                                typedTag = Tag(
+                                    id = UUID.randomUUID().toString(),
+                                    typeId = type.id,
+                                    value = ""
+                                )
                             }),
                             textAlign = TextAlign.Center,
-                            onValueChange = { typedTag = it }
+                            onValueChange = { typedTag = typedTag.copy(value = it) }
                         )
                     }
                     TextFilledButton(
@@ -331,7 +345,7 @@ fun SelectTagsDialog(
 @Composable
 fun SelectTagsDialogPreview() {
     SelectTagsDialog(
-        type = "Film",
+        type = Type(value = "Film"),
         tags = listOf(),
         onSearchTag = { _ -> listOf() },
         onTagsAdd = { },
@@ -344,7 +358,7 @@ fun SelectTagsDialogPreview() {
 @Composable
 fun SelectTagsDialogNoTypePreview() {
     SelectTagsDialog(
-        type = "",
+        type = null,
         tags = listOf(),
         onSearchTag = { _ -> listOf() },
         onTagsAdd = { },

@@ -11,7 +11,7 @@ import com.serjshul.bubble.data.searchTags
 import com.serjshul.bubble.data.users
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.model.collections.Paragraph
-import com.serjshul.bubble.model.collections.Tag
+import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.services.LogService
 import com.serjshul.bubble.ui.BubbleViewModel
@@ -41,8 +41,6 @@ class AddArticleViewModel @Inject constructor(
             title = "",
             description = "",
             creator = "",
-            tags = emptyList(),
-            content = emptyList(),
             coverUrl = null,
             backgroundUrl = null,
         )
@@ -92,22 +90,17 @@ class AddArticleViewModel @Inject constructor(
         checkArticleOnValid()
     }
 
-
-
-
-
-
-
-
     fun onTagsAdd(addingTags: List<Tag>) {
-//        tags.clear()
-//        tags.addAll(addingTags)
+        article = article.copy(tags = addingTags, tagIds = addingTags.map { it.id!! })
         checkArticleOnValid()
     }
 
     fun onSearchTag(query: String): List<Tag> {
         return searchTags(query)
     }
+
+
+
 
     fun onDescriptionValueChange(input: String) {
         article = article.copy(description = input)
