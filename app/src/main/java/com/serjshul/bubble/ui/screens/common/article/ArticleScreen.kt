@@ -3,7 +3,6 @@ package com.serjshul.bubble.ui.screens.common.article
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,11 +12,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,12 +43,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -66,7 +60,6 @@ import com.serjshul.bubble.ui.components.interaction.InteractionPanelArticle
 import com.serjshul.bubble.ui.components.loading.FullScreenLoading
 import com.serjshul.bubble.ui.components.loading.LoadingContent
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
-import com.serjshul.bubble.ui.components.media.ProfileAsyncImage
 import com.serjshul.bubble.ui.components.text.ParagraphText
 import com.serjshul.bubble.ui.components.text.QuoteText
 import com.serjshul.bubble.ui.theme.md_theme_dark_gradient
@@ -315,7 +308,7 @@ private fun Content(
                     item {
                         QuoteText(
                             modifier = Modifier.padding(start = 15.dp, top = 25.dp, end = 15.dp),
-                            quote = article.quote,
+                            quote = article.quote!!,
                             color = article.color!!
                         )
                     }
@@ -339,7 +332,7 @@ private fun Content(
                     .fillMaxWidth()
                     .align(Alignment.TopCenter),
                 title = article.title!!,
-                type = article.type!!,
+                type = article.type!!.toString(),
                 articleColor = article.color!!,
                 isScrolledBelow = isScrolledBelow,
                 onBackClick = popUpScreen

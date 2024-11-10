@@ -43,9 +43,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
+import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.collections.Tag
 import com.serjshul.bubble.model.collections.User
+import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.ui.components.buttons.AddCoverButton
 import com.serjshul.bubble.ui.components.buttons.AddTextFilledButton
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
@@ -76,12 +78,8 @@ fun AddArticleScreen(
         modifier = modifier,
         isSelectTypeOpened = viewModel.isSelectTypeOpened,
         isSelectTagsOpened = viewModel.isSelectTagsOpened,
-        title = viewModel.title,
-        type = viewModel.type,
-        creator = viewModel.creator,
-        year = viewModel.year,
-        tags = viewModel.tags,
-        description = viewModel.description,
+        article = viewModel.article,
+        types = viewModel.types,
         paragraphs = viewModel.paragraphs,
         backgroundUri = viewModel.backgroundUri,
         coverUri = viewModel.coverUri,
@@ -107,12 +105,10 @@ fun AddArticleScreenContent(
     modifier: Modifier = Modifier,
     isSelectTypeOpened: Boolean,
     isSelectTagsOpened: Boolean,
-    title: String,
-    type: String,
-    creator: String,
-    year: String,
-    tags: List<Tag>,
-    description: String,
+    article: Article,
+    types: List<Type>,
+
+
     paragraphs: List<Paragraph>,
     backgroundUri: Uri?,
     coverUri: Uri?,
@@ -120,7 +116,7 @@ fun AddArticleScreenContent(
     setIsSelectTypeOpened: (Boolean) -> Unit,
     setIsSelectTagsOpened: (Boolean) -> Unit,
     onTitleValueChange: (String) -> Unit,
-    onTypeValueChange: (String) -> Unit,
+    onTypeValueChange: (Type) -> Unit,
     onCreatorValueChange: (String) -> Unit,
     onYearValueChange: (String) -> Unit,
     onSearchTag: (String) -> List<Tag>,
@@ -239,7 +235,7 @@ fun AddArticleScreenContent(
                             modifier = Modifier
                                 .padding(start = 15.dp, end = 15.dp, bottom = 10.dp)
                                 .align(Alignment.CenterHorizontally),
-                            text = title,
+                            text = article.title!!,
                             placeholderText = "Title",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
@@ -255,9 +251,9 @@ fun AddArticleScreenContent(
                                 .padding(start = 15.dp, end = 15.dp, bottom = 15.dp)
                                 .align(Alignment.CenterHorizontally)
                                 .clickable { setIsSelectTypeOpened(true) },
-                            text = if (type == "") "Type" else type,
+                            text = if (article.type == null) "Type" else article.type!!.toString(),
                             textAlign = TextAlign.Center,
-                            color = if (type == "") md_theme_transparent_gray else md_theme_light_onPrimary,
+                            color = if (article.type == null) md_theme_transparent_gray else md_theme_light_onPrimary,
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
                             style = MaterialTheme.typography.titleMedium,
@@ -272,7 +268,7 @@ fun AddArticleScreenContent(
                             TextInput(
                                 modifier = Modifier
                                     .weight(1f),
-                                text = creator,
+                                text = article.creator!!,
                                 placeholderText = "Creator",
                                 style = MaterialTheme.typography.bodyMedium,
                                 maxLines = 4,
@@ -292,7 +288,7 @@ fun AddArticleScreenContent(
                             TextInput(
                                 modifier = Modifier
                                     .weight(1f),
-                                text = year,
+                                text = if (article.year == null) "" else article.year.toString(),
                                 placeholderText = "Year",
                                 style = MaterialTheme.typography.bodyMedium,
                                 maxLines = 4,
@@ -317,10 +313,10 @@ fun AddArticleScreenContent(
                                     .weight(1f)
                                     .align(Alignment.CenterVertically)
                                     .clickable { setIsSelectTagsOpened(true) },
-                                text = if (tags.isEmpty()) "Tags" else tags.joinToString(),
+                                text = if (article.tags.isEmpty()) "Tags" else article.tags.joinToString(),
                                 overflow = TextOverflow.Ellipsis,
                                 textAlign = TextAlign.Center,
-                                color = if (tags.isEmpty()) md_theme_transparent_gray else md_theme_light_onPrimary,
+                                color = if (article.tags.isEmpty()) md_theme_transparent_gray else md_theme_light_onPrimary,
                                 style = MaterialTheme.typography.bodyMedium,
                                 maxLines = 4
                             )
@@ -332,7 +328,7 @@ fun AddArticleScreenContent(
                                 .background(md_theme_light_onPrimary)
                         ) {
                             TextInput(
-                                text = description,
+                                text = article.description!!,
                                 placeholderText = "Description",
                                 style = MaterialTheme.typography.bodyMedium,
                                 textColor = md_theme_light_onBackground,
@@ -370,19 +366,16 @@ fun AddArticleScreenContent(
         }
         if (isSelectTypeOpened) {
             SelectTypeDialog(
-                type = type,
-                types = listOf(
-                    "Film", "TV Show", "Book", "Music", "Podcast", "Blogger", "Youtube", "Tiktok",
-                    "Instagram", "Twitch", "X", "Threads", "Reddit", "Brand", "Meme"
-                ),
+                type = article.type,
+                types = types,
                 onTypeValueChange = onTypeValueChange,
                 onDismissRequest = { setIsSelectTypeOpened(false) }
             )
         }
         if (isSelectTagsOpened) {
             SelectTagsDialog(
-                type = type,
-                tags = tags,
+                type = article.type!!.toString(),
+                tags = emptyList(),
                 onSearchTag = onSearchTag,
                 onTagsAdd = onTagsAdd,
                 setIsSelectTypeOpened = setIsSelectTypeOpened,
@@ -422,12 +415,16 @@ fun AddArticleScreenContentNoDataPreview() {
         ),
         isSelectTypeOpened = false,
         isSelectTagsOpened = false,
-        title = "",
-        type = "",
-        creator = "",
-        year = "",
-        tags = listOf(),
-        description = "",
+        article = Article(
+            title = "",
+            type = Type(),
+            creator = "",
+            year = "".toInt(),
+            tags = emptyList(),
+            description = "",
+        ),
+        types = emptyList(),
+
         paragraphs = listOf(),
         backgroundUri = null,
         coverUri = null,
@@ -466,18 +463,22 @@ fun AddArticleScreenContentWithDataPreview() {
         ),
         isSelectTypeOpened = false,
         isSelectTagsOpened = false,
-        title = "Lady Bird",
-        type = "Movie",
-        creator = "Greta Gerwig",
-        year = "2018",
-        tags = listOf(Tag(value = "Drama"), Tag(value = "Comedy")),
-        description = "Writer-director Greta Gerwig’s semiautobiographical Lady Bird is both generous " +
-                "and joyous, but when it stings, it stings deep. At one point, Saoirse Ronan, as " +
-                "disgruntled high school senior Christine, begs her mother, Laurie Metcalf’s Marion, " +
-                "for a magazine at the supermarket: “It’s only \$3! I’m having a bad week!” Marion " +
-                "brushes her off, and it could be the usual mom move of just saying no–until she " +
-                "reaches the cash register and you realize that this respectable-looking suburban " +
-                "woman can barely cover the family groceries.",
+        article = Article(
+            title = "Lady Bird",
+            type = Type(value = "Movie"),
+            creator = "Greta Gerwig",
+            year = 2018,
+            tags = emptyList(), //listOf(Tag(value = "Drama"), Tag(value = "Comedy")),
+            description = "Writer-director Greta Gerwig’s semiautobiographical Lady Bird is both generous " +
+                    "and joyous, but when it stings, it stings deep. At one point, Saoirse Ronan, as " +
+                    "disgruntled high school senior Christine, begs her mother, Laurie Metcalf’s Marion, " +
+                    "for a magazine at the supermarket: “It’s only \$3! I’m having a bad week!” Marion " +
+                    "brushes her off, and it could be the usual mom move of just saying no–until she " +
+                    "reaches the cash register and you realize that this respectable-looking suburban " +
+                    "woman can barely cover the family groceries.",
+        ),
+        types = emptyList(),
+
         paragraphs = listOf(
             Paragraph(
                 id = "klajsdfl",

@@ -37,6 +37,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.serjshul.bubble.R
+import com.serjshul.bubble.data.getAllTypes
+import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
 import com.serjshul.bubble.ui.components.text.TextInput
 import com.serjshul.bubble.ui.theme.md_theme_light_background
@@ -45,20 +47,32 @@ import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_light_primary
 import com.serjshul.bubble.ui.utils.roundedCornerShape
+import java.util.UUID
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SelectTypeDialog(
     modifier: Modifier = Modifier,
-    type: String,
-    types: List<String>,
-    onTypeValueChange: (String) -> Unit,
+    type: Type?,
+    types: List<Type>,
+    onTypeValueChange: (Type) -> Unit,
     onDismissRequest: () -> Unit
 ) {
     var selectedType by remember { mutableStateOf(type) }
-    var typedType by remember { mutableStateOf(if (type !in types) type else "") }
+    var typedType by remember {
+        mutableStateOf(
+            if (type != null && type !in types) {
+                type
+            } else {
+                Type(
+                    id = UUID.randomUUID().toString(),
+                    value = ""
+                )
+            }
+        )
+    }
 
-    var inputChipEnabled by remember { mutableStateOf(type !in types && typedType != "") }
+    var inputChipEnabled by remember { mutableStateOf(type !in types && typedType.value != "") }
 
     Dialog(
         onDismissRequest = onDismissRequest
@@ -93,17 +107,17 @@ fun SelectTypeDialog(
                             modifier = Modifier
                                 .padding(5.dp, 0.dp),
                             onClick = {
-                                if (selectedType == typeChip) {
-                                    selectedType = ""
+                                if (selectedType.toString() == typeChip.toString()) {
+                                    selectedType = null
                                 } else {
                                     inputChipEnabled = false
                                     selectedType = typeChip
-                                    typedType = ""
+                                    typedType.value = ""
                                 }
                             },
                             label = {
                                 Text(
-                                    text = typeChip,
+                                    text = typeChip.toString(),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                             },
@@ -120,12 +134,12 @@ fun SelectTypeDialog(
                         InputChip(
                             onClick = {
                                 inputChipEnabled = false
-                                selectedType = ""
-                                typedType = ""
+                                selectedType = null
+                                typedType.value = ""
                             },
                             label = {
                                 Text(
-                                    text = typedType,
+                                    text = typedType.toString(),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                             },
@@ -149,7 +163,7 @@ fun SelectTypeDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 20.dp),
-                    text = typedType,
+                    text = typedType.toString(),
                     placeholderText = "Or you can add the type",
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
@@ -161,22 +175,22 @@ fun SelectTypeDialog(
                     }),
                     textAlign = TextAlign.Center,
                     onValueChange = {
-                        typedType = it
-                        selectedType = ""
-                        inputChipEnabled = typedType != ""
+                        typedType = typedType.copy(value = it)
+                        selectedType = null
+                        inputChipEnabled = typedType.value != ""
                     }
                 )
                 TextFilledButton(
                     modifier = Modifier
                         .fillMaxWidth(),
                     text = "Done",
-                    enabled = selectedType != "" || typedType != "",
+                    enabled = selectedType != null || typedType.value != "",
                     containerColor = md_theme_light_primary,
                     contentColor = md_theme_light_onPrimary,
                     onClick = {
-                        if (selectedType != "") {
-                            onTypeValueChange(selectedType)
-                        } else if (typedType != "") {
+                        if (selectedType != null) {
+                            onTypeValueChange(selectedType!!)
+                        } else if (typedType.value != "") {
                             onTypeValueChange(typedType)
                         }
                         onDismissRequest()
@@ -204,11 +218,8 @@ fun SelectTypeDialog(
 @Composable
 fun SelectTypeDialogPreview() {
     SelectTypeDialog(
-        type = "",
-        types = listOf(
-            "Film", "TV Show", "Book", "Music", "Podcast", "Blogger", "Youtube", "Tiktok",
-            "Instagram", "Twitch", "X", "Threads", "Reddit", "Brand", "Meme"
-        ),
+        type = null,
+        types = getAllTypes(),
         onTypeValueChange = { },
         onDismissRequest = { }
     )

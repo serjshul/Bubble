@@ -6,6 +6,7 @@ import com.serjshul.bubble.model.collections.Tag
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.model.subcollections.Comment
 import com.serjshul.bubble.model.subcollections.Post
+import com.serjshul.bubble.model.subcollections.Type
 import java.util.Date
 
 val users = listOf(
@@ -62,7 +63,7 @@ val articles = listOf(
                 "reaches the cash register and you realize that this respectable-looking suburban " +
                 "woman can barely cover the family groceries.",
         creator = "Greta Gerwig",
-        type = "Movie",
+        type = Type(id = "", value = "Movie"),
         year = 2018,
         tags = listOf("Comedy", "Drama"),
         quote = "Marion McPherson: I want you to be the very best version of yourself that you can be.\n" +
@@ -130,7 +131,7 @@ val articles = listOf(
                 "expanding the cooly dark vision of their sound. It’s an honest and ambitious album " +
                 "when it’s not inert and repetitive.",
         creator = "Billie Eilish",
-        type = "Music",
+        type = Type(id = "", value = "Music"),
         year = 2024,
         tags = listOf("Pop", "R&B"),
         quote = "PEOPLE SAY I LOOK HAPPY JUST BECAUSE I GOT SKINNY BUT THE OLD ME IS STILL ME AND MAYBE THE REAL ME AND I THINK SHE’S PRETTY",
@@ -147,7 +148,7 @@ val articles = listOf(
         description = "The director of The Favourite teams up again with the fearless Hollywood star" +
                 " in a funny, filthy and explosively inventive spin on Frankenstein",
         creator = "Yorgos Lanthimos",
-        type = "Movie",
+        type = Type(id = "", value = "Movie"),
         year = 2023,
         tags = listOf("Comedy", "Drama", "Romance"),
         quote = "Dr. Godwin Baxter: My father once told me, \"Always carve with compassion.\" He was a fucking idiot, but it's not bad advice.",
@@ -164,7 +165,7 @@ val articles = listOf(
         description = "Dua Lipa’s star power sounds muffled on her much-anticipated third album, " +
                 "which has many interesting ideas for songs and a surprisingly low hit rate.",
         creator = "Dua Lipa",
-        type = "Music",
+        type = Type(id = "", value = "Music"),
         year = 2024,
         tags = listOf("Pop", "R&B"),
         coverUrl = "https://hips.hearstapps.com/hmg-prod/images/dua-lipa-radical-optimism-release-date-track-list-660fd4e9658a1.jpg?crop=1xw:0.5625xh;center,top",
@@ -183,7 +184,7 @@ val articles = listOf(
                 "enhancing consciousness. Coveted across the known universe, melange is a prize " +
                 "worth killing for...",
         creator = "Frank Herbert",
-        type = "Movie",
+        type = Type(id = "", value = "Movie"),
         year = 2021,
         tags = listOf("Science Fiction", "Fantasy", "Adventure"),
         coverUrl = "https://static1.colliderimages.com/wordpress/wp-content/uploads/2021/08/dune-poster-social-featured.jpg",
@@ -199,7 +200,7 @@ val articles = listOf(
                 "unlikable – including her own character who masturbates to Barack Obama speeches. " +
                 "But it’s utterly riveting",
         creator = "Phoebe Waller-Bridge",
-        type = "Series",
+        type = Type(id = "", value = "Series"),
         year = 2016,
         tags = listOf("Comedy", "Drama"),
         coverUrl = "https://media.myshows.me/shows/760/d/9d/d9df55dc471adbc0376a47f398cafa82.jpg",
@@ -267,6 +268,24 @@ val comment = Comment(
     repliedCid = null,
     date = Date(),
     likedBy = emptyList()
+)
+
+val types = listOf(
+    Type(id = "1", value = "Film"),
+    Type(id = "2", value = "TV Show"),
+    Type(id = "3", value = "Book"),
+    Type(id = "4", value = "Music"),
+    Type(id = "5", value = "Podcast"),
+    Type(id = "6", value = "Blogger"),
+    Type(id = "7", value = "Youtube"),
+    Type(id = "8", value = "Tiktok"),
+    Type(id = "9", value = "Instagram"),
+    Type(id = "10", value = "Twitch"),
+    Type(id = "11", value = "X"),
+    Type(id = "12", value = "Threads"),
+    Type(id = "13", value = "Reddit"),
+    Type(id = "14", value = "Brand"),
+    Type(id = "15", value = "Meme")
 )
 
 val tags = listOf(
@@ -344,6 +363,19 @@ fun getArticleById(articleId: String?): Article? {
     return null
 
     // TODO: check if it is liked or reposted
+}
+
+fun getTypeById(id: String): Type? {
+    for (type in types) {
+        if (type.id == id) {
+            return type
+        }
+    }
+    return null
+}
+
+fun getAllTypes(): List<Type> {
+    return types
 }
 
 fun searchTags(query: String): List<Tag> {
