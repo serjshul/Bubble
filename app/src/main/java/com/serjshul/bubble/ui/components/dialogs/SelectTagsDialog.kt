@@ -48,7 +48,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.serjshul.bubble.R
-import com.serjshul.bubble.data.searchTags
 import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
@@ -68,33 +67,36 @@ import java.util.UUID
 @Composable
 fun SelectTagsDialog(
     modifier: Modifier = Modifier,
-    type: Type?,
-    tags: List<Tag>,
-    onSearchTag: (String) -> List<Tag>,
+    selectedType: Type?,
+    selectedTags: List<Tag>,
+    searchedTags: List<Tag>,
+    onSearchTag: (String) -> Unit,
     onTagsAdd: (List<Tag>) -> Unit,
     setIsSelectTypeOpened: (Boolean) -> Unit,
     onDismissRequest: () -> Unit
 ) {
     val showingTags = remember {
         mutableStateListOf<Tag>().apply {
-            addAll(tags)
-            addAll(searchTags("").filter { it !in tags })
+            addAll(selectedTags)
+            addAll(searchedTags.filter { it !in selectedTags })
         }
     }
-    val selectedTags = remember {
-        mutableStateListOf<Tag>().apply { addAll(tags) }
+    val currentlySelectedTags = remember {
+        mutableStateListOf<Tag>().apply {
+            addAll(selectedTags)
+        }
     }
+
     val maxItems = 11
     var isExpanded by remember { mutableStateOf(false) }
 
-    val searchedTags = remember { mutableStateListOf<Tag>() }
     var query by remember { mutableStateOf("") }
     var isNothingFound by remember { mutableStateOf(false) }
     var typedTag by remember {
         mutableStateOf(
             Tag(
                 id = UUID.randomUUID().toString(),
-                typeId = if (type == null) "" else type.id,
+                typeId = if (selectedType == null) "" else selectedType.id,
                 value = ""
             )
         )
@@ -115,7 +117,7 @@ fun SelectTagsDialog(
                     .background(md_theme_light_background)
                     .padding(15.dp)
             ) {
-                if (type == null) {
+                if (selectedType == null) {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -154,14 +156,14 @@ fun SelectTagsDialog(
                         query = query,
                         onQueryChange = { query = it },
                         onSearch = {
-                            searchedTags.apply {
-                                clear()
-                                addAll(onSearchTag(query).filter { it !in selectedTags })
-                            }
-                            isNothingFound = searchedTags.isEmpty()
+                            onSearchTag(query)
                             showingTags.apply {
                                 clear()
-                                addAll(selectedTags + searchedTags)
+                                addAll(currentlySelectedTags)
+                                addAll(searchedTags.filter { it !in selectedTags })
+                            }
+                            if (searchedTags.isEmpty()) {
+                                isNothingFound = true
                             }
                         },
                         active = false,
@@ -194,10 +196,10 @@ fun SelectTagsDialog(
                             FilterChip(
                                 modifier = Modifier.padding(5.dp, 0.dp),
                                 onClick = {
-                                    if (tag in selectedTags) {
-                                        selectedTags.remove(tag)
+                                    if (tag in currentlySelectedTags) {
+                                        currentlySelectedTags.remove(tag)
                                     } else {
-                                        selectedTags.add(tag)
+                                        currentlySelectedTags.add(tag)
                                     }
                                 },
                                 label = {
@@ -206,7 +208,7 @@ fun SelectTagsDialog(
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                 },
-                                selected = tag in selectedTags,
+                                selected = tag in currentlySelectedTags,
                                 colors = FilterChipDefaults.filterChipColors(
                                     containerColor = md_theme_light_background,
                                     labelColor = md_theme_light_onBackground,
@@ -290,17 +292,17 @@ fun SelectTagsDialog(
                             ),
                             keyboardActions = KeyboardActions(onDone = {
                                 // Adding new tag to lists `selectedTags` and `showingTags`
-                                selectedTags.add(typedTag)
+                                currentlySelectedTags.add(typedTag)
                                 showingTags.apply {
                                     clear()
-                                    addAll(selectedTags + onSearchTag("").filter { it !in selectedTags })
+                                    addAll(currentlySelectedTags)
                                 }
                                 // Refresh fields
                                 isNothingFound = false
                                 query = ""
                                 typedTag = Tag(
                                     id = UUID.randomUUID().toString(),
-                                    typeId = type.id,
+                                    typeId = selectedType.id,
                                     value = ""
                                 )
                             }),
@@ -313,11 +315,11 @@ fun SelectTagsDialog(
                             .fillMaxWidth()
                             .padding(top = 20.dp),
                         text = "Done",
-                        enabled = selectedTags.isNotEmpty(),
+                        enabled = currentlySelectedTags.isNotEmpty(),
                         containerColor = md_theme_light_primary,
                         contentColor = md_theme_light_onPrimary,
                         onClick = {
-                            onTagsAdd(selectedTags)
+                            onTagsAdd(currentlySelectedTags)
                             onDismissRequest()
                         }
                     )
@@ -345,9 +347,10 @@ fun SelectTagsDialog(
 @Composable
 fun SelectTagsDialogPreview() {
     SelectTagsDialog(
-        type = Type(value = "Film"),
-        tags = listOf(),
-        onSearchTag = { _ -> listOf() },
+        selectedType = Type(value = "Film"),
+        selectedTags = emptyList(),
+        searchedTags = emptyList(),
+        onSearchTag = { },
         onTagsAdd = { },
         setIsSelectTypeOpened = { },
         onDismissRequest = { }
@@ -358,9 +361,10 @@ fun SelectTagsDialogPreview() {
 @Composable
 fun SelectTagsDialogNoTypePreview() {
     SelectTagsDialog(
-        type = null,
-        tags = listOf(),
-        onSearchTag = { _ -> listOf() },
+        selectedType = null,
+        selectedTags = emptyList(),
+        searchedTags = emptyList(),
+        onSearchTag = { },
         onTagsAdd = { },
         setIsSelectTypeOpened = { },
         onDismissRequest = { }

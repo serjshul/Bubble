@@ -28,7 +28,7 @@ import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
 fun CoverDialog(
     modifier: Modifier = Modifier,
     coverUri: Any?,
-    onCoverUriValueChange: (Uri?) -> Unit,
+    onCoverUriValueChange: () -> Unit,
     onLauncherOpen: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
@@ -68,7 +68,7 @@ fun CoverDialog(
                     enabled = true,
                     containerColor = md_theme_light_primary,
                     contentColor = md_theme_light_onPrimary,
-                    onClick = { onCoverUriValueChange(null) }
+                    onClick = onCoverUriValueChange
                 )
                 TextFilledButton(
                     modifier = Modifier.padding(start = 15.dp),
@@ -76,7 +76,7 @@ fun CoverDialog(
                     enabled = true,
                     containerColor = md_theme_light_secondary,
                     contentColor = md_theme_light_onPrimary,
-                    onClick = { onLauncherOpen() }
+                    onClick = onLauncherOpen
                 )
             }
         }

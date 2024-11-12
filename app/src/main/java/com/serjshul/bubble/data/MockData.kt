@@ -400,3 +400,7 @@ fun getAllTypes(): List<Type> {
 fun searchTags(query: String): List<Tag> {
     return tags.filter { it.value!!.contains(query, ignoreCase = true) }
 }
+
+fun getAllTags(): List<Tag> {
+    return tags
+}

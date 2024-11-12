@@ -1,11 +1,11 @@
 package com.serjshul.bubble.ui.screens.common.addArticle
 
-import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
+import com.serjshul.bubble.data.getAllTags
 import com.serjshul.bubble.data.getAllTypes
 import com.serjshul.bubble.data.searchTags
 import com.serjshul.bubble.data.users
@@ -29,6 +29,8 @@ class AddArticleViewModel @Inject constructor(
     val currentUser = users[0]
     var types = mutableStateListOf<Type>()
         private set
+    var tags = mutableStateListOf<Tag>()
+        private set
 
     var isSelectTypeOpened by mutableStateOf(false)
         private set
@@ -48,6 +50,9 @@ class AddArticleViewModel @Inject constructor(
     init {
         val allTypes = getAllTypes()
         types.addAll(allTypes)
+
+        val allTags = getAllTags()
+        tags.addAll(allTags)
     }
 
     fun setIsSelectTypeOpened(input: Boolean) {
@@ -58,53 +63,17 @@ class AddArticleViewModel @Inject constructor(
         isSelectTagsOpened = input
     }
 
-    fun onTitleValueChange(input: String) {
-        article = article.copy(title = input)
+    fun onArticleValueChange(field: String, input: String?) {
+        article = when (field) {
+            ArticleFields.TITLE ->  article.copy(title = input ?: "")
+            ArticleFields.CREATOR -> article.copy(creator = input ?: "")
+            ArticleFields.YEAR -> article.copy(year = if (input == null || input == "") null else input.toInt())
+            ArticleFields.DESCRIPTION -> article.copy(description = input ?: "")
+            ArticleFields.COVER_URI -> article.copy(coverUri = input)
+            ArticleFields.BACKGROUND_URI -> article.copy(backgroundUri = input)
+            else -> article
+        }
         checkArticleOnValid()
-    }
-
-    fun onTypeValueChange(input: Type) {
-        article = article.copy(type = input, typeId = input.id)
-        checkArticleOnValid()
-    }
-
-    fun onCreatorValueChange(input: String) {
-        article = article.copy(creator = input)
-        checkArticleOnValid()
-    }
-
-    fun onYearValueChange(input: String) {
-        article = article.copy(year = input.toInt())
-        checkArticleOnValid()
-    }
-
-    fun onTagsAdd(addingTags: List<Tag>) {
-        article = article.copy(tags = addingTags, tagIds = addingTags.map { it.id!! })
-        checkArticleOnValid()
-    }
-
-    fun onSearchTag(query: String): List<Tag> {
-        return searchTags(query)
-    }
-
-    fun onDescriptionValueChange(input: String) {
-        article = article.copy(description = input)
-        checkArticleOnValid()
-    }
-
-    fun onAddParagraph() {
-        val newParagraph = Paragraph(
-            id = UUID.randomUUID().toString(),
-            title = "",
-            text = ""
-        )
-        val updatedParagraphs = article.content + newParagraph
-        article = article.copy(content = updatedParagraphs)
-    }
-
-    fun onRemoveParagraph(id: String) {
-        val updatedParagraphs = article.content.filter { it.id != id }
-        article = article.copy(content = updatedParagraphs)
     }
 
     fun onParagraphValueChange(field: String, id: String, input: String?) {
@@ -123,13 +92,37 @@ class AddArticleViewModel @Inject constructor(
         article = article.copy(content = updatedParagraphs)
     }
 
-    fun onBackgroundUriValueChange(uri: Uri?) {
-        article = article.copy(backgroundUri = if (uri == null) null else uri.toString())
+    fun onTypeValueChange(input: Type) {
+        article = article.copy(type = input, typeId = input.id)
+        checkArticleOnValid()
     }
 
-    fun onCoverUriValueChange(uri: Uri?) {
-        article = article.copy(coverUri = if (uri == null) null else uri.toString())
+    fun onAddTags(addingTags: List<Tag>) {
+        article = article.copy(tags = addingTags, tagIds = addingTags.map { it.id!! })
+        checkArticleOnValid()
     }
+
+    fun onSearchTag(query: String) {
+        tags.clear()
+        tags.addAll(searchTags(query))
+    }
+
+    fun onAddParagraph() {
+        val newParagraph = Paragraph(
+            id = UUID.randomUUID().toString(),
+            title = "",
+            text = ""
+        )
+        val updatedParagraphs = article.content + newParagraph
+        article = article.copy(content = updatedParagraphs)
+    }
+
+    fun onRemoveParagraph(id: String) {
+        val updatedParagraphs = article.content.filter { it.id != id }
+        article = article.copy(content = updatedParagraphs)
+    }
+
+
 
 
 

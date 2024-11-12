@@ -81,21 +81,17 @@ fun AddArticleScreen(
         isSelectTagsOpened = viewModel.isSelectTagsOpened,
         article = viewModel.article,
         types = viewModel.types,
+        tags = viewModel.tags,
         currentUser = viewModel.currentUser,
         setIsSelectTypeOpened = viewModel::setIsSelectTypeOpened,
         setIsSelectTagsOpened = viewModel::setIsSelectTagsOpened,
-        onTitleValueChange = viewModel::onTitleValueChange,
+        onArticleValueChange = viewModel::onArticleValueChange,
         onTypeValueChange = viewModel::onTypeValueChange,
-        onCreatorValueChange = viewModel::onCreatorValueChange,
-        onYearValueChange = viewModel::onYearValueChange,
         onSearchTag = viewModel::onSearchTag,
-        onTagsAdd = viewModel::onTagsAdd,
-        onDescriptionValueChange = viewModel::onDescriptionValueChange,
+        onTagsAdd = viewModel::onAddTags,
         onParagraphValueChange = viewModel::onParagraphValueChange,
         onAddParagraph = viewModel::onAddParagraph,
         onRemoveParagraph = viewModel::onRemoveParagraph,
-        onBackgroundUriValueChange = viewModel::onBackgroundUriValueChange,
-        onCoverUriValueChange = viewModel::onCoverUriValueChange
     )
 }
 
@@ -106,21 +102,17 @@ fun AddArticleScreenContent(
     isSelectTagsOpened: Boolean,
     article: Article,
     types: List<Type>,
+    tags: List<Tag>,
     currentUser: User,
     setIsSelectTypeOpened: (Boolean) -> Unit,
     setIsSelectTagsOpened: (Boolean) -> Unit,
-    onTitleValueChange: (String) -> Unit,
+    onArticleValueChange: (String, String?) -> Unit,
     onTypeValueChange: (Type) -> Unit,
-    onCreatorValueChange: (String) -> Unit,
-    onYearValueChange: (String) -> Unit,
-    onSearchTag: (String) -> List<Tag>,
+    onSearchTag: (String) -> Unit,
     onTagsAdd: (List<Tag>) -> Unit,
-    onDescriptionValueChange: (String) -> Unit,
     onParagraphValueChange: (String, String, String?) -> Unit,
     onAddParagraph: () -> Unit,
     onRemoveParagraph: (String) -> Unit,
-    onBackgroundUriValueChange: (Uri?) -> Unit,
-    onCoverUriValueChange: (Uri?) -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
@@ -132,8 +124,18 @@ fun AddArticleScreenContent(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         when (launcherSource) {
-            ArticleFields.COVER_URI -> onCoverUriValueChange(uri)
-            ArticleFields.BACKGROUND_URI -> onBackgroundUriValueChange(uri)
+            ArticleFields.COVER_URI -> {
+                onArticleValueChange(
+                    ArticleFields.COVER_URI,
+                    uri.toString()
+                )
+            }
+            ArticleFields.BACKGROUND_URI -> {
+                onArticleValueChange(
+                    ArticleFields.BACKGROUND_URI,
+                    uri.toString()
+                )
+            }
             ArticleFields.PARAGRAPH_IMAGE_URI -> {
                 onParagraphValueChange(
                     ArticleFields.PARAGRAPH_IMAGE_URI,
@@ -148,11 +150,11 @@ fun AddArticleScreenContent(
 
     Scaffold(
         modifier = modifier.fillMaxSize()
-    ) {
+    ) { paddings ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddings)
         ) {
             item {
                 Box(
@@ -200,13 +202,18 @@ fun AddArticleScreenContent(
                             photoUrl = currentUser.photoUrl!!,
                             onOwnerClick = { /* TODO: */}
                         )
-                        if (article.backgroundUri != null) {
+                        AnimatedVisibility(
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd),
+                            visible = article.backgroundUri != null,
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
                             TextFilledButton(
-                                modifier = Modifier.align(Alignment.CenterEnd),
                                 text = "Remove",
                                 containerColor = md_theme_light_secondary,
                                 contentColor = md_theme_light_onSecondary,
-                                onClick = { onBackgroundUriValueChange(null) }
+                                onClick = { onArticleValueChange(ArticleFields.BACKGROUND_URI, null) }
                             )
                         }
                     }
@@ -245,7 +252,7 @@ fun AddArticleScreenContent(
                             textColor = md_theme_light_onPrimary,
                             placeholderTextColor = md_theme_transparent_gray,
                             textAlign = TextAlign.Center,
-                            onValueChange = onTitleValueChange
+                            onValueChange = { onArticleValueChange(ArticleFields.TITLE, it) }
                         )
                         Text(
                             modifier = Modifier
@@ -277,7 +284,7 @@ fun AddArticleScreenContent(
                                 textColor = md_theme_light_onPrimary,
                                 placeholderTextColor = md_theme_transparent_gray,
                                 textAlign = TextAlign.Center,
-                                onValueChange = onCreatorValueChange
+                                onValueChange = { onArticleValueChange(ArticleFields.CREATOR, it) }
                             )
                             Text(
                                 modifier = Modifier
@@ -300,7 +307,7 @@ fun AddArticleScreenContent(
                                 keyboardOptions = KeyboardOptions.Default.copy(
                                     keyboardType = KeyboardType.Number
                                 ),
-                                onValueChange = onYearValueChange
+                                onValueChange = { onArticleValueChange(ArticleFields.YEAR, it) }
                             )
                             Text(
                                 modifier = Modifier
@@ -336,7 +343,7 @@ fun AddArticleScreenContent(
                                 textColor = md_theme_light_onBackground,
                                 placeholderTextColor = md_theme_light_onBackgroundVariant,
                                 textAlign = TextAlign.Start,
-                                onValueChange = onDescriptionValueChange
+                                onValueChange = { onArticleValueChange(ArticleFields.DESCRIPTION, it) }
                             )
                         }
                     }
@@ -381,8 +388,9 @@ fun AddArticleScreenContent(
         }
         if (isSelectTagsOpened) {
             SelectTagsDialog(
-                type = article.type,
-                tags = article.tags,
+                selectedType = article.type,
+                selectedTags = article.tags,
+                searchedTags = tags,
                 onSearchTag = onSearchTag,
                 onTagsAdd = onTagsAdd,
                 setIsSelectTypeOpened = setIsSelectTypeOpened,
@@ -392,7 +400,7 @@ fun AddArticleScreenContent(
         if (isCoverOpened) {
             CoverDialog(
                 coverUri = article.coverUri,
-                onCoverUriValueChange = onCoverUriValueChange,
+                onCoverUriValueChange = { onArticleValueChange(ArticleFields.COVER_URI, null) },
                 onLauncherOpen = {
                     launcherSource = ArticleFields.COVER_URI
                     launcher.launch("image/*")
@@ -431,20 +439,16 @@ fun AddArticleScreenContentNoDataPreview() {
             description = "",
         ),
         types = emptyList(),
+        tags = emptyList(),
         setIsSelectTypeOpened = { },
         setIsSelectTagsOpened = { },
-        onTitleValueChange = { },
+        onArticleValueChange = { _, _ -> },
         onTypeValueChange = { },
-        onCreatorValueChange = { },
-        onYearValueChange = { },
-        onSearchTag = { _ -> listOf() },
+        onSearchTag = { },
         onTagsAdd = { },
-        onDescriptionValueChange = { },
         onParagraphValueChange = { _, _, _ -> },
         onAddParagraph = { },
-        onRemoveParagraph = { },
-        onBackgroundUriValueChange = { },
-        onCoverUriValueChange = { }
+        onRemoveParagraph = { }
     )
 }
 
@@ -538,19 +542,15 @@ fun AddArticleScreenContentWithDataPreview() {
             coverUri = ""
         ),
         types = emptyList(),
+        tags = emptyList(),
         setIsSelectTypeOpened = { },
         setIsSelectTagsOpened = { },
-        onTitleValueChange = { },
+        onArticleValueChange = { _, _ -> },
         onTypeValueChange = { },
-        onCreatorValueChange = { },
-        onYearValueChange = { },
-        onSearchTag = { _ -> listOf() },
+        onSearchTag = { },
         onTagsAdd = { },
-        onDescriptionValueChange = { },
         onParagraphValueChange = { _, _, _ -> },
         onAddParagraph = { },
-        onRemoveParagraph = { },
-        onBackgroundUriValueChange = { },
-        onCoverUriValueChange = { }
+        onRemoveParagraph = { }
     )
 }
