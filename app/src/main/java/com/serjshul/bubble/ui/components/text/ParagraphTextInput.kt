@@ -1,12 +1,16 @@
 package com.serjshul.bubble.ui.components.text
 
 import android.net.Uri
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
@@ -14,10 +18,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.common.ext.toColor
+import com.serjshul.bubble.model.collections.ArticleFields
 import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.ui.components.buttons.AddImageButton
+import com.serjshul.bubble.ui.components.buttons.CloseIconToggleButton
+import com.serjshul.bubble.ui.components.buttons.TextFilledButton
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
+import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
+import com.serjshul.bubble.ui.theme.md_theme_light_primary
+import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
 import com.serjshul.bubble.ui.utils.roundedCornerShape
 
 @Composable
@@ -25,8 +35,9 @@ fun ParagraphTextInput(
     modifier: Modifier = Modifier,
     paragraph: Paragraph,
     articleColor: String?,
-    onTitleValueChange: (String, String) -> Unit,
-    onTextValueChange: (String) -> Unit
+    onParagraphValueChange: (String, String, String?) -> Unit,
+    onRemoveParagraphClick: (String) -> Unit,
+    onLauncherOpen: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
@@ -34,28 +45,58 @@ fun ParagraphTextInput(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        TextInput(
-            modifier = Modifier,
-            text = paragraph.title!!,
-            placeholderText = "Paragraph's title",
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            maxLines = 3,
-            textColor = articleColor?.toColor() ?: md_theme_light_onBackground,
-            placeholderTextColor = md_theme_light_onBackgroundVariant,
-            textAlign = TextAlign.Start,
-            onValueChange = { onTitleValueChange(paragraph.id!!, it) }
-        )
-        AddImageButton(
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            TextInput(
+                modifier = Modifier.weight(1f),
+                text = paragraph.title!!,
+                placeholderText = "Paragraph's title",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                maxLines = 3,
+                textColor = articleColor?.toColor() ?: md_theme_light_onBackground,
+                placeholderTextColor = md_theme_light_onBackgroundVariant,
+                textAlign = TextAlign.Start,
+                onValueChange = {
+                    onParagraphValueChange(ArticleFields.PARAGRAPH_TITLE, paragraph.id!!, it)
+                }
+            )
+            CloseIconToggleButton(
+                modifier = Modifier
+                    .padding(top = 6.dp, end = 6.dp),
+                backgroundColor = md_theme_light_primary,
+                tint = md_theme_light_onPrimary,
+                onClick = { onRemoveParagraphClick(paragraph.id!!) }
+            )
+        }
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(screenHeight * 1 / 4)
                 .padding(15.dp, 0.dp)
-                .roundedCornerShape(),
-            imageUri = if (paragraph.imageUri != null) Uri.parse(paragraph.imageUri) else null,
-            onCoverClick = { },
-            onAddCoverClick = { }
-        )
+                .roundedCornerShape()
+        ) {
+            AddImageButton(
+                modifier = Modifier.fillMaxSize(),
+                imageUri = if (paragraph.imageUri != null) Uri.parse(paragraph.imageUri) else null,
+                onCoverClick = { },
+                onAddCoverClick = { onLauncherOpen() }
+            )
+            if (paragraph.imageUri != null) {
+                TextFilledButton(
+                    modifier = Modifier
+                        .padding(top = 1.dp, end = 4.dp)
+                        .align(Alignment.TopEnd),
+                    text = "Remove",
+                    containerColor = md_theme_transparent_gray,
+                    contentColor = md_theme_light_onBackground,
+                    onClick = {
+                        onParagraphValueChange(ArticleFields.PARAGRAPH_IMAGE_URI, paragraph.id!!, null)
+                    }
+                )
+            }
+        }
         TextInput(
             text = paragraph.text!!,
             placeholderText = "Paragraph's text",
@@ -63,7 +104,9 @@ fun ParagraphTextInput(
             textColor = md_theme_light_onBackground,
             placeholderTextColor = md_theme_light_onBackgroundVariant,
             textAlign = TextAlign.Start,
-            onValueChange = onTextValueChange
+            onValueChange = {
+                onParagraphValueChange(ArticleFields.PARAGRAPH_TEXT, paragraph.id!!, it)
+            }
         )
     }
 }
@@ -74,8 +117,9 @@ fun ParagraphTextInputWithoutDataPreview() {
     ParagraphTextInput(
         paragraph = Paragraph(id = "", title = "", text = ""),
         articleColor = null,
-        onTitleValueChange = { _, _ -> },
-        onTextValueChange = { }
+        onParagraphValueChange = { _, _, _ -> },
+        onRemoveParagraphClick = { },
+        onLauncherOpen = { }
     )
 }
 
@@ -105,7 +149,8 @@ fun ParagraphTextInputWithDataPreview() {
                     "inability to communicate with excruciating veracity."
         ),
         articleColor = "#c22f2f",
-        onTitleValueChange = { _, _ -> },
-        onTextValueChange = { }
+        onParagraphValueChange = { _, _, _ -> },
+        onRemoveParagraphClick = { },
+        onLauncherOpen = { }
     )
 }

@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
 import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.model.collections.ArticleFields
 import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.collections.User
@@ -90,8 +91,9 @@ fun AddArticleScreen(
         onSearchTag = viewModel::onSearchTag,
         onTagsAdd = viewModel::onTagsAdd,
         onDescriptionValueChange = viewModel::onDescriptionValueChange,
-        onParagraphTitleChangeValue = viewModel::onParagraphTitleChangeValue,
+        onParagraphValueChange = viewModel::onParagraphValueChange,
         onAddParagraph = viewModel::onAddParagraph,
+        onRemoveParagraph = viewModel::onRemoveParagraph,
         onBackgroundUriValueChange = viewModel::onBackgroundUriValueChange,
         onCoverUriValueChange = viewModel::onCoverUriValueChange
     )
@@ -114,8 +116,9 @@ fun AddArticleScreenContent(
     onSearchTag: (String) -> List<Tag>,
     onTagsAdd: (List<Tag>) -> Unit,
     onDescriptionValueChange: (String) -> Unit,
-    onParagraphTitleChangeValue: (String, String) -> Unit,
+    onParagraphValueChange: (String, String, String?) -> Unit,
     onAddParagraph: () -> Unit,
+    onRemoveParagraph: (String) -> Unit,
     onBackgroundUriValueChange: (Uri?) -> Unit,
     onCoverUriValueChange: (Uri?) -> Unit
 ) {
@@ -123,14 +126,21 @@ fun AddArticleScreenContent(
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
 
-    var isCoverLauncher by remember { mutableStateOf(false) }
+    var launcherSource = ArticleFields.COVER_URI
+    var launcherParagraphId = ""
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        if (isCoverLauncher) {
-            onCoverUriValueChange(uri)
-        } else {
-            onBackgroundUriValueChange(uri)
+        when (launcherSource) {
+            ArticleFields.COVER_URI -> onCoverUriValueChange(uri)
+            ArticleFields.BACKGROUND_URI -> onBackgroundUriValueChange(uri)
+            ArticleFields.PARAGRAPH_IMAGE_URI -> {
+                onParagraphValueChange(
+                    ArticleFields.PARAGRAPH_IMAGE_URI,
+                    launcherParagraphId,
+                    uri.toString()
+                )
+            }
         }
     }
 
@@ -180,7 +190,7 @@ fun AddArticleScreenContent(
                             imageUri = article.coverUri,
                             onCoverClick = { isCoverOpened = true },
                             onAddCoverClick = {
-                                isCoverLauncher = true
+                                launcherSource = ArticleFields.COVER_URI
                                 launcher.launch("image/*")
                             }
                         )
@@ -213,7 +223,7 @@ fun AddArticleScreenContent(
                             contentColor = md_theme_light_onSecondary,
                             containerColor = md_theme_light_secondary,
                             onClick = {
-                                isCoverLauncher = false
+                                launcherSource = ArticleFields.BACKGROUND_URI
                                 launcher.launch("image/*")
                             }
                         )
@@ -332,12 +342,17 @@ fun AddArticleScreenContent(
                     }
                 }
             }
-            items(article.content, key = { it.id!! }) { paragraph ->
+            items(article.content, key = { paragraph -> paragraph.id!! }) { paragraph ->
                 ParagraphTextInput(
                     paragraph = paragraph,
                     articleColor = null,
-                    onTitleValueChange = onParagraphTitleChangeValue,
-                    onTextValueChange = { }
+                    onParagraphValueChange = onParagraphValueChange,
+                    onRemoveParagraphClick = onRemoveParagraph,
+                    onLauncherOpen = {
+                        launcherSource = ArticleFields.PARAGRAPH_IMAGE_URI
+                        launcherParagraphId = paragraph.id!!
+                        launcher.launch("image/*")
+                    }
                 )
             }
             item {
@@ -379,7 +394,7 @@ fun AddArticleScreenContent(
                 coverUri = article.coverUri,
                 onCoverUriValueChange = onCoverUriValueChange,
                 onLauncherOpen = {
-                    isCoverLauncher = true
+                    launcherSource = ArticleFields.COVER_URI
                     launcher.launch("image/*")
                 },
                 onDismissRequest = { isCoverOpened = false }
@@ -425,8 +440,9 @@ fun AddArticleScreenContentNoDataPreview() {
         onSearchTag = { _ -> listOf() },
         onTagsAdd = { },
         onDescriptionValueChange = { },
-        onParagraphTitleChangeValue = { _, _ -> },
+        onParagraphValueChange = { _, _, _ -> },
         onAddParagraph = { },
+        onRemoveParagraph = { },
         onBackgroundUriValueChange = { },
         onCoverUriValueChange = { }
     )
@@ -531,8 +547,9 @@ fun AddArticleScreenContentWithDataPreview() {
         onSearchTag = { _ -> listOf() },
         onTagsAdd = { },
         onDescriptionValueChange = { },
-        onParagraphTitleChangeValue = { _, _ -> },
+        onParagraphValueChange = { _, _, _ -> },
         onAddParagraph = { },
+        onRemoveParagraph = { },
         onBackgroundUriValueChange = { },
         onCoverUriValueChange = { }
     )

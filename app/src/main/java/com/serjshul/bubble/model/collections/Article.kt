@@ -6,6 +6,20 @@ import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.subcollections.Type
 import java.util.Date
 
+object ArticleFields {
+    const val TITLE = "title"
+    const val TYPE = "type"
+    const val CREATOR = "creator"
+    const val YEAR = "year"
+    const val TAGS = "tags"
+    const val DESCRIPTION = "description"
+    const val COVER_URI = "coverUri"
+    const val BACKGROUND_URI = "backgroundUri"
+    const val PARAGRAPH_TITLE = "paragraphTitle"
+    const val PARAGRAPH_TEXT = "paragraphText"
+    const val PARAGRAPH_IMAGE_URI = "imageUri"
+}
+
 data class Article (
     val id: String? = null,
 

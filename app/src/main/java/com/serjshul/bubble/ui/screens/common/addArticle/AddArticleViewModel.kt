@@ -10,6 +10,7 @@ import com.serjshul.bubble.data.getAllTypes
 import com.serjshul.bubble.data.searchTags
 import com.serjshul.bubble.data.users
 import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.model.collections.ArticleFields
 import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.subcollections.Type
@@ -101,14 +102,20 @@ class AddArticleViewModel @Inject constructor(
         article = article.copy(content = updatedParagraphs)
     }
 
-    fun onRemoveParagraph(index: Int) {
-//        paragraphs.removeAt(index)
+    fun onRemoveParagraph(id: String) {
+        val updatedParagraphs = article.content.filter { it.id != id }
+        article = article.copy(content = updatedParagraphs)
     }
 
-    fun onParagraphTitleChangeValue(id: String, input: String) {
+    fun onParagraphValueChange(field: String, id: String, input: String?) {
         val updatedParagraphs = article.content.map { paragraph ->
             if (paragraph.id == id) {
-                paragraph.copy(title = input)
+                when (field) {
+                    ArticleFields.PARAGRAPH_TITLE -> paragraph.copy(title = input ?: "")
+                    ArticleFields.PARAGRAPH_TEXT -> paragraph.copy(text = input ?: "")
+                    ArticleFields.PARAGRAPH_IMAGE_URI -> paragraph.copy(imageUri = input)
+                    else -> paragraph
+                }
             } else {
                 paragraph
             }
