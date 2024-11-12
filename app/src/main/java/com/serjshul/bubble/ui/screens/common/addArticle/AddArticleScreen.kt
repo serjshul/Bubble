@@ -156,15 +156,6 @@ fun AddArticleScreenContent(
                             url = article.backgroundUri,
                             contentDescription = stringResource(id = R.string.image_background)
                         )
-                        TextFilledButton(
-                            modifier = Modifier
-                                .padding(top = 50.dp, end = 12.dp)
-                                .align(Alignment.TopEnd),
-                            text = "Remove",
-                            containerColor = md_theme_light_secondary,
-                            contentColor = md_theme_light_onSecondary,
-                            onClick = { onBackgroundUriValueChange(null) }
-                        )
                     } else {
                         Box(
                             modifier = Modifier
@@ -173,50 +164,59 @@ fun AddArticleScreenContent(
                                 .background(Brush.verticalGradient(md_theme_background_gradient))
                         )
                     }
-                    AddImageButton(
+                    Box(
                         modifier = Modifier
-                            .padding(start = 15.dp, top = 48.dp)
-                            .size(
-                                screenWidth * 1 / 2 - 100.dp,
-                                (screenWidth * 1 / 2 - 100.dp) * 9 / 16
-                            )
-                            .clip(RoundedCornerShape(5.dp)),
-                        imageUri = article.coverUri,
-                        onCoverClick = { isCoverOpened = true },
-                        onAddCoverClick = {
-                            isCoverLauncher = true
-                            launcher.launch("image/*")
-                        }
-                    )
-                    Column(
-                        modifier = Modifier
-                            .padding(top = 55.dp)
-                            .align(Alignment.TopCenter)
+                            .fillMaxWidth()
+                            .padding(start = 15.dp, end = 15.dp, top = 50.dp)
                     ) {
-                        Owner(
+                        AddImageButton(
                             modifier = Modifier
-                                .padding(bottom = 30.dp)
-                                .align(Alignment.CenterHorizontally),
+                                .size(
+                                    screenWidth * 1 / 2 - 100.dp,
+                                    (screenWidth * 1 / 2 - 100.dp) * 9 / 16
+                                )
+                                .clip(RoundedCornerShape(5.dp))
+                                .align(Alignment.CenterStart),
+                            imageUri = article.coverUri,
+                            onCoverClick = { isCoverOpened = true },
+                            onAddCoverClick = {
+                                isCoverLauncher = true
+                                launcher.launch("image/*")
+                            }
+                        )
+                        Owner(
+                            modifier = Modifier.align(Alignment.Center),
                             nickname = currentUser.nickname!!,
                             photoUrl = currentUser.photoUrl!!,
                             onOwnerClick = { /* TODO: */}
                         )
-                        AnimatedVisibility(
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                            visible = article.backgroundUri == null,
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            AddTextFilledButton(
-                                text = "Add a background",
-                                contentColor = md_theme_light_onSecondary,
+                        if (article.backgroundUri != null) {
+                            TextFilledButton(
+                                modifier = Modifier.align(Alignment.CenterEnd),
+                                text = "Remove",
                                 containerColor = md_theme_light_secondary,
-                                onClick = {
-                                    isCoverLauncher = false
-                                    launcher.launch("image/*")
-                                }
+                                contentColor = md_theme_light_onSecondary,
+                                onClick = { onBackgroundUriValueChange(null) }
                             )
                         }
+                    }
+                    AnimatedVisibility(
+                        modifier = Modifier
+                            .padding(top = 120.dp)
+                            .align(Alignment.TopCenter),
+                        visible = article.backgroundUri == null,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        AddTextFilledButton(
+                            text = "Add a background",
+                            contentColor = md_theme_light_onSecondary,
+                            containerColor = md_theme_light_secondary,
+                            onClick = {
+                                isCoverLauncher = false
+                                launcher.launch("image/*")
+                            }
+                        )
                     }
                     Column(
                         modifier = Modifier
