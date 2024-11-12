@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.common.ext.toColor
 import com.serjshul.bubble.model.collections.Paragraph
-import com.serjshul.bubble.ui.components.buttons.AddCoverButton
+import com.serjshul.bubble.ui.components.buttons.AddImageButton
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.utils.roundedCornerShape
@@ -46,13 +46,13 @@ fun ParagraphTextInput(
             textAlign = TextAlign.Start,
             onValueChange = { onTitleValueChange(paragraph.id!!, it) }
         )
-        AddCoverButton(
+        AddImageButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(screenHeight * 1 / 4)
                 .padding(15.dp, 0.dp)
                 .roundedCornerShape(),
-            coverUri = if (paragraph.imageUri != null) Uri.parse(paragraph.imageUri) else null,
+            imageUri = if (paragraph.imageUri != null) Uri.parse(paragraph.imageUri) else null,
             onCoverClick = { },
             onAddCoverClick = { }
         )

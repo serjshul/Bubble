@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.serjshul.bubble.ui.components.buttons.AddCoverButton
+import com.serjshul.bubble.ui.components.buttons.AddImageButton
 import com.serjshul.bubble.ui.components.buttons.CloseIconToggleButton
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
@@ -43,11 +43,11 @@ fun CoverDialog(
             modifier = modifier
         ) {
             Box {
-                AddCoverButton(
+                AddImageButton(
                     modifier = Modifier
                         .size(coverWidth, coverHeight)
                         .clip(RoundedCornerShape(5.dp)),
-                    coverUri = coverUri,
+                    imageUri = coverUri,
                     onCoverClick = { /*TODO*/ },
                     onAddCoverClick = { onLauncherOpen() }
                 )

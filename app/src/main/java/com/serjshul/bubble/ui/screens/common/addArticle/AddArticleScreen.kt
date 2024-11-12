@@ -48,7 +48,7 @@ import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.model.subcollections.Type
-import com.serjshul.bubble.ui.components.buttons.AddCoverButton
+import com.serjshul.bubble.ui.components.buttons.AddImageButton
 import com.serjshul.bubble.ui.components.buttons.AddTextFilledButton
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
 import com.serjshul.bubble.ui.components.cards.Owner
@@ -173,7 +173,7 @@ fun AddArticleScreenContent(
                                 .background(Brush.verticalGradient(md_theme_background_gradient))
                         )
                     }
-                    AddCoverButton(
+                    AddImageButton(
                         modifier = Modifier
                             .padding(start = 15.dp, top = 48.dp)
                             .size(
@@ -181,7 +181,7 @@ fun AddArticleScreenContent(
                                 (screenWidth * 1 / 2 - 100.dp) * 9 / 16
                             )
                             .clip(RoundedCornerShape(5.dp)),
-                        coverUri = article.coverUri,
+                        imageUri = article.coverUri,
                         onCoverClick = { isCoverOpened = true },
                         onAddCoverClick = {
                             isCoverLauncher = true
@@ -517,7 +517,9 @@ fun AddArticleScreenContentWithDataPreview() {
                             "the McPherson family’s worries about Lady Bird’s tuition fees given as " +
                             "much screen time as her romantic exploits."
                 )
-            )
+            ),
+            backgroundUri = "",
+            coverUri = ""
         ),
         types = emptyList(),
         setIsSelectTypeOpened = { },

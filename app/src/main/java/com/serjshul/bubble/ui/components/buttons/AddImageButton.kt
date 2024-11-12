@@ -19,16 +19,16 @@ import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.theme.md_theme_light_secondary
 
 @Composable
-fun AddCoverButton(
+fun AddImageButton(
     modifier: Modifier = Modifier,
-    coverUri: Any?,
+    imageUri: Any?,
     onCoverClick: () -> Unit,
     onAddCoverClick: () -> Unit
 ) {
-    if (coverUri != null) {
+    if (imageUri != null) {
         CoverAsyncImage(
             modifier = modifier.clickable { onCoverClick() },
-            url = coverUri,
+            url = imageUri,
             contentDescription = "Cover URL"
         )
     } else {
@@ -51,11 +51,11 @@ fun AddCoverButtonWithImagePreview() {
     val coverWidth = 90.dp
     val coverHeight = coverWidth * 10 / 19
 
-    AddCoverButton(
+    AddImageButton(
         modifier = Modifier
             .size(coverWidth, coverHeight)
             .clip(RoundedCornerShape(5.dp)),
-        coverUri = Uri.EMPTY,
+        imageUri = Uri.EMPTY,
         onCoverClick = { },
         onAddCoverClick = { }
     )
@@ -67,11 +67,11 @@ fun AddCoverButtonWithoutImagePreview() {
     val coverWidth = 90.dp
     val coverHeight = coverWidth * 10 / 19
 
-    AddCoverButton(
+    AddImageButton(
         modifier = Modifier
             .size(coverWidth, coverHeight)
             .clip(RoundedCornerShape(5.dp)),
-        coverUri = null,
+        imageUri = null,
         onCoverClick = { },
         onAddCoverClick = { }
     )
