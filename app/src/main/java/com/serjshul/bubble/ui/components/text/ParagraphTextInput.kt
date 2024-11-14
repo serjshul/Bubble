@@ -12,12 +12,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.serjshul.bubble.common.ext.toColor
 import com.serjshul.bubble.model.collections.ArticleFields
 import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.ui.components.buttons.AddImageButton
@@ -34,7 +34,7 @@ import com.serjshul.bubble.ui.utils.roundedCornerShape
 fun ParagraphTextInput(
     modifier: Modifier = Modifier,
     paragraph: Paragraph,
-    articleColor: String?,
+    color: Color = md_theme_light_primary,
     onParagraphValueChange: (String, String, String?) -> Unit,
     onRemoveParagraphClick: (String) -> Unit,
     onLauncherOpen: () -> Unit
@@ -55,7 +55,7 @@ fun ParagraphTextInput(
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 maxLines = 3,
-                textColor = articleColor?.toColor() ?: md_theme_light_onBackground,
+                textColor = color,
                 placeholderTextColor = md_theme_light_onBackgroundVariant,
                 textAlign = TextAlign.Start,
                 onValueChange = {
@@ -65,7 +65,7 @@ fun ParagraphTextInput(
             CloseIconToggleButton(
                 modifier = Modifier
                     .padding(top = 6.dp, end = 6.dp),
-                backgroundColor = md_theme_light_primary,
+                backgroundColor = color,
                 tint = md_theme_light_onPrimary,
                 onClick = { onRemoveParagraphClick(paragraph.id!!) }
             )
@@ -80,6 +80,7 @@ fun ParagraphTextInput(
             AddImageButton(
                 modifier = Modifier.fillMaxSize(),
                 imageUri = if (paragraph.imageUri != null) Uri.parse(paragraph.imageUri) else null,
+                backgroundColor = color,
                 onCoverClick = { },
                 onAddCoverClick = { onLauncherOpen() }
             )
@@ -116,7 +117,6 @@ fun ParagraphTextInput(
 fun ParagraphTextInputWithoutDataPreview() {
     ParagraphTextInput(
         paragraph = Paragraph(id = "", title = "", text = ""),
-        articleColor = null,
         onParagraphValueChange = { _, _, _ -> },
         onRemoveParagraphClick = { },
         onLauncherOpen = { }
@@ -148,7 +148,6 @@ fun ParagraphTextInputWithDataPreview() {
                     "is”. The scenes between Ronan and Metcalf are electric; Gerwig maps their " +
                     "inability to communicate with excruciating veracity."
         ),
-        articleColor = "#c22f2f",
         onParagraphValueChange = { _, _, _ -> },
         onRemoveParagraphClick = { },
         onLauncherOpen = { }

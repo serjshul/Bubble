@@ -43,6 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
+import com.serjshul.bubble.common.ext.toColor
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.model.collections.ArticleFields
 import com.serjshul.bubble.model.collections.Paragraph
@@ -57,16 +58,15 @@ import com.serjshul.bubble.ui.components.dialogs.CoverDialog
 import com.serjshul.bubble.ui.components.dialogs.SelectTagsDialog
 import com.serjshul.bubble.ui.components.dialogs.SelectTypeDialog
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
+import com.serjshul.bubble.ui.components.media.DarkMutedColor
 import com.serjshul.bubble.ui.components.text.ParagraphTextInput
 import com.serjshul.bubble.ui.components.text.TextInput
-import com.serjshul.bubble.ui.theme.md_theme_background_gradient
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
-import com.serjshul.bubble.ui.theme.md_theme_light_primary
-import com.serjshul.bubble.ui.theme.md_theme_light_secondary
+import com.serjshul.bubble.ui.utils.lighten
 import java.util.Date
 
 @Composable
@@ -160,21 +160,31 @@ fun AddArticleScreenContent(
                 Box(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    if (article.backgroundUri != null) {
-                        BackgroundAsyncImage(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(screenHeight * 1 / 2),
-                            url = article.backgroundUri,
-                            contentDescription = stringResource(id = R.string.image_background)
-                        )
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(screenHeight * 1 / 2)
-                                .background(Brush.verticalGradient(md_theme_background_gradient))
-                        )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(screenHeight * 1 / 2)
+                    ) {
+                        if (article.backgroundUri != null) {
+                            BackgroundAsyncImage(
+                                modifier = Modifier.fillMaxSize(),
+                                url = article.backgroundUri,
+                                contentDescription = stringResource(id = R.string.image_background)
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(
+                                        Brush.verticalGradient(
+                                            listOf(
+                                                article.color.toColor().lighten(0.85f),
+                                                article.color.toColor()
+                                            )
+                                        )
+                                    )
+                            )
+                        }
                     }
                     Box(
                         modifier = Modifier
@@ -190,6 +200,7 @@ fun AddArticleScreenContent(
                                 .clip(RoundedCornerShape(5.dp))
                                 .align(Alignment.CenterStart),
                             imageUri = article.coverUri,
+                            backgroundColor = article.color.toColor(),
                             onCoverClick = { isCoverOpened = true },
                             onAddCoverClick = {
                                 launcherSource = ArticleFields.COVER_URI
@@ -211,7 +222,7 @@ fun AddArticleScreenContent(
                         ) {
                             TextFilledButton(
                                 text = "Remove",
-                                containerColor = md_theme_light_secondary,
+                                containerColor = article.color.toColor(),
                                 contentColor = md_theme_light_onSecondary,
                                 onClick = { onArticleValueChange(ArticleFields.BACKGROUND_URI, null) }
                             )
@@ -228,7 +239,7 @@ fun AddArticleScreenContent(
                         AddTextFilledButton(
                             text = "Add a background",
                             contentColor = md_theme_light_onSecondary,
-                            containerColor = md_theme_light_secondary,
+                            containerColor = article.color.toColor(),
                             onClick = {
                                 launcherSource = ArticleFields.BACKGROUND_URI
                                 launcher.launch("image/*")
@@ -352,7 +363,7 @@ fun AddArticleScreenContent(
             items(article.content, key = { paragraph -> paragraph.id!! }) { paragraph ->
                 ParagraphTextInput(
                     paragraph = paragraph,
-                    articleColor = null,
+                    color = article.color.toColor(),
                     onParagraphValueChange = onParagraphValueChange,
                     onRemoveParagraphClick = onRemoveParagraph,
                     onLauncherOpen = {
@@ -372,7 +383,7 @@ fun AddArticleScreenContent(
                         modifier = Modifier.align(Alignment.Center),
                         text = "Add a paragraph",
                         contentColor = md_theme_light_onPrimary,
-                        containerColor = md_theme_light_primary,
+                        containerColor = article.color.toColor(),
                         onClick = onAddParagraph
                     )
                 }
@@ -409,6 +420,12 @@ fun AddArticleScreenContent(
             )
         }
     }
+    DarkMutedColor(
+        uri = if (article.backgroundUri != null) article.backgroundUri else article.coverUri,
+        onColorExtract = { color ->
+            onArticleValueChange(ArticleFields.COLOR, color)
+        }
+    )
 }
 
 @Preview

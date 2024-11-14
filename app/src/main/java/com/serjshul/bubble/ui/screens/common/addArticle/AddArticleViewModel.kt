@@ -16,6 +16,8 @@ import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.services.LogService
 import com.serjshul.bubble.ui.BubbleViewModel
+import com.serjshul.bubble.ui.theme.md_theme_light_primary
+import com.serjshul.bubble.ui.utils.toARGBString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import javax.inject.Inject
@@ -43,7 +45,7 @@ class AddArticleViewModel @Inject constructor(
             userId = currentUser.id,
             title = "",
             description = "",
-            creator = "",
+            creator = ""
         )
     )
 
@@ -65,12 +67,13 @@ class AddArticleViewModel @Inject constructor(
 
     fun onArticleValueChange(field: String, input: String?) {
         article = when (field) {
-            ArticleFields.TITLE ->  article.copy(title = input ?: "")
+            ArticleFields.TITLE -> article.copy(title = input ?: "")
             ArticleFields.CREATOR -> article.copy(creator = input ?: "")
             ArticleFields.YEAR -> article.copy(year = if (input == null || input == "") null else input.toInt())
             ArticleFields.DESCRIPTION -> article.copy(description = input ?: "")
             ArticleFields.COVER_URI -> article.copy(coverUri = input)
             ArticleFields.BACKGROUND_URI -> article.copy(backgroundUri = input)
+            ArticleFields.COLOR -> article.copy(color = input ?: md_theme_light_primary.toARGBString())
             else -> article
         }
         checkArticleOnValid()
