@@ -80,7 +80,7 @@ fun ParagraphTextInput(
             AddImageButton(
                 modifier = Modifier.fillMaxSize(),
                 imageUri = if (paragraph.imageUri != null) Uri.parse(paragraph.imageUri) else null,
-                backgroundColor = color,
+                color = color,
                 onCoverClick = { },
                 onAddCoverClick = { onLauncherOpen() }
             )

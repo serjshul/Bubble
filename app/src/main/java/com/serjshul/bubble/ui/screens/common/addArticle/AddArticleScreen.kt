@@ -32,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -52,6 +51,7 @@ import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.ui.components.buttons.AddImageButton
 import com.serjshul.bubble.ui.components.buttons.AddParagraphButton
+import com.serjshul.bubble.ui.components.buttons.AddQuoteButton
 import com.serjshul.bubble.ui.components.buttons.AddTextFilledButton
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
 import com.serjshul.bubble.ui.components.cards.Owner
@@ -67,7 +67,6 @@ import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
-import com.serjshul.bubble.ui.utils.lighten
 import java.util.Date
 
 @Composable
@@ -176,14 +175,7 @@ fun AddArticleScreenContent(
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .background(
-                                        Brush.verticalGradient(
-                                            listOf(
-                                                article.color.toColor().lighten(0.85f),
-                                                article.color.toColor()
-                                            )
-                                        )
-                                    )
+                                    .background(article.color.toColor())
                             )
                         }
                     }
@@ -201,7 +193,7 @@ fun AddArticleScreenContent(
                                 .clip(RoundedCornerShape(5.dp))
                                 .align(Alignment.CenterStart),
                             imageUri = article.coverUri,
-                            backgroundColor = article.color.toColor(),
+                            color = article.color.toColor(),
                             onCoverClick = { isCoverOpened = true },
                             onAddCoverClick = {
                                 launcherSource = ArticleFields.COVER_URI
@@ -239,8 +231,8 @@ fun AddArticleScreenContent(
                     ) {
                         AddTextFilledButton(
                             text = "Add a background",
-                            contentColor = md_theme_light_onSecondary,
-                            containerColor = article.color.toColor(),
+                            contentColor = article.color.toColor(),
+                            containerColor = md_theme_light_onSecondary,
                             onClick = {
                                 launcherSource = ArticleFields.BACKGROUND_URI
                                 launcher.launch("image/*")
@@ -382,6 +374,12 @@ fun AddArticleScreenContent(
                 AddParagraphButton(
                     color = article.color.toColor(),
                     onClick = onAddParagraph
+                )
+            }
+            item {
+                AddQuoteButton(
+                    color = article.color.toColor(),
+                    onClick = { }
                 )
             }
         }

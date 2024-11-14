@@ -16,14 +16,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_dark_gradient
-import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
+import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_light_primary
 
 @Composable
 fun AddImageButton(
     modifier: Modifier = Modifier,
     imageUri: Any?,
-    backgroundColor: Color = md_theme_light_primary,
+    color: Color = md_theme_light_primary,
     onCoverClick: () -> Unit,
     onAddCoverClick: () -> Unit,
 ) {
@@ -39,8 +39,8 @@ fun AddImageButton(
         ) {
             AddIconToggleButton(
                 modifier = Modifier.align(Alignment.Center),
-                backgroundColor = backgroundColor,
-                tint = md_theme_light_onSecondary,
+                backgroundColor = md_theme_light_onPrimary,
+                tint = color,
                 onClick = onAddCoverClick
             )
         }
