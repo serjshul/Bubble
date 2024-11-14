@@ -157,7 +157,7 @@ fun AddArticleScreenContent(
                 .fillMaxSize()
                 .padding(paddings)
         ) {
-            item {
+            item(key = "header") {
                 Box(
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -179,9 +179,7 @@ fun AddArticleScreenContent(
                                     .background(
                                         Brush.verticalGradient(
                                             listOf(
-                                                article.color
-                                                    .toColor()
-                                                    .lighten(0.85f),
+                                                article.color.toColor().lighten(0.85f),
                                                 article.color.toColor()
                                             )
                                         )
@@ -363,8 +361,12 @@ fun AddArticleScreenContent(
                     }
                 }
             }
-            items(article.content, key = { paragraph -> paragraph.id!! }) { paragraph ->
+            items(
+                items = article.content,
+                key = { paragraph -> paragraph.id!! }
+            ) { paragraph ->
                 ParagraphTextInput(
+                    modifier = Modifier.animateItem(),
                     paragraph = paragraph,
                     color = article.color.toColor(),
                     onParagraphValueChange = onParagraphValueChange,
@@ -376,7 +378,7 @@ fun AddArticleScreenContent(
                     }
                 )
             }
-            item {
+            item(key = "add_paragraph") {
                 AddParagraphButton(
                     color = article.color.toColor(),
                     onClick = onAddParagraph

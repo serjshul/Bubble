@@ -32,9 +32,11 @@ fun AddParagraphButton(
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
-    Box {
+    Box(
+        modifier = modifier
+    ) {
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .blur(10.dp)
                 .padding(15.dp)
@@ -47,7 +49,7 @@ fun AddParagraphButton(
                 style = MaterialTheme.typography.titleLarge,
             )
             Box(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(screenHeight * 1 / 5)
                     .padding(top = 15.dp)
