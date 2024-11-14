@@ -51,6 +51,7 @@ import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.ui.components.buttons.AddImageButton
+import com.serjshul.bubble.ui.components.buttons.AddParagraphButton
 import com.serjshul.bubble.ui.components.buttons.AddTextFilledButton
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
 import com.serjshul.bubble.ui.components.cards.Owner
@@ -178,7 +179,9 @@ fun AddArticleScreenContent(
                                     .background(
                                         Brush.verticalGradient(
                                             listOf(
-                                                article.color.toColor().lighten(0.85f),
+                                                article.color
+                                                    .toColor()
+                                                    .lighten(0.85f),
                                                 article.color.toColor()
                                             )
                                         )
@@ -365,7 +368,7 @@ fun AddArticleScreenContent(
                     paragraph = paragraph,
                     color = article.color.toColor(),
                     onParagraphValueChange = onParagraphValueChange,
-                    onRemoveParagraphClick = onRemoveParagraph,
+                    onRemoveParagraph = onRemoveParagraph,
                     onLauncherOpen = {
                         launcherSource = ArticleFields.PARAGRAPH_IMAGE_URI
                         launcherParagraphId = paragraph.id!!
@@ -374,19 +377,10 @@ fun AddArticleScreenContent(
                 )
             }
             item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 15.dp, bottom = 40.dp)
-                ) {
-                    AddTextFilledButton(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = "Add a paragraph",
-                        contentColor = md_theme_light_onPrimary,
-                        containerColor = article.color.toColor(),
-                        onClick = onAddParagraph
-                    )
-                }
+                AddParagraphButton(
+                    color = article.color.toColor(),
+                    onClick = onAddParagraph
+                )
             }
         }
         if (isSelectTypeOpened) {
@@ -421,7 +415,7 @@ fun AddArticleScreenContent(
         }
     }
     DarkMutedColor(
-        uri = if (article.backgroundUri != null) article.backgroundUri else article.coverUri,
+        uri = article.backgroundUri ?: article.coverUri,
         onColorExtract = { color ->
             onArticleValueChange(ArticleFields.COLOR, color)
         }
