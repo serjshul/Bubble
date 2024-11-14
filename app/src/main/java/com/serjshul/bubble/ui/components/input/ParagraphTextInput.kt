@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.components.text
+package com.serjshul.bubble.ui.components.input
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
@@ -36,7 +36,7 @@ fun ParagraphTextInput(
     paragraph: Paragraph,
     color: Color = md_theme_light_primary,
     onParagraphValueChange: (String, String, String?) -> Unit,
-    onRemoveParagraph: (String) -> Unit,
+    onRemoveClick: (String) -> Unit,
     onLauncherOpen: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
@@ -67,7 +67,7 @@ fun ParagraphTextInput(
                     .padding(top = 6.dp, end = 6.dp),
                 backgroundColor = color,
                 tint = md_theme_light_onPrimary,
-                onClick = { onRemoveParagraph(paragraph.id!!) }
+                onClick = { onRemoveClick(paragraph.id!!) }
             )
         }
         Box(
@@ -100,7 +100,7 @@ fun ParagraphTextInput(
         }
         TextInput(
             text = paragraph.text!!,
-            placeholderText = "Paragraph's text",
+            placeholderText = "Type paragraph's text here",
             style = MaterialTheme.typography.bodyMedium,
             textColor = md_theme_light_onBackground,
             placeholderTextColor = md_theme_light_onBackgroundVariant,
@@ -118,7 +118,7 @@ fun ParagraphTextInputWithoutDataPreview() {
     ParagraphTextInput(
         paragraph = Paragraph(id = "", title = "", text = ""),
         onParagraphValueChange = { _, _, _ -> },
-        onRemoveParagraph = { },
+        onRemoveClick = { },
         onLauncherOpen = { }
     )
 }
@@ -149,7 +149,7 @@ fun ParagraphTextInputWithDataPreview() {
                     "inability to communicate with excruciating veracity."
         ),
         onParagraphValueChange = { _, _, _ -> },
-        onRemoveParagraph = { },
+        onRemoveClick = { },
         onLauncherOpen = { }
     )
 }

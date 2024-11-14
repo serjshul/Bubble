@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,7 +52,7 @@ import com.serjshul.bubble.R
 import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
-import com.serjshul.bubble.ui.components.text.TextInput
+import com.serjshul.bubble.ui.components.input.TextInput
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
@@ -287,7 +288,7 @@ fun SelectTagsDialog(
                             textColor = md_theme_light_onBackground,
                             placeholderTextColor = md_theme_light_onBackgroundVariant,
                             keyboardOptions = KeyboardOptions.Default.copy(
-                                imeAction = androidx.compose.ui.text.input.ImeAction.Done, // Указываем действие для клавиши Enter
+                                imeAction = ImeAction.Done, // Указываем действие для клавиши Enter
                                 keyboardType = KeyboardType.Text
                             ),
                             keyboardActions = KeyboardActions(onDone = {

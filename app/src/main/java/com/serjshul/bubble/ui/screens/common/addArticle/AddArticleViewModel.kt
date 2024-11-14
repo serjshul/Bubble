@@ -71,6 +71,7 @@ class AddArticleViewModel @Inject constructor(
             ArticleFields.CREATOR -> article.copy(creator = input ?: "")
             ArticleFields.YEAR -> article.copy(year = if (input == null || input == "") null else input.toInt())
             ArticleFields.DESCRIPTION -> article.copy(description = input ?: "")
+            ArticleFields.QUOTE -> article.copy(quote = input)
             ArticleFields.COVER_URI -> article.copy(coverUri = input)
             ArticleFields.BACKGROUND_URI -> article.copy(backgroundUri = input)
             ArticleFields.COLOR -> article.copy(color = input ?: md_theme_light_primary.toARGBString())

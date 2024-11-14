@@ -60,8 +60,9 @@ import com.serjshul.bubble.ui.components.dialogs.SelectTagsDialog
 import com.serjshul.bubble.ui.components.dialogs.SelectTypeDialog
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
 import com.serjshul.bubble.ui.components.media.DarkMutedColor
-import com.serjshul.bubble.ui.components.text.ParagraphTextInput
-import com.serjshul.bubble.ui.components.text.TextInput
+import com.serjshul.bubble.ui.components.input.ParagraphTextInput
+import com.serjshul.bubble.ui.components.input.QuoteInput
+import com.serjshul.bubble.ui.components.input.TextInput
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
@@ -362,7 +363,7 @@ fun AddArticleScreenContent(
                     paragraph = paragraph,
                     color = article.color.toColor(),
                     onParagraphValueChange = onParagraphValueChange,
-                    onRemoveParagraph = onRemoveParagraph,
+                    onRemoveClick = onRemoveParagraph,
                     onLauncherOpen = {
                         launcherSource = ArticleFields.PARAGRAPH_IMAGE_URI
                         launcherParagraphId = paragraph.id!!
@@ -376,11 +377,22 @@ fun AddArticleScreenContent(
                     onClick = onAddParagraph
                 )
             }
-            item {
-                AddQuoteButton(
-                    color = article.color.toColor(),
-                    onClick = { }
-                )
+            item(key = "add_quote") {
+                if (article.quote == null) {
+                    AddQuoteButton(
+                        modifier = Modifier.animateItem(),
+                        color = article.color.toColor(),
+                        onClick = { onArticleValueChange(ArticleFields.QUOTE, "") }
+                    )
+                } else {
+                    QuoteInput(
+                        modifier = Modifier.animateItem(),
+                        quote = article.quote!!,
+                        color = article.color.toColor(),
+                        onRemoveClick = { onArticleValueChange(ArticleFields.QUOTE, null) },
+                        onQuoteValueChange = { onArticleValueChange(ArticleFields.QUOTE, it) }
+                    )
+                }
             }
         }
         if (isSelectTypeOpened) {

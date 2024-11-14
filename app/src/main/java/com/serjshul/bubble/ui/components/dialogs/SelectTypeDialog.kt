@@ -40,7 +40,7 @@ import com.serjshul.bubble.R
 import com.serjshul.bubble.data.getAllTypes
 import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
-import com.serjshul.bubble.ui.components.text.TextInput
+import com.serjshul.bubble.ui.components.input.TextInput
 import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant

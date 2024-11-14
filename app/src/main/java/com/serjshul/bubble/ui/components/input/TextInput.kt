@@ -1,4 +1,4 @@
-package com.serjshul.bubble.ui.components.text
+package com.serjshul.bubble.ui.components.input
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth

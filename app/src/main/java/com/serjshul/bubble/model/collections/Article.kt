@@ -15,6 +15,7 @@ object ArticleFields {
     const val YEAR = "year"
     const val TAGS = "tags"
     const val DESCRIPTION = "description"
+    const val QUOTE = "quote"
     const val COVER_URI = "coverUri"
     const val BACKGROUND_URI = "backgroundUri"
     const val COLOR = "color"
