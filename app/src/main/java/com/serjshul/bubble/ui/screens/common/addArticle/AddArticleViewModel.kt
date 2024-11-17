@@ -40,12 +40,9 @@ class AddArticleViewModel @Inject constructor(
         private set
 
     var article by mutableStateOf(
-        Article(
+        Article.Draft(
             id = UUID.randomUUID().toString(),
-            userId = currentUser.id,
-            title = "",
-            description = "",
-            creator = ""
+            ownerId = currentUser.id
         )
     )
 

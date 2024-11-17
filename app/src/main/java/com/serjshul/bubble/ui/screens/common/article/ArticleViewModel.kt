@@ -119,14 +119,14 @@ sealed interface ArticleUiState {
     ) : ArticleUiState
 
     data class HasArticle(
-        val article: Article,
+        val article: Article.UI,
         override val isLoading: Boolean,
         override val errorTexts: List<ErrorText>
     ) : ArticleUiState
 }
 
 private data class ArticleViewModelState(
-    val article: Article? = null,
+    val article: Article.UI? = null,
     val isLoading: Boolean = false,
     val errorTexts: List<ErrorText> = emptyList()
 ) {

@@ -7,7 +7,7 @@ data class Comment(
     val id: String? = null,
 
     val articleId: String? = null,
-    val article: Article? = null,
+    val article: Article.UI? = null,
 
     val userId: String? = null,
     val nickname: String? = null,

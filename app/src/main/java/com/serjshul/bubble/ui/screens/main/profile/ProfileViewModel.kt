@@ -5,7 +5,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.data.users
 import com.serjshul.bubble.services.LogService
 import com.serjshul.bubble.ui.BubbleViewModel
@@ -22,11 +22,11 @@ class ProfileViewModel @Inject constructor(
     var tabIndex by mutableIntStateOf(0)
 
     val user = users[0]
-    val posts = articles
+    val posts = articlesUI
     var postssIndex by mutableIntStateOf(2)
-    val comments = listOf(articles[1], articles[1], articles[1], articles[1])
+    val comments = listOf(articlesUI[1], articlesUI[1], articlesUI[1], articlesUI[1])
     var commentsIndex by mutableIntStateOf(2)
-    val likes = listOf(articles[2], articles[2], articles[2], articles[2])
+    val likes = listOf(articlesUI[2], articlesUI[2], articlesUI[2], articlesUI[2])
     var likesIndex by mutableIntStateOf(2)
 
     fun onTabClick(index: Int, isProfileHidden: Boolean, lazyListState: LazyListState, scope: CoroutineScope) {

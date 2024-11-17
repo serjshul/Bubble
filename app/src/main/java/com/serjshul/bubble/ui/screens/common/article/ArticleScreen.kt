@@ -53,7 +53,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.cards.Owner
 import com.serjshul.bubble.ui.components.interaction.InteractionPanelArticle
@@ -138,7 +138,7 @@ private fun ArticleScreenContent(
 @Composable
 private fun Content(
     modifier: Modifier = Modifier,
-    article: Article,
+    article: Article.UI,
     isCommentsOpened: Boolean,
     onLikeClick: () -> Unit,
     onCommentsClick: () -> Unit,
@@ -190,7 +190,7 @@ private fun Content(
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .background(article.color!!.toColor())
+                                    .background(article.color.toColor())
                             )
                         }
                         Box(
@@ -203,7 +203,7 @@ private fun Content(
                                 .padding(top = 55.dp)
                                 .align(Alignment.TopCenter),
                             nickname = article.owner!!.nickname!!,
-                            photoUrl = article.owner!!.photoUrl!!,
+                            photoUrl = article.owner.photoUrl!!,
                             onOwnerClick = {
                                 // TODO: open owner's profile method
                                 showDevelopInfo("TODO: open owner's profile method", snackbarHostState, scope)
@@ -271,7 +271,7 @@ private fun Content(
                                 Text(
                                     modifier = Modifier
                                         .weight(1f),
-                                    text = article.tags.joinToString(),
+                                    text = article.tags!!.joinToString(),
                                     overflow = TextOverflow.Ellipsis,
                                     textAlign = TextAlign.Center,
                                     color = md_theme_light_onPrimary,
@@ -297,19 +297,19 @@ private fun Content(
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
-                items(article.content) { paragraph ->
+                items(article.content!!) { paragraph ->
                     ParagraphText(
                         modifier = Modifier.padding(start = 15.dp, top = 20.dp, end = 15.dp),
                         paragraph = paragraph,
-                        articleColor = article.color!!
+                        articleColor = article.color
                     )
                 }
                 if (article.quote != null) {
                     item {
                         QuoteText(
                             modifier = Modifier.padding(start = 15.dp, top = 25.dp, end = 15.dp),
-                            quote = article.quote!!,
-                            color = article.color!!
+                            quote = article.quote,
+                            color = article.color
                         )
                     }
                 }
@@ -333,7 +333,7 @@ private fun Content(
                     .align(Alignment.TopCenter),
                 title = article.title!!,
                 type = article.type!!.toString(),
-                articleColor = article.color!!,
+                articleColor = article.color,
                 isScrolledBelow = isScrolledBelow,
                 onBackClick = popUpScreen
             )
@@ -443,7 +443,7 @@ fun ArticleTopAppBar(
 @Composable
 fun ContentPreview() {
     Content(
-        article = articles[0],
+        article = articlesUI[0],
         isCommentsOpened = false,
         onLikeClick = { },
         onCommentsClick = { },

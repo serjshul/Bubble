@@ -63,11 +63,14 @@ import com.serjshul.bubble.ui.components.media.DarkMutedColor
 import com.serjshul.bubble.ui.components.input.ParagraphTextInput
 import com.serjshul.bubble.ui.components.input.QuoteInput
 import com.serjshul.bubble.ui.components.input.TextInput
+import com.serjshul.bubble.ui.theme.md_theme_light_error
+import com.serjshul.bubble.ui.theme.md_theme_light_errorContainer
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
+import com.serjshul.bubble.ui.utils.roundedCornerShape
 import java.util.Date
 
 @Composable
@@ -101,7 +104,7 @@ fun AddArticleScreenContent(
     modifier: Modifier = Modifier,
     isSelectTypeOpened: Boolean,
     isSelectTagsOpened: Boolean,
-    article: Article,
+    article: Article.Draft,
     types: List<Type>,
     tags: List<Tag>,
     currentUser: User,
@@ -243,14 +246,16 @@ fun AddArticleScreenContent(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = screenHeight * 1 / 2 - 210.dp)
+                            .padding(top = screenHeight * 1 / 2 - 240.dp)
                     ) {
                         TextInput(
                             modifier = Modifier
                                 .padding(start = 15.dp, end = 15.dp, bottom = 10.dp)
+                                .roundedCornerShape()
                                 .align(Alignment.CenterHorizontally),
-                            text = article.title!!,
+                            text = article.title,
                             placeholderText = "Title",
+                            isError = true,
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             maxLines = 4,
@@ -264,10 +269,13 @@ fun AddArticleScreenContent(
                                 .fillMaxWidth()
                                 .padding(start = 15.dp, end = 15.dp, bottom = 15.dp)
                                 .align(Alignment.CenterHorizontally)
+                                .roundedCornerShape()
+                                .background(md_theme_light_errorContainer)
+                                .padding(17.dp)
                                 .clickable { setIsSelectTypeOpened(true) },
                             text = if (article.type == null) "Type" else article.type!!.toString(),
                             textAlign = TextAlign.Center,
-                            color = if (article.type == null) md_theme_transparent_gray else md_theme_light_onPrimary,
+                            color = md_theme_light_error,
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
                             style = MaterialTheme.typography.titleMedium,
@@ -281,9 +289,11 @@ fun AddArticleScreenContent(
                         ) {
                             TextInput(
                                 modifier = Modifier
-                                    .weight(1f),
-                                text = article.creator!!,
+                                    .weight(1f)
+                                    .roundedCornerShape(),
+                                text = article.creator,
                                 placeholderText = "Creator",
+                                isError = true,
                                 style = MaterialTheme.typography.bodyMedium,
                                 maxLines = 4,
                                 textColor = md_theme_light_onPrimary,
@@ -301,9 +311,11 @@ fun AddArticleScreenContent(
                             )
                             TextInput(
                                 modifier = Modifier
-                                    .weight(1f),
+                                    .weight(1f)
+                                    .roundedCornerShape(),
                                 text = if (article.year == null) "" else article.year.toString(),
                                 placeholderText = "Year",
+                                isError = true,
                                 style = MaterialTheme.typography.bodyMedium,
                                 maxLines = 4,
                                 textColor = md_theme_light_onPrimary,
@@ -322,18 +334,29 @@ fun AddArticleScreenContent(
                                 fontWeight = FontWeight.Bold,
                                 style = MaterialTheme.typography.bodyMedium
                             )
-                            Text(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .align(Alignment.CenterVertically)
-                                    .clickable { setIsSelectTagsOpened(true) },
-                                text = if (article.tags.isEmpty()) "Tags" else article.tags.joinToString(),
-                                overflow = TextOverflow.Ellipsis,
-                                textAlign = TextAlign.Center,
-                                color = if (article.tags.isEmpty()) md_theme_transparent_gray else md_theme_light_onPrimary,
-                                style = MaterialTheme.typography.bodyMedium,
-                                maxLines = 4
-                            )
+                            Box(
+                                modifier =
+                                    if (true)
+                                        Modifier
+                                            .weight(1f)
+                                            .height(55.dp)
+                                            .roundedCornerShape()
+                                            .background(md_theme_light_errorContainer)
+                                    else
+                                        Modifier.weight(1f)
+                            ) {
+                                Text(
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .clickable { setIsSelectTagsOpened(true) },
+                                    text = if (article.tags.isEmpty()) "Tags" else article.tags.joinToString(),
+                                    overflow = TextOverflow.Ellipsis,
+                                    textAlign = TextAlign.Center,
+                                    color = if (article.tags.isEmpty()) md_theme_transparent_gray else md_theme_light_onPrimary,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    maxLines = 4
+                                )
+                            }
                         }
                         Box(
                             modifier = Modifier
@@ -342,8 +365,9 @@ fun AddArticleScreenContent(
                                 .background(md_theme_light_onPrimary)
                         ) {
                             TextInput(
-                                text = article.description!!,
+                                text = article.description,
                                 placeholderText = "Description",
+                                isError = true,
                                 style = MaterialTheme.typography.bodyMedium,
                                 textColor = md_theme_light_onBackground,
                                 placeholderTextColor = md_theme_light_onBackgroundVariant,
@@ -453,14 +477,7 @@ fun AddArticleScreenContentNoDataPreview() {
         ),
         isSelectTypeOpened = false,
         isSelectTagsOpened = false,
-        article = Article(
-            title = "",
-            type = null,
-            creator = "",
-            year = null,
-            tags = emptyList(),
-            description = "",
-        ),
+        article = Article.Draft(),
         types = emptyList(),
         tags = emptyList(),
         setIsSelectTypeOpened = { },
@@ -494,7 +511,7 @@ fun AddArticleScreenContentWithDataPreview() {
         ),
         isSelectTypeOpened = false,
         isSelectTagsOpened = false,
-        article = Article(
+        article = Article.Draft(
             title = "Lady Bird",
             type = Type(value = "Movie"),
             creator = "Greta Gerwig",

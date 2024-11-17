@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.cards.Banner
 import com.serjshul.bubble.ui.components.cards.Quote
@@ -92,7 +92,7 @@ fun HomeScreenContent(
             item {
                 CardsList(
                     title = "Cards list",
-                    content = articles,
+                    content = articlesUI,
                     openScreen = openScreen,
                     onArticleClick = onArticleClick
                 )
@@ -100,24 +100,24 @@ fun HomeScreenContent(
             item {
                 BubblesList(
                     title = "Bubbles list",
-                    content = articles
+                    content = articlesUI
                 )
             }
             item {
                 Quote(
-                    article = articles[2],
+                    article = articlesUI[2],
                     onOpenClick = { }
                 )
             }
             item {
                 SmallCardsList(
                     title = "Small cards list",
-                    content = articles
+                    content = articlesUI
                 )
             }
             item {
                 Quote(
-                    article = articles[0],
+                    article = articlesUI[0],
                     onOpenClick = { }
                 )
             }
@@ -189,7 +189,7 @@ fun HomeTopAppBar(
 @Composable
 fun HomeScreenPreview() {
     HomeScreenContent(
-        banner = articles[0],
+        banner = articlesUI[0],
         openScreen = { },
         popUpScreen = { },
         onArticleClick = { _, _ -> }

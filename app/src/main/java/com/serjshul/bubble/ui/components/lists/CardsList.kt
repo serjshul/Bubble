@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.cards.Card
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
@@ -30,7 +30,7 @@ import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 fun CardsList(
     modifier: Modifier = Modifier,
     title: String,
-    content: List<Article>,
+    content: List<Article.UI>,
     openScreen: (String) -> Unit,
     onArticleClick: ((String) -> Unit, String) -> Unit
 ) {
@@ -88,7 +88,7 @@ fun CardsList(
 fun CardsCategoryPreview() {
     CardsList(
         title = "Demo articles",
-        content = articles,
+        content = articlesUI,
         openScreen = { },
         onArticleClick = { _, _ -> }
     )

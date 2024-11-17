@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.cards.SmallCard
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
@@ -30,7 +30,7 @@ import kotlin.math.round
 fun SmallCardsList(
     modifier: Modifier = Modifier,
     title: String,
-    content: List<Article>
+    content: List<Article.UI>
 ) {
     Column(
         modifier = modifier.padding(start = 0.dp, end = 0.dp, top = 15.dp, bottom = 25.dp)
@@ -94,6 +94,6 @@ fun SmallCardsList(
 fun SmallCardsCategoryPreview() {
     SmallCardsList(
         title = "Demo articles",
-        content = articles
+        content = articlesUI
     )
 }

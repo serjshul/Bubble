@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.cards.Bubble
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
@@ -34,7 +34,7 @@ import kotlin.math.absoluteValue
 fun BubblesList(
     modifier: Modifier = Modifier,
     title: String,
-    content: List<Article>
+    content: List<Article.UI>
 ) {
     val filteredContent = content.filter { it.backgroundUri != null }
     val pagerState = rememberPagerState(
@@ -113,6 +113,6 @@ fun BubblesList(
 fun BubblesListPreview() {
     BubblesList(
         title = "Demo articles",
-        content = articles
+        content = articlesUI
     )
 }

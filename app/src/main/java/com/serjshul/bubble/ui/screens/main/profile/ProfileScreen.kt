@@ -54,7 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.data.users
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.model.collections.User
@@ -92,9 +92,9 @@ fun ProfileScreenContent(
     modifier: Modifier = Modifier,
     tabIndex: Int,
     user: User,
-    articles: List<Article>,
-    comments: List<Article>,
-    likes: List<Article>,
+    articles: List<Article.UI>,
+    comments: List<Article.UI>,
+    likes: List<Article.UI>,
     onTabClick: (Int, Boolean, LazyListState, CoroutineScope) -> Unit,
     showDevelopInfo: (String, SnackbarHostState, CoroutineScope) -> Unit
 ) {
@@ -548,9 +548,9 @@ fun ProfileScreenPreview() {
         modifier = Modifier.fillMaxSize(),
         tabIndex = 0,
         user = users[0],
-        articles = articles,
-        comments = articles,
-        likes = articles,
+        articles = articlesUI,
+        comments = articlesUI,
+        likes = articlesUI,
         onTabClick = { _, _, _, _ -> },
         showDevelopInfo = { _, _, _ -> }
     )

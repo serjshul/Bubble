@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.serjshul.bubble.common.getCreatedTimeShort
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.buttons.CommentIconToggleButton
 import com.serjshul.bubble.ui.components.buttons.LikeIconToggleButton
@@ -54,7 +54,7 @@ import com.serjshul.bubble.ui.theme.md_theme_light_primary
 @Composable
 fun Post(
     modifier: Modifier = Modifier,
-    article: Article,
+    article: Article.UI,
     onLikeCLick: () -> Unit,
     onCommentCLick: () -> Unit,
     onRepostCLick: () -> Unit,
@@ -66,9 +66,9 @@ fun Post(
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
-    val isLiked by remember { mutableStateOf(currentUid in article.likeIds) }
-    var isCommented by remember { mutableStateOf(currentUid in article.commentIds) }
-    val isReposted by remember { mutableStateOf(currentUid in article.repostIds) }
+    val isLiked by remember { mutableStateOf(currentUid in article.likeIds!!) }
+    var isCommented by remember { mutableStateOf(currentUid in article.commentIds!!) }
+    val isReposted by remember { mutableStateOf(currentUid in article.repostIds!!) }
     // TODO: val isSaved by remember { mutableStateOf(currentUid in article.sids) }
 
     var isDropDownExpanded by remember { mutableStateOf(false) }
@@ -116,7 +116,7 @@ fun Post(
                         .weight(8f)
                         .padding(start = 15.dp)
                         .clickable { openOwnerScreen() },
-                    text = article.owner!!.nickname!!,
+                    text = article.owner.nickname!!,
                     color = Color.Black,
                     maxLines = 1,
                     fontSize = 14.sp,
@@ -192,7 +192,7 @@ fun Post(
                             .clickable {
                                 // TODO: open type and tags screen
                             },
-                        text = "${article.type}   /   ${article.tags.joinToString(separator = " & ")}",
+                        text = "${article.type}   /   ${article.tags!!.joinToString(separator = " & ")}",
                         color = md_theme_light_primary,
                         maxLines = 1,
                         fontSize = 12.sp,
@@ -247,7 +247,7 @@ fun Post(
                     style = MaterialTheme.typography.bodyMedium
                 )
 
-                if (article.comments.isNotEmpty()) {
+                if (article.comments!!.isNotEmpty()) {
                     CommentsShortList(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -292,7 +292,7 @@ fun Post(
 @Preview
 @Composable
 fun PostPreview() {
-    val articleDemo = articles.random()
+    val articleDemo = articlesUI.random()
 
     Post(
         modifier = Modifier.background(Color.White),

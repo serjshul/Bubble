@@ -193,7 +193,7 @@ fun CommentProfileItem(
                                 // TODO: open type and tags screen
                             },
                         text = "${comment.article.type}   /   ${
-                            comment.article.tags.joinToString(
+                            comment.article.tags!!.joinToString(
                                 separator = " & "
                             )
                         }",

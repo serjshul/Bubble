@@ -15,6 +15,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.serjshul.bubble.ui.theme.md_theme_light_error
+import com.serjshul.bubble.ui.theme.md_theme_light_errorContainer
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_transparent
 import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
@@ -25,6 +27,7 @@ fun TextInput(
     text: String,
     placeholderText: String,
     enabled: Boolean = true,
+    isError: Boolean = false,
     textColor: Color = md_theme_light_onPrimary,
     placeholderTextColor: Color = md_theme_transparent_gray,
     style: TextStyle = MaterialTheme.typography.bodyMedium,
@@ -38,6 +41,7 @@ fun TextInput(
     TextField(
         modifier = modifier.fillMaxWidth(),
         enabled = enabled,
+        isError = isError,
         value = text,
         onValueChange = { onValueChange(it) },
         placeholder = {
@@ -63,15 +67,16 @@ fun TextInput(
             focusedContainerColor = md_theme_transparent,
             unfocusedContainerColor = md_theme_transparent,
             disabledContainerColor = md_theme_transparent,
-            errorContainerColor = md_theme_transparent,
+            errorContainerColor = md_theme_light_errorContainer,
             focusedTextColor = textColor,
             unfocusedTextColor = textColor,
             disabledTextColor = textColor,
-            errorTextColor = textColor,
+            errorTextColor = md_theme_light_error,
             focusedPlaceholderColor = placeholderTextColor,
             unfocusedPlaceholderColor = placeholderTextColor,
             disabledPlaceholderColor = placeholderTextColor,
-            errorCursorColor = placeholderTextColor,
+            errorPlaceholderColor = md_theme_light_error,
+            errorCursorColor = md_theme_transparent,
             unfocusedIndicatorColor = md_theme_transparent,
             focusedIndicatorColor = md_theme_transparent,
             disabledIndicatorColor = md_theme_transparent
