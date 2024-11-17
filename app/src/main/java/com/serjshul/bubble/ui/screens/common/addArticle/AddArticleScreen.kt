@@ -44,7 +44,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
 import com.serjshul.bubble.model.collections.Article
-import com.serjshul.bubble.model.collections.ArticleFields
+import com.serjshul.bubble.model.collections.ArticleField
 import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.collections.User
@@ -110,11 +110,11 @@ fun AddArticleScreenContent(
     currentUser: User,
     setIsSelectTypeOpened: (Boolean) -> Unit,
     setIsSelectTagsOpened: (Boolean) -> Unit,
-    onArticleValueChange: (String, String?) -> Unit,
+    onArticleValueChange: (ArticleField, String?) -> Unit,
     onTypeValueChange: (Type) -> Unit,
     onSearchTag: (String) -> Unit,
     onTagsAdd: (List<Tag>) -> Unit,
-    onParagraphValueChange: (String, String, String?) -> Unit,
+    onParagraphValueChange: (ArticleField, String, String?) -> Unit,
     onAddParagraph: () -> Unit,
     onRemoveParagraph: (String) -> Unit,
 ) {
@@ -122,31 +122,32 @@ fun AddArticleScreenContent(
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
 
-    var launcherSource = ArticleFields.COVER_URI
+    var launcherSource = ArticleField.COVER_URI
     var launcherParagraphId = ""
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         when (launcherSource) {
-            ArticleFields.COVER_URI -> {
+            ArticleField.COVER_URI -> {
                 onArticleValueChange(
-                    ArticleFields.COVER_URI,
+                    ArticleField.COVER_URI,
                     uri.toString()
                 )
             }
-            ArticleFields.BACKGROUND_URI -> {
+            ArticleField.BACKGROUND_URI -> {
                 onArticleValueChange(
-                    ArticleFields.BACKGROUND_URI,
+                    ArticleField.BACKGROUND_URI,
                     uri.toString()
                 )
             }
-            ArticleFields.PARAGRAPH_IMAGE_URI -> {
+            ArticleField.PARAGRAPH_IMAGE_URI -> {
                 onParagraphValueChange(
-                    ArticleFields.PARAGRAPH_IMAGE_URI,
+                    ArticleField.PARAGRAPH_IMAGE_URI,
                     launcherParagraphId,
                     uri.toString()
                 )
             }
+            else -> { }
         }
     }
 
@@ -200,7 +201,7 @@ fun AddArticleScreenContent(
                             color = article.color.toColor(),
                             onCoverClick = { isCoverOpened = true },
                             onAddCoverClick = {
-                                launcherSource = ArticleFields.COVER_URI
+                                launcherSource = ArticleField.COVER_URI
                                 launcher.launch("image/*")
                             }
                         )
@@ -208,11 +209,10 @@ fun AddArticleScreenContent(
                             modifier = Modifier.align(Alignment.Center),
                             nickname = currentUser.nickname!!,
                             photoUrl = currentUser.photoUrl!!,
-                            onOwnerClick = { /* TODO: */}
+                            onOwnerClick = { /* TODO: */ }
                         )
                         AnimatedVisibility(
-                            modifier = Modifier
-                                .align(Alignment.CenterEnd),
+                            modifier = Modifier.align(Alignment.CenterEnd),
                             visible = article.backgroundUri != null,
                             enter = fadeIn(),
                             exit = fadeOut()
@@ -221,7 +221,9 @@ fun AddArticleScreenContent(
                                 text = "Remove",
                                 containerColor = article.color.toColor(),
                                 contentColor = md_theme_light_onSecondary,
-                                onClick = { onArticleValueChange(ArticleFields.BACKGROUND_URI, null) }
+                                onClick = {
+                                    onArticleValueChange(ArticleField.BACKGROUND_URI, null)
+                                }
                             )
                         }
                     }
@@ -238,7 +240,7 @@ fun AddArticleScreenContent(
                             contentColor = article.color.toColor(),
                             containerColor = md_theme_light_onSecondary,
                             onClick = {
-                                launcherSource = ArticleFields.BACKGROUND_URI
+                                launcherSource = ArticleField.BACKGROUND_URI
                                 launcher.launch("image/*")
                             }
                         )
@@ -262,7 +264,7 @@ fun AddArticleScreenContent(
                             textColor = md_theme_light_onPrimary,
                             placeholderTextColor = md_theme_transparent_gray,
                             textAlign = TextAlign.Center,
-                            onValueChange = { onArticleValueChange(ArticleFields.TITLE, it) }
+                            onValueChange = { onArticleValueChange(ArticleField.TITLE, it) }
                         )
                         Text(
                             modifier = Modifier
@@ -299,7 +301,7 @@ fun AddArticleScreenContent(
                                 textColor = md_theme_light_onPrimary,
                                 placeholderTextColor = md_theme_transparent_gray,
                                 textAlign = TextAlign.Center,
-                                onValueChange = { onArticleValueChange(ArticleFields.CREATOR, it) }
+                                onValueChange = { onArticleValueChange(ArticleField.CREATOR, it) }
                             )
                             Text(
                                 modifier = Modifier
@@ -324,7 +326,7 @@ fun AddArticleScreenContent(
                                 keyboardOptions = KeyboardOptions.Default.copy(
                                     keyboardType = KeyboardType.Number
                                 ),
-                                onValueChange = { onArticleValueChange(ArticleFields.YEAR, it) }
+                                onValueChange = { onArticleValueChange(ArticleField.YEAR, it) }
                             )
                             Text(
                                 modifier = Modifier
@@ -372,7 +374,9 @@ fun AddArticleScreenContent(
                                 textColor = md_theme_light_onBackground,
                                 placeholderTextColor = md_theme_light_onBackgroundVariant,
                                 textAlign = TextAlign.Start,
-                                onValueChange = { onArticleValueChange(ArticleFields.DESCRIPTION, it) }
+                                onValueChange = {
+                                    onArticleValueChange(ArticleField.DESCRIPTION, it)
+                                }
                             )
                         }
                     }
@@ -389,7 +393,7 @@ fun AddArticleScreenContent(
                     onParagraphValueChange = onParagraphValueChange,
                     onRemoveClick = onRemoveParagraph,
                     onLauncherOpen = {
-                        launcherSource = ArticleFields.PARAGRAPH_IMAGE_URI
+                        launcherSource = ArticleField.PARAGRAPH_IMAGE_URI
                         launcherParagraphId = paragraph.id!!
                         launcher.launch("image/*")
                     }
@@ -406,15 +410,15 @@ fun AddArticleScreenContent(
                     AddQuoteButton(
                         modifier = Modifier.animateItem(),
                         color = article.color.toColor(),
-                        onClick = { onArticleValueChange(ArticleFields.QUOTE, "") }
+                        onClick = { onArticleValueChange(ArticleField.QUOTE, "") }
                     )
                 } else {
                     QuoteInput(
                         modifier = Modifier.animateItem(),
                         quote = article.quote!!,
                         color = article.color.toColor(),
-                        onRemoveClick = { onArticleValueChange(ArticleFields.QUOTE, null) },
-                        onQuoteValueChange = { onArticleValueChange(ArticleFields.QUOTE, it) }
+                        onRemoveClick = { onArticleValueChange(ArticleField.QUOTE, null) },
+                        onQuoteValueChange = { onArticleValueChange(ArticleField.QUOTE, it) }
                     )
                 }
             }
@@ -441,9 +445,9 @@ fun AddArticleScreenContent(
         if (isCoverOpened) {
             CoverDialog(
                 coverUri = article.coverUri,
-                onCoverUriValueChange = { onArticleValueChange(ArticleFields.COVER_URI, null) },
+                onCoverUriValueChange = { onArticleValueChange(ArticleField.COVER_URI, null) },
                 onLauncherOpen = {
-                    launcherSource = ArticleFields.COVER_URI
+                    launcherSource = ArticleField.COVER_URI
                     launcher.launch("image/*")
                 },
                 onDismissRequest = { isCoverOpened = false }
@@ -453,7 +457,7 @@ fun AddArticleScreenContent(
     DarkMutedColor(
         uri = article.backgroundUri ?: article.coverUri,
         onColorExtract = { color ->
-            onArticleValueChange(ArticleFields.COLOR, color)
+            onArticleValueChange(ArticleField.COLOR, color)
         }
     )
 }

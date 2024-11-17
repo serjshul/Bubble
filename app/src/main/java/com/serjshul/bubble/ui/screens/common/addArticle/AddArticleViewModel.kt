@@ -10,7 +10,7 @@ import com.serjshul.bubble.data.getAllTypes
 import com.serjshul.bubble.data.searchTags
 import com.serjshul.bubble.data.users
 import com.serjshul.bubble.model.collections.Article
-import com.serjshul.bubble.model.collections.ArticleFields
+import com.serjshul.bubble.model.collections.ArticleField
 import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.subcollections.Type
@@ -62,28 +62,28 @@ class AddArticleViewModel @Inject constructor(
         isSelectTagsOpened = input
     }
 
-    fun onArticleValueChange(field: String, input: String?) {
+    fun onArticleValueChange(field: ArticleField, input: String?) {
         article = when (field) {
-            ArticleFields.TITLE -> article.copy(title = input ?: "")
-            ArticleFields.CREATOR -> article.copy(creator = input ?: "")
-            ArticleFields.YEAR -> article.copy(year = if (input == null || input == "") null else input.toInt())
-            ArticleFields.DESCRIPTION -> article.copy(description = input ?: "")
-            ArticleFields.QUOTE -> article.copy(quote = input)
-            ArticleFields.COVER_URI -> article.copy(coverUri = input)
-            ArticleFields.BACKGROUND_URI -> article.copy(backgroundUri = input)
-            ArticleFields.COLOR -> article.copy(color = input ?: md_theme_light_primary.toARGBString())
+            ArticleField.TITLE -> article.copy(title = input ?: "")
+            ArticleField.CREATOR -> article.copy(creator = input ?: "")
+            ArticleField.YEAR -> article.copy(year = if (input == null || input == "") null else input.toInt())
+            ArticleField.DESCRIPTION -> article.copy(description = input ?: "")
+            ArticleField.QUOTE -> article.copy(quote = input)
+            ArticleField.COVER_URI -> article.copy(coverUri = input)
+            ArticleField.BACKGROUND_URI -> article.copy(backgroundUri = input)
+            ArticleField.COLOR -> article.copy(color = input ?: md_theme_light_primary.toARGBString())
             else -> article
         }
         checkArticleOnValid()
     }
 
-    fun onParagraphValueChange(field: String, id: String, input: String?) {
+    fun onParagraphValueChange(field: ArticleField, id: String, input: String?) {
         val updatedParagraphs = article.content.map { paragraph ->
             if (paragraph.id == id) {
                 when (field) {
-                    ArticleFields.PARAGRAPH_TITLE -> paragraph.copy(title = input ?: "")
-                    ArticleFields.PARAGRAPH_TEXT -> paragraph.copy(text = input ?: "")
-                    ArticleFields.PARAGRAPH_IMAGE_URI -> paragraph.copy(imageUri = input)
+                    ArticleField.PARAGRAPH_TITLE -> paragraph.copy(title = input ?: "")
+                    ArticleField.PARAGRAPH_TEXT -> paragraph.copy(text = input ?: "")
+                    ArticleField.PARAGRAPH_IMAGE_URI -> paragraph.copy(imageUri = input)
                     else -> paragraph
                 }
             } else {

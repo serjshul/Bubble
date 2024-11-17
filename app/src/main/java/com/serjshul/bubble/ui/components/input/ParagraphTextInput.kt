@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.serjshul.bubble.model.collections.ArticleFields
+import com.serjshul.bubble.model.collections.ArticleField
 import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.ui.components.buttons.AddImageButton
 import com.serjshul.bubble.ui.components.buttons.CloseIconToggleButton
@@ -35,7 +35,7 @@ fun ParagraphTextInput(
     modifier: Modifier = Modifier,
     paragraph: Paragraph,
     color: Color = md_theme_light_primary,
-    onParagraphValueChange: (String, String, String?) -> Unit,
+    onParagraphValueChange: (ArticleField, String, String?) -> Unit,
     onRemoveClick: (String) -> Unit,
     onLauncherOpen: () -> Unit
 ) {
@@ -59,7 +59,7 @@ fun ParagraphTextInput(
                 placeholderTextColor = md_theme_light_onBackgroundVariant,
                 textAlign = TextAlign.Start,
                 onValueChange = {
-                    onParagraphValueChange(ArticleFields.PARAGRAPH_TITLE, paragraph.id!!, it)
+                    onParagraphValueChange(ArticleField.PARAGRAPH_TITLE, paragraph.id!!, it)
                 }
             )
             CloseIconToggleButton(
@@ -93,7 +93,7 @@ fun ParagraphTextInput(
                     containerColor = md_theme_transparent_gray,
                     contentColor = md_theme_light_onBackground,
                     onClick = {
-                        onParagraphValueChange(ArticleFields.PARAGRAPH_IMAGE_URI, paragraph.id!!, null)
+                        onParagraphValueChange(ArticleField.PARAGRAPH_IMAGE_URI, paragraph.id!!, null)
                     }
                 )
             }
@@ -106,7 +106,7 @@ fun ParagraphTextInput(
             placeholderTextColor = md_theme_light_onBackgroundVariant,
             textAlign = TextAlign.Start,
             onValueChange = {
-                onParagraphValueChange(ArticleFields.PARAGRAPH_TEXT, paragraph.id!!, it)
+                onParagraphValueChange(ArticleField.PARAGRAPH_TEXT, paragraph.id!!, it)
             }
         )
     }
