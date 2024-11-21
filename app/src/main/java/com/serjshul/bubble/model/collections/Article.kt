@@ -2,11 +2,13 @@ package com.serjshul.bubble.model.collections
 
 import com.serjshul.bubble.model.subcollections.Comment
 import com.serjshul.bubble.model.subcollections.Like
+import com.serjshul.bubble.model.subcollections.Paragraph
 import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.ui.theme.md_theme_light_primary
 import com.serjshul.bubble.ui.utils.toARGBString
 import java.util.Date
+import java.util.UUID
 
 enum class ArticleField {
     ID, OWNER_ID, TITLE, TYPE, CREATOR, YEAR, TAGS, DESCRIPTION, QUOTE, COVER_URI, BACKGROUND_URI,
@@ -79,7 +81,7 @@ sealed interface Article {
         override val repostIds: List<String>? = null,
         val type: Type? = null,
         val tags: List<Tag>? = null,
-        val content: List<Paragraph>? = null,
+        val content: List<Paragraph.UI>? = null,
         val owner: User? = null,
         val likes: List<Like>? = null,
         val comments: List<Comment>? = null,
@@ -96,7 +98,7 @@ sealed interface Article {
     }
 
     data class Draft(
-        override val id: String? = null,
+        override val id: String = UUID.randomUUID().toString(),
         override val ownerId: String? = null,
         override var title: String = "",
         override var description: String = "",
@@ -115,14 +117,14 @@ sealed interface Article {
         override val repostIds: List<String> = emptyList(),
         var type: Type? = null,
         val tags: List<Tag> = emptyList(),
-        val content: List<Paragraph> = emptyList(),
+        val content: List<Paragraph.Draft> = emptyList(),
         val owner: User? = null,
         val likes: List<Like> = emptyList(),
         val comments: List<Like> = emptyList(),
         val reposts: List<Like> = emptyList()
     ) : Article {
         override fun isValid(): Boolean =
-                id != null && ownerId != null && title.isEmpty() && description.isEmpty() &&
+                ownerId != null && title.isEmpty() && description.isEmpty() &&
                 creator.isEmpty() && typeId != null && year != null && tagIds.isNotEmpty() &&
                 coverUri != null && date != null && type != null && tags.isNotEmpty() &&
                 owner != null
@@ -130,7 +132,6 @@ sealed interface Article {
         fun whereIsError(): List<ArticleField> {
             val errorFields = mutableListOf<ArticleField>()
 
-            if (id == null) errorFields.add(ArticleField.ID)
             if (ownerId == null) errorFields.add(ArticleField.OWNER_ID)
             if (title.isEmpty()) errorFields.add(ArticleField.TITLE)
             if (description.isEmpty()) errorFields.add(ArticleField.DESCRIPTION)
@@ -145,15 +146,3 @@ sealed interface Article {
         }
     }
 }
-
-data class Paragraph (
-    val id: String? = null,
-    var title: String? = null,
-    var imageUri: String? = null,
-    var text: String? = null
-)
-
-
-
-
-

@@ -64,9 +64,9 @@ import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.model.collections.ArticleField
-import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.collections.User
+import com.serjshul.bubble.model.subcollections.Paragraph
 import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.ui.components.buttons.AddImageButton
 import com.serjshul.bubble.ui.components.buttons.AddParagraphButton
@@ -448,7 +448,7 @@ fun AddArticleScreenContent(
             }
             items(
                 items = article.content,
-                key = { paragraph -> paragraph.id!! }
+                key = { paragraph -> paragraph.id }
             ) { paragraph ->
                 ParagraphTextInput(
                     modifier = Modifier.animateItem(),
@@ -458,7 +458,7 @@ fun AddArticleScreenContent(
                     onRemoveClick = onRemoveParagraph,
                     onLauncherOpen = {
                         launcherSource = ArticleField.PARAGRAPH_IMAGE_URI
-                        launcherParagraphId = paragraph.id!!
+                        launcherParagraphId = paragraph.id
                         launcher.launch("image/*")
                     }
                 )
@@ -613,7 +613,7 @@ fun AddArticleScreenContentWithDataPreview() {
                     "reaches the cash register and you realize that this respectable-looking suburban " +
                     "woman can barely cover the family groceries.",
             content = listOf(
-                Paragraph(
+                Paragraph.Draft(
                     id = "klajsdfl",
                     title = "The endearing shagginess and goofy imperfection",
                     imageUri = "https://static01.nyt.com/images/2017/11/03/arts/03LADYBIRD1/03LADYBIRD1-superJumbo-v3.jpg",
@@ -627,7 +627,7 @@ fun AddArticleScreenContentWithDataPreview() {
                             "Not a criticism exactly, but perhaps an explanation for why the film has " +
                             "managed to transcend its indie dramedy trappings."
                 ),
-                Paragraph(
+                Paragraph.Draft(
                     id = "dsnwlkn",
                     title = "Lady Bird’s coming of age",
                     imageUri = "https://compote.slate.com/images/65093ba9-f66a-4912-92a7-090af2f5ef20.jpeg?crop=1560%2C1040%2Cx0%2Cy0",
@@ -648,7 +648,7 @@ fun AddArticleScreenContentWithDataPreview() {
                             "is”. The scenes between Ronan and Metcalf are electric; Gerwig maps their " +
                             "inability to communicate with excruciating veracity."
                 ),
-                Paragraph(
+                Paragraph.Draft(
                     id = "klsnwemdsfklnrw",
                     title = "The small things that make a good movie great",
                     imageUri = null,

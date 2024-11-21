@@ -10,7 +10,7 @@ import com.serjshul.bubble.data.searchTags
 import com.serjshul.bubble.data.users
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.model.collections.ArticleField
-import com.serjshul.bubble.model.collections.Paragraph
+import com.serjshul.bubble.model.subcollections.Paragraph
 import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.subcollections.Type
 import com.serjshul.bubble.services.LogService
@@ -20,7 +20,6 @@ import com.serjshul.bubble.ui.utils.toARGBString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import java.util.Date
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +30,6 @@ class AddArticleViewModel @Inject constructor(
     val currentUser by mutableStateOf(users[0])
     var article by mutableStateOf(
         Article.Draft(
-            id = UUID.randomUUID().toString(),
             ownerId = currentUser.id
         )
     )
@@ -132,9 +130,9 @@ class AddArticleViewModel @Inject constructor(
         val updatedParagraphs = article.content.map { paragraph ->
             if (paragraph.id == id) {
                 when (field) {
-                    ArticleField.PARAGRAPH_TITLE -> paragraph.copy(title = input ?: "")
-                    ArticleField.PARAGRAPH_TEXT -> paragraph.copy(text = input ?: "")
-                    ArticleField.PARAGRAPH_IMAGE_URI -> paragraph.copy(imageUri = input)
+                    ArticleField.PARAGRAPH_TITLE -> paragraph.copyWithErrorsCheck(title = input ?: "")
+                    ArticleField.PARAGRAPH_TEXT -> paragraph.copyWithErrorsCheck(text = input ?: "")
+                    ArticleField.PARAGRAPH_IMAGE_URI -> paragraph.copyWithErrorsCheck(imageUri = input)
                     else -> paragraph
                 }
             } else {
@@ -160,11 +158,7 @@ class AddArticleViewModel @Inject constructor(
     }
 
     fun onAddParagraph() {
-        val newParagraph = Paragraph(
-            id = UUID.randomUUID().toString(),
-            title = "",
-            text = ""
-        )
+        val newParagraph = Paragraph.Draft()
         val updatedParagraphs = article.content + newParagraph
         article = article.copy(content = updatedParagraphs)
     }

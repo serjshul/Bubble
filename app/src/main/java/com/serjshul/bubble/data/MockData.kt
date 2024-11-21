@@ -1,10 +1,10 @@
 package com.serjshul.bubble.data
 
 import com.serjshul.bubble.model.collections.Article
-import com.serjshul.bubble.model.collections.Paragraph
 import com.serjshul.bubble.model.subcollections.Tag
 import com.serjshul.bubble.model.collections.User
 import com.serjshul.bubble.model.subcollections.Comment
+import com.serjshul.bubble.model.subcollections.Paragraph
 import com.serjshul.bubble.model.subcollections.Post
 import com.serjshul.bubble.model.subcollections.Type
 import java.util.Date
@@ -72,7 +72,7 @@ val articlesUI = listOf(
         quote = "Marion McPherson: I want you to be the very best version of yourself that you can be.\n" +
                 "Christine 'Lady Bird' McPherson: What if this is the best version?",
         content = listOf(
-            Paragraph(
+            Paragraph.UI(
                 title = "The endearing shagginess and goofy imperfection",
                 imageUri = "https://static01.nyt.com/images/2017/11/03/arts/03LADYBIRD1/03LADYBIRD1-superJumbo-v3.jpg",
                 text = "In the conversations that have ushered in its theatrical release, Lady Bird " +
@@ -85,7 +85,7 @@ val articlesUI = listOf(
                         "Not a criticism exactly, but perhaps an explanation for why the film has " +
                         "managed to transcend its indie dramedy trappings."
             ),
-            Paragraph(
+            Paragraph.UI(
                 title = "Lady Bird’s coming of age",
                 imageUri = "https://compote.slate.com/images/65093ba9-f66a-4912-92a7-090af2f5ef20.jpeg?crop=1560%2C1040%2Cx0%2Cy0",
                 text = "Set in Sacramento, California in 2002, it centres on Christine “Lady Bird” " +
@@ -105,7 +105,7 @@ val articlesUI = listOf(
                         "is”. The scenes between Ronan and Metcalf are electric; Gerwig maps their " +
                         "inability to communicate with excruciating veracity."
             ),
-            Paragraph(
+            Paragraph.UI(
                 title = "The small things that make a good movie great",
                 imageUri = null,
                 text = "However, it is Gerwig’s tidy pacing, vividly drawn characters (see Timothée " +

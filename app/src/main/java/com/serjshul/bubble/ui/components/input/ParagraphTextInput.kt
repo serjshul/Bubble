@@ -19,7 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.model.collections.ArticleField
-import com.serjshul.bubble.model.collections.Paragraph
+import com.serjshul.bubble.model.subcollections.Paragraph
+import com.serjshul.bubble.model.subcollections.ParagraphField
 import com.serjshul.bubble.ui.components.buttons.AddImageButton
 import com.serjshul.bubble.ui.components.buttons.CloseIconToggleButton
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
@@ -33,7 +34,7 @@ import com.serjshul.bubble.ui.utils.roundedCornerShape
 @Composable
 fun ParagraphTextInput(
     modifier: Modifier = Modifier,
-    paragraph: Paragraph,
+    paragraph: Paragraph.Draft,
     color: Color = md_theme_light_primary,
     onParagraphValueChange: (ArticleField, String, String?) -> Unit,
     onRemoveClick: (String) -> Unit,
@@ -49,9 +50,17 @@ fun ParagraphTextInput(
             modifier = Modifier.fillMaxWidth()
         ) {
             TextInput(
-                modifier = Modifier.weight(1f),
-                text = paragraph.title!!,
+                modifier =
+                    if (ParagraphField.TITLE in paragraph.errors)
+                        Modifier
+                            .weight(1f)
+                            .padding(start = 15.dp, top = 10.dp, bottom = 10.dp)
+                            .roundedCornerShape()
+                    else
+                        Modifier.weight(1f),
+                text = paragraph.title,
                 placeholderText = "Paragraph's title",
+                isError = ParagraphField.TITLE in paragraph.errors,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 maxLines = 3,
@@ -59,7 +68,7 @@ fun ParagraphTextInput(
                 placeholderTextColor = md_theme_light_onBackgroundVariant,
                 textAlign = TextAlign.Start,
                 onValueChange = {
-                    onParagraphValueChange(ArticleField.PARAGRAPH_TITLE, paragraph.id!!, it)
+                    onParagraphValueChange(ArticleField.PARAGRAPH_TITLE, paragraph.id, it)
                 }
             )
             CloseIconToggleButton(
@@ -67,7 +76,7 @@ fun ParagraphTextInput(
                     .padding(top = 6.dp, end = 6.dp),
                 backgroundColor = color,
                 tint = md_theme_light_onPrimary,
-                onClick = { onRemoveClick(paragraph.id!!) }
+                onClick = { onRemoveClick(paragraph.id) }
             )
         }
         Box(
@@ -93,20 +102,29 @@ fun ParagraphTextInput(
                     containerColor = md_theme_transparent_gray,
                     contentColor = md_theme_light_onBackground,
                     onClick = {
-                        onParagraphValueChange(ArticleField.PARAGRAPH_IMAGE_URI, paragraph.id!!, null)
+                        onParagraphValueChange(ArticleField.PARAGRAPH_IMAGE_URI, paragraph.id, null)
                     }
                 )
             }
         }
         TextInput(
-            text = paragraph.text!!,
+            modifier =
+                if (ParagraphField.TEXT in paragraph.errors) {
+                    Modifier
+                        .padding(start = 15.dp, end = 15.dp, top = 10.dp)
+                        .roundedCornerShape()
+                } else {
+                    Modifier
+                },
+            text = paragraph.text,
             placeholderText = "Type paragraph's text here",
+            isError = ParagraphField.TEXT in paragraph.errors,
             style = MaterialTheme.typography.bodyMedium,
             textColor = md_theme_light_onBackground,
             placeholderTextColor = md_theme_light_onBackgroundVariant,
             textAlign = TextAlign.Start,
             onValueChange = {
-                onParagraphValueChange(ArticleField.PARAGRAPH_TEXT, paragraph.id!!, it)
+                onParagraphValueChange(ArticleField.PARAGRAPH_TEXT, paragraph.id, it)
             }
         )
     }
@@ -116,7 +134,9 @@ fun ParagraphTextInput(
 @Composable
 fun ParagraphTextInputWithoutDataPreview() {
     ParagraphTextInput(
-        paragraph = Paragraph(id = "", title = "", text = ""),
+        paragraph = Paragraph.Draft(
+            errors = listOf(ParagraphField.TITLE, ParagraphField.TEXT)
+        ),
         onParagraphValueChange = { _, _, _ -> },
         onRemoveClick = { },
         onLauncherOpen = { }
@@ -127,7 +147,7 @@ fun ParagraphTextInputWithoutDataPreview() {
 @Composable
 fun ParagraphTextInputWithDataPreview() {
     ParagraphTextInput(
-        paragraph = Paragraph(
+        paragraph = Paragraph.Draft(
             id = "kldsjflsdk",
             title = "Lady Bird’s coming of age",
             imageUri = "",
