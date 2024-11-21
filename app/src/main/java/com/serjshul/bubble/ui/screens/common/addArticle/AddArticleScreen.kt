@@ -248,6 +248,7 @@ fun AddArticleScreenContent(
                                 .align(Alignment.CenterStart),
                             imageUri = article.coverUri,
                             color = article.color.toColor(),
+                            isError = ArticleField.COVER_URI in errors,
                             onCoverClick = { isCoverOpened = true },
                             onAddCoverClick = {
                                 launcherSource = ArticleField.COVER_URI

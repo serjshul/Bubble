@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import com.serjshul.bubble.data.getAllTags
 import com.serjshul.bubble.data.getAllTypes
 import com.serjshul.bubble.data.searchTags
@@ -20,18 +19,22 @@ import com.serjshul.bubble.ui.theme.md_theme_light_primary
 import com.serjshul.bubble.ui.utils.toARGBString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import java.util.Date
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class AddArticleViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     logService: LogService
 ) : BubbleViewModel(logService) {
 
-    var snackbarMessage by mutableStateOf<String?>(null)
-
-    val currentUser = users[0]
+    val currentUser by mutableStateOf(users[0])
+    var article by mutableStateOf(
+        Article.Draft(
+            id = UUID.randomUUID().toString(),
+            ownerId = currentUser.id
+        )
+    )
     var types = mutableStateListOf<Type>()
         private set
     var tags = mutableStateListOf<Tag>()
@@ -41,22 +44,14 @@ class AddArticleViewModel @Inject constructor(
         private set
     var isSelectTagsOpened by mutableStateOf(false)
         private set
-
-    var article by mutableStateOf(
-        Article.Draft(
-            id = UUID.randomUUID().toString(),
-            ownerId = currentUser.id
-        )
-    )
-
     var errors = mutableStateListOf<ArticleField>()
         private set
+    var snackbarMessage by mutableStateOf<String?>(null)
 
     init {
         // TODO: types init
         val allTypes = getAllTypes()
         types.addAll(allTypes)
-
         // TODO: tags init
         val allTags = getAllTags()
         tags.addAll(allTags)
@@ -79,16 +74,57 @@ class AddArticleViewModel @Inject constructor(
     }
 
     fun onArticleValueChange(field: ArticleField, input: String?) {
-        article = when (field) {
-            ArticleField.TITLE -> article.copy(title = input ?: "")
-            ArticleField.CREATOR -> article.copy(creator = input ?: "")
-            ArticleField.YEAR -> article.copy(year = if (input == null || input == "") null else input.toInt())
-            ArticleField.DESCRIPTION -> article.copy(description = input ?: "")
-            ArticleField.QUOTE -> article.copy(quote = input)
-            ArticleField.COVER_URI -> article.copy(coverUri = input)
-            ArticleField.BACKGROUND_URI -> article.copy(backgroundUri = input)
-            ArticleField.COLOR -> article.copy(color = input ?: md_theme_light_primary.toARGBString())
-            else -> article
+        when (field) {
+            ArticleField.TITLE -> {
+                article = article.copy(title = input ?: "")
+                if (input == "") {
+                    errors.add(ArticleField.TITLE)
+                } else {
+                    errors.remove(ArticleField.TITLE)
+                }
+            }
+            ArticleField.CREATOR -> {
+                article = article.copy(creator = input ?: "")
+                if (input == "") {
+                    errors.add(ArticleField.CREATOR)
+                } else {
+                    errors.remove(ArticleField.CREATOR)
+                }
+            }
+            ArticleField.YEAR -> {
+                article = article.copy(year = if (input == null || input == "") null else input.toInt())
+                if (input == null || input == "") {
+                    errors.add(ArticleField.YEAR)
+                } else {
+                    errors.remove(ArticleField.YEAR)
+                }
+            }
+            ArticleField.DESCRIPTION -> {
+                article = article.copy(description = input ?: "")
+                if (input == "") {
+                    errors.add(ArticleField.DESCRIPTION)
+                } else {
+                    errors.remove(ArticleField.DESCRIPTION)
+                }
+            }
+            ArticleField.QUOTE -> {
+                article = article.copy(quote = input)
+                if (input == "") {
+                    errors.add(ArticleField.QUOTE)
+                } else {
+                    errors.remove(ArticleField.QUOTE)
+                }
+            }
+            ArticleField.COVER_URI -> {
+                article = article.copy(coverUri = input)
+                if (input == "") {
+                    errors.add(ArticleField.COVER_URI)
+                } else {
+                    errors.remove(ArticleField.COVER_URI)
+                }
+            }
+            ArticleField.BACKGROUND_URI -> article = article.copy(backgroundUri = input)
+            else -> article = article.copy(color = input ?: md_theme_light_primary.toARGBString())
         }
     }
 
@@ -110,10 +146,12 @@ class AddArticleViewModel @Inject constructor(
 
     fun onTypeValueChange(input: Type) {
         article = article.copy(type = input, typeId = input.id)
+        errors.remove(ArticleField.TYPE)
     }
 
     fun onAddTags(addingTags: List<Tag>) {
         article = article.copy(tags = addingTags, tagIds = addingTags.map { it.id!! })
+        errors.remove(ArticleField.TAGS)
     }
 
     fun onSearchTag(query: String) {
@@ -137,13 +175,14 @@ class AddArticleViewModel @Inject constructor(
     }
 
     fun onShareClick() {
+        article = article.copy(date = Date())
+
         val currentErrors = article.whereIsError()
         errors.clear()
         errors.addAll(currentErrors)
 
-
         if (errors.isEmpty()) {
-
+            triggerSnackbar("Well done!")
         } else {
             triggerSnackbar(errors.joinToString())
         }

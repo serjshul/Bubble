@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_dark_gradient
+import com.serjshul.bubble.ui.theme.md_theme_light_errorContainer
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_light_primary
 
@@ -24,6 +25,7 @@ fun AddImageButton(
     modifier: Modifier = Modifier,
     imageUri: Any?,
     color: Color = md_theme_light_primary,
+    isError: Boolean = false,
     onCoverClick: () -> Unit,
     onAddCoverClick: () -> Unit,
 ) {
@@ -35,7 +37,12 @@ fun AddImageButton(
         )
     } else {
         Box(
-            modifier = modifier.background(Brush.verticalGradient(md_theme_dark_gradient))
+            modifier =
+                if (isError) {
+                    modifier.background(md_theme_light_errorContainer)
+                } else {
+                    modifier.background(Brush.verticalGradient(md_theme_dark_gradient))
+                }
         ) {
             AddIconToggleButton(
                 modifier = Modifier.align(Alignment.Center),
@@ -74,6 +81,23 @@ fun AddCoverButtonWithoutImagePreview() {
             .size(coverWidth, coverHeight)
             .clip(RoundedCornerShape(5.dp)),
         imageUri = null,
+        onCoverClick = { },
+        onAddCoverClick = { }
+    )
+}
+
+@Preview
+@Composable
+fun AddCoverButtonErrorPreview() {
+    val coverWidth = 90.dp
+    val coverHeight = coverWidth * 10 / 19
+
+    AddImageButton(
+        modifier = Modifier
+            .size(coverWidth, coverHeight)
+            .clip(RoundedCornerShape(5.dp)),
+        imageUri = null,
+        isError = true,
         onCoverClick = { },
         onAddCoverClick = { }
     )
