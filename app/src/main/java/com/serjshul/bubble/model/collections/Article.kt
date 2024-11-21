@@ -121,7 +121,8 @@ sealed interface Article {
         val owner: User? = null,
         val likes: List<Like> = emptyList(),
         val comments: List<Like> = emptyList(),
-        val reposts: List<Like> = emptyList()
+        val reposts: List<Like> = emptyList(),
+        val errors: List<ArticleField> = emptyList()
     ) : Article {
         override fun isValid(): Boolean =
                 ownerId != null && title.isEmpty() && description.isEmpty() &&
@@ -129,20 +130,113 @@ sealed interface Article {
                 coverUri != null && date != null && type != null && tags.isNotEmpty() &&
                 owner != null
 
-        fun whereIsError(): List<ArticleField> {
-            val errorFields = mutableListOf<ArticleField>()
+        fun checkError(): Draft {
+            val currentErrors = mutableListOf<ArticleField>()
 
-            if (ownerId == null) errorFields.add(ArticleField.OWNER_ID)
-            if (title.isEmpty()) errorFields.add(ArticleField.TITLE)
-            if (description.isEmpty()) errorFields.add(ArticleField.DESCRIPTION)
-            if (creator.isEmpty()) errorFields.add(ArticleField.CREATOR)
-            if (typeId == null) errorFields.add(ArticleField.TYPE)
-            if (year == null) errorFields.add(ArticleField.YEAR)
-            if (tagIds.isEmpty()) errorFields.add(ArticleField.TAGS)
-            if (coverUri == null) errorFields.add(ArticleField.COVER_URI)
-            if (date == null) errorFields.add(ArticleField.DATE)
+            if (ownerId == null) currentErrors.add(ArticleField.OWNER_ID)
+            if (title.isEmpty()) currentErrors.add(ArticleField.TITLE)
+            if (description.isEmpty()) currentErrors.add(ArticleField.DESCRIPTION)
+            if (creator.isEmpty()) currentErrors.add(ArticleField.CREATOR)
+            if (typeId == null) currentErrors.add(ArticleField.TYPE)
+            if (year == null) currentErrors.add(ArticleField.YEAR)
+            if (tagIds.isEmpty()) currentErrors.add(ArticleField.TAGS)
+            if (coverUri == null) currentErrors.add(ArticleField.COVER_URI)
+            if (date == null) currentErrors.add(ArticleField.DATE)
 
-            return errorFields
+            return this.copy(errors = currentErrors)
+        }
+
+        fun copyWithErrorsCheck(
+            id: String = this.id,
+            ownerId: String? = this.ownerId,
+            title: String = this.title,
+            description: String = this.description,
+            creator: String = this.creator,
+            typeId: String? = this.typeId,
+            year: Int? = this.year,
+            tagIds: List<String> = this.tagIds,
+            color: String = this.color,
+            contentIds: List<String> = this.contentIds,
+            quote: String? = this.quote,
+            coverUri: String? = this.coverUri,
+            backgroundUri: String? = this.backgroundUri,
+            date: Date? = this.date,
+            likeIds: List<String> = this.likeIds,
+            commentIds: List<String> = this.commentIds,
+            repostIds: List<String> = this.repostIds,
+            type: Type? = this.type,
+            tags: List<Tag> = this.tags,
+            content: List<Paragraph.Draft> = this.content,
+            owner: User? = this.owner,
+            likes: List<Like> = this.likes,
+            comments: List<Like> = this.comments,
+            reposts: List<Like> = this.reposts,
+            errors: List<ArticleField> = this.errors
+        ): Draft {
+            val article = Draft(
+                id, ownerId, title, description, creator, typeId, year, tagIds, color,
+                contentIds, quote, coverUri, backgroundUri, date, likeIds, commentIds,
+                repostIds, type, tags, content, owner, likes, comments, reposts, errors
+            )
+
+            if (title != this.title) {
+                return if (title.isEmpty()) {
+                    article.copy(errors = errors + ArticleField.TITLE)
+                } else {
+                    article.copy(errors = errors - ArticleField.TITLE)
+                }
+            }
+            if (creator != this.creator) {
+                return if (creator.isEmpty()) {
+                    article.copy(errors = errors + ArticleField.CREATOR)
+                } else {
+                    article.copy(errors = errors - ArticleField.CREATOR)
+                }
+            }
+            if (year != this.year) {
+                return if (year == null) {
+                    article.copy(errors = errors + ArticleField.YEAR)
+                } else {
+                    article.copy(errors = errors - ArticleField.YEAR)
+                }
+            }
+            if (description != this.description) {
+                return if (description.isEmpty()) {
+                    article.copy(errors = errors + ArticleField.DESCRIPTION)
+                } else {
+                    article.copy(errors = errors - ArticleField.DESCRIPTION)
+                }
+            }
+            if (quote != this.quote) {
+                return if (quote == "") {
+                    article.copy(errors = errors + ArticleField.QUOTE)
+                } else {
+                    article.copy(errors = errors - ArticleField.QUOTE)
+                }
+            }
+            if (coverUri != this.coverUri) {
+                return if (coverUri == null) {
+                    article.copy(errors = errors + ArticleField.COVER_URI)
+                } else {
+                    article.copy(errors = errors - ArticleField.COVER_URI)
+                }
+            }
+            if (type != this.type) {
+                return if (type == null) {
+                    article.copy(errors = errors + ArticleField.TYPE)
+                } else {
+                    article.copy(errors = errors - ArticleField.TYPE)
+                }
+            }
+            if (tags != this.tags) {
+                return if (tags.isEmpty()) {
+                    article.copy(errors = errors + ArticleField.TAGS)
+                } else {
+                    article.copy(errors = errors - ArticleField.TAGS)
+                }
+            }
+
+            return article
         }
     }
 }

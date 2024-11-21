@@ -108,7 +108,6 @@ fun AddArticleScreen(
         isSelectTypeOpened = viewModel.isSelectTypeOpened,
         isSelectTagsOpened = viewModel.isSelectTagsOpened,
         article = viewModel.article,
-        errors = viewModel.errors,
         types = viewModel.types,
         tags = viewModel.tags,
         currentUser = viewModel.currentUser,
@@ -133,7 +132,6 @@ fun AddArticleScreenContent(
     isSelectTypeOpened: Boolean,
     isSelectTagsOpened: Boolean,
     article: Article.Draft,
-    errors: List<ArticleField>,
     types: List<Type>,
     tags: List<Tag>,
     currentUser: User,
@@ -248,7 +246,7 @@ fun AddArticleScreenContent(
                                 .align(Alignment.CenterStart),
                             imageUri = article.coverUri,
                             color = article.color.toColor(),
-                            isError = ArticleField.COVER_URI in errors,
+                            isError = ArticleField.COVER_URI in article.errors,
                             onCoverClick = { isCoverOpened = true },
                             onAddCoverClick = {
                                 launcherSource = ArticleField.COVER_URI
@@ -308,7 +306,7 @@ fun AddArticleScreenContent(
                                 .align(Alignment.CenterHorizontally),
                             text = article.title,
                             placeholderText = "Title",
-                            isError = ArticleField.TITLE in errors,
+                            isError = ArticleField.TITLE in article.errors,
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             maxLines = 4,
@@ -319,7 +317,7 @@ fun AddArticleScreenContent(
                         )
                         Text(
                             modifier =
-                                if (ArticleField.TYPE in errors)
+                                if (ArticleField.TYPE in article.errors)
                                     Modifier
                                         .fillMaxWidth()
                                         .padding(start = 15.dp, end = 15.dp, bottom = 15.dp)
@@ -336,7 +334,7 @@ fun AddArticleScreenContent(
                             text = if (article.type == null) "Type" else article.type!!.toString(),
                             textAlign = TextAlign.Center,
                             color =
-                                if (ArticleField.TYPE in errors)
+                                if (ArticleField.TYPE in article.errors)
                                     md_theme_light_error
                                 else if (article.type == null)
                                     md_theme_transparent_gray
@@ -359,7 +357,7 @@ fun AddArticleScreenContent(
                                     .roundedCornerShape(),
                                 text = article.creator,
                                 placeholderText = "Creator",
-                                isError = ArticleField.CREATOR in errors,
+                                isError = ArticleField.CREATOR in article.errors,
                                 style = MaterialTheme.typography.bodyMedium,
                                 maxLines = 4,
                                 textColor = md_theme_light_onPrimary,
@@ -381,7 +379,7 @@ fun AddArticleScreenContent(
                                     .roundedCornerShape(),
                                 text = if (article.year == null) "" else article.year.toString(),
                                 placeholderText = "Year",
-                                isError = ArticleField.YEAR in errors,
+                                isError = ArticleField.YEAR in article.errors,
                                 style = MaterialTheme.typography.bodyMedium,
                                 maxLines = 4,
                                 textColor = md_theme_light_onPrimary,
@@ -402,7 +400,7 @@ fun AddArticleScreenContent(
                             )
                             Box(
                                 modifier =
-                                    if (ArticleField.TAGS in errors)
+                                    if (ArticleField.TAGS in article.errors)
                                         Modifier
                                             .weight(1f)
                                             .height(55.dp)
@@ -433,7 +431,7 @@ fun AddArticleScreenContent(
                             TextInput(
                                 text = article.description,
                                 placeholderText = "Description",
-                                isError = ArticleField.DESCRIPTION in errors,
+                                isError = ArticleField.DESCRIPTION in article.errors,
                                 style = MaterialTheme.typography.bodyMedium,
                                 textColor = md_theme_light_onBackground,
                                 placeholderTextColor = md_theme_light_onBackgroundVariant,
@@ -559,7 +557,6 @@ fun AddArticleScreenContentNoDataPreview() {
         isSelectTypeOpened = false,
         isSelectTagsOpened = false,
         article = Article.Draft(),
-        errors = listOf(ArticleField.TITLE, ArticleField.TYPE),
         types = emptyList(),
         tags = emptyList(),
         setIsSelectTypeOpened = { },
@@ -666,7 +663,6 @@ fun AddArticleScreenContentWithDataPreview() {
             backgroundUri = "",
             coverUri = ""
         ),
-        errors = emptyList(),
         types = emptyList(),
         tags = emptyList(),
         setIsSelectTypeOpened = { },

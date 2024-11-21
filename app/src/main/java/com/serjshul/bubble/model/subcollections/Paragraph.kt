@@ -49,17 +49,17 @@ sealed interface Paragraph {
             errors: List<ParagraphField> = this.errors
         ): Draft {
             if (title != this.title) {
-                if (title.isEmpty()) {
-                    return Draft(id, title, imageUri, text, errors + ParagraphField.TITLE)
+                return if (title.isEmpty()) {
+                    Draft(id, title, imageUri, text, errors + ParagraphField.TITLE)
                 } else {
-                    return Draft(id, title, imageUri, text, errors - ParagraphField.TITLE)
+                    Draft(id, title, imageUri, text, errors - ParagraphField.TITLE)
                 }
             }
             if (text != this.text) {
-                if (text.isEmpty()) {
-                    return Draft(id, title, imageUri, text, errors + ParagraphField.TEXT)
+                return if (text.isEmpty()) {
+                    Draft(id, title, imageUri, text, errors + ParagraphField.TEXT)
                 } else {
-                    return Draft(id, title, imageUri, text, errors - ParagraphField.TEXT)
+                    Draft(id, title, imageUri, text, errors - ParagraphField.TEXT)
                 }
             }
             return Draft(id, title, imageUri, text, errors)

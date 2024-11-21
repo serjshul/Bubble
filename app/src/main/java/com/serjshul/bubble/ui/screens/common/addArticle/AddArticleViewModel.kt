@@ -42,8 +42,6 @@ class AddArticleViewModel @Inject constructor(
         private set
     var isSelectTagsOpened by mutableStateOf(false)
         private set
-    var errors = mutableStateListOf<ArticleField>()
-        private set
     var snackbarMessage by mutableStateOf<String?>(null)
 
     init {
@@ -72,57 +70,15 @@ class AddArticleViewModel @Inject constructor(
     }
 
     fun onArticleValueChange(field: ArticleField, input: String?) {
-        when (field) {
-            ArticleField.TITLE -> {
-                article = article.copy(title = input ?: "")
-                if (input == "") {
-                    errors.add(ArticleField.TITLE)
-                } else {
-                    errors.remove(ArticleField.TITLE)
-                }
-            }
-            ArticleField.CREATOR -> {
-                article = article.copy(creator = input ?: "")
-                if (input == "") {
-                    errors.add(ArticleField.CREATOR)
-                } else {
-                    errors.remove(ArticleField.CREATOR)
-                }
-            }
-            ArticleField.YEAR -> {
-                article = article.copy(year = if (input == null || input == "") null else input.toInt())
-                if (input == null || input == "") {
-                    errors.add(ArticleField.YEAR)
-                } else {
-                    errors.remove(ArticleField.YEAR)
-                }
-            }
-            ArticleField.DESCRIPTION -> {
-                article = article.copy(description = input ?: "")
-                if (input == "") {
-                    errors.add(ArticleField.DESCRIPTION)
-                } else {
-                    errors.remove(ArticleField.DESCRIPTION)
-                }
-            }
-            ArticleField.QUOTE -> {
-                article = article.copy(quote = input)
-                if (input == "") {
-                    errors.add(ArticleField.QUOTE)
-                } else {
-                    errors.remove(ArticleField.QUOTE)
-                }
-            }
-            ArticleField.COVER_URI -> {
-                article = article.copy(coverUri = input)
-                if (input == "") {
-                    errors.add(ArticleField.COVER_URI)
-                } else {
-                    errors.remove(ArticleField.COVER_URI)
-                }
-            }
-            ArticleField.BACKGROUND_URI -> article = article.copy(backgroundUri = input)
-            else -> article = article.copy(color = input ?: md_theme_light_primary.toARGBString())
+        article = when (field) {
+            ArticleField.TITLE -> article.copyWithErrorsCheck(title = input ?: "")
+            ArticleField.CREATOR -> article.copyWithErrorsCheck(creator = input ?: "")
+            ArticleField.YEAR -> article.copyWithErrorsCheck(year = if (input == null || input == "") null else input.toInt())
+            ArticleField.DESCRIPTION -> article.copyWithErrorsCheck(description = input ?: "")
+            ArticleField.QUOTE -> article.copyWithErrorsCheck(quote = input)
+            ArticleField.COVER_URI -> article.copyWithErrorsCheck(coverUri = input)
+            ArticleField.BACKGROUND_URI -> article.copyWithErrorsCheck(backgroundUri = input)
+            else -> article.copyWithErrorsCheck(color = input ?: md_theme_light_primary.toARGBString())
         }
     }
 
@@ -143,13 +99,11 @@ class AddArticleViewModel @Inject constructor(
     }
 
     fun onTypeValueChange(input: Type) {
-        article = article.copy(type = input, typeId = input.id)
-        errors.remove(ArticleField.TYPE)
+        article = article.copyWithErrorsCheck(type = input, typeId = input.id)
     }
 
     fun onAddTags(addingTags: List<Tag>) {
-        article = article.copy(tags = addingTags, tagIds = addingTags.map { it.id!! })
-        errors.remove(ArticleField.TAGS)
+        article = article.copyWithErrorsCheck(tags = addingTags, tagIds = addingTags.map { it.id!! })
     }
 
     fun onSearchTag(query: String) {
@@ -170,15 +124,12 @@ class AddArticleViewModel @Inject constructor(
 
     fun onShareClick() {
         article = article.copy(date = Date())
+        article = article.checkError()
 
-        val currentErrors = article.whereIsError()
-        errors.clear()
-        errors.addAll(currentErrors)
-
-        if (errors.isEmpty()) {
+        if (article.errors.isEmpty()) {
             triggerSnackbar("Well done!")
         } else {
-            triggerSnackbar(errors.joinToString())
+            triggerSnackbar(article.errors.joinToString())
         }
     }
 }
