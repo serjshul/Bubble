@@ -19,6 +19,7 @@ import com.serjshul.bubble.ui.BubbleViewModel
 import com.serjshul.bubble.ui.theme.md_theme_light_primary
 import com.serjshul.bubble.ui.utils.toARGBString
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import java.util.UUID
 import javax.inject.Inject
 
@@ -27,6 +28,8 @@ class AddArticleViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     logService: LogService
 ) : BubbleViewModel(logService) {
+
+    var snackbarMessage by mutableStateOf<String?>(null)
 
     val currentUser = users[0]
     var types = mutableStateListOf<Type>()
@@ -46,17 +49,25 @@ class AddArticleViewModel @Inject constructor(
         )
     )
 
-    var isValid by mutableStateOf(false)
-        private set
     var errors = mutableStateListOf<ArticleField>()
         private set
 
     init {
+        // TODO: types init
         val allTypes = getAllTypes()
         types.addAll(allTypes)
 
+        // TODO: tags init
         val allTags = getAllTags()
         tags.addAll(allTags)
+    }
+
+    private fun triggerSnackbar(message: String) {
+        snackbarMessage = message
+        launchCatching {
+            delay(3000)
+            snackbarMessage = null
+        }
     }
 
     fun setIsSelectTypeOpened(input: Boolean) {
@@ -79,7 +90,6 @@ class AddArticleViewModel @Inject constructor(
             ArticleField.COLOR -> article.copy(color = input ?: md_theme_light_primary.toARGBString())
             else -> article
         }
-        checkOnValid()
     }
 
     fun onParagraphValueChange(field: ArticleField, id: String, input: String?) {
@@ -100,12 +110,10 @@ class AddArticleViewModel @Inject constructor(
 
     fun onTypeValueChange(input: Type) {
         article = article.copy(type = input, typeId = input.id)
-        checkOnValid()
     }
 
     fun onAddTags(addingTags: List<Tag>) {
         article = article.copy(tags = addingTags, tagIds = addingTags.map { it.id!! })
-        checkOnValid()
     }
 
     fun onSearchTag(query: String) {
@@ -128,17 +136,16 @@ class AddArticleViewModel @Inject constructor(
         article = article.copy(content = updatedParagraphs)
     }
 
-    fun send() {
-        checkOnErrors()
-    }
-
-    private fun checkOnValid() {
-        isValid = article.isValid()
-    }
-
-    private fun checkOnErrors() {
+    fun onShareClick() {
         val currentErrors = article.whereIsError()
         errors.clear()
         errors.addAll(currentErrors)
+
+
+        if (errors.isEmpty()) {
+
+        } else {
+            triggerSnackbar(errors.joinToString())
+        }
     }
 }

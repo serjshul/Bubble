@@ -30,11 +30,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -101,6 +104,7 @@ fun AddArticleScreen(
 ) {
     AddArticleScreenContent(
         modifier = modifier,
+        snackbarMessage = viewModel.snackbarMessage,
         isSelectTypeOpened = viewModel.isSelectTypeOpened,
         isSelectTagsOpened = viewModel.isSelectTagsOpened,
         article = viewModel.article,
@@ -117,6 +121,7 @@ fun AddArticleScreen(
         onParagraphValueChange = viewModel::onParagraphValueChange,
         onAddParagraph = viewModel::onAddParagraph,
         onRemoveParagraph = viewModel::onRemoveParagraph,
+        onShareClick = viewModel::onShareClick,
         popUpScreen = popUpScreen
     )
 }
@@ -124,6 +129,7 @@ fun AddArticleScreen(
 @Composable
 fun AddArticleScreenContent(
     modifier: Modifier = Modifier,
+    snackbarMessage: String?,
     isSelectTypeOpened: Boolean,
     isSelectTagsOpened: Boolean,
     article: Article.Draft,
@@ -140,6 +146,7 @@ fun AddArticleScreenContent(
     onParagraphValueChange: (ArticleField, String, String?) -> Unit,
     onAddParagraph: () -> Unit,
     onRemoveParagraph: (String) -> Unit,
+    onShareClick: () -> Unit,
     popUpScreen: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
@@ -152,6 +159,8 @@ fun AddArticleScreenContent(
             listState.firstVisibleItemIndex > 0
         }
     }
+
+    val snackbarHostState = remember { SnackbarHostState() }
 
     var launcherSource = ArticleField.COVER_URI
     var launcherParagraphId = ""
@@ -185,7 +194,10 @@ fun AddArticleScreenContent(
     var isCoverOpened by remember { mutableStateOf(false) }
 
     Scaffold(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        }
     ) { paddings ->
         LazyColumn(
             modifier = Modifier
@@ -479,8 +491,13 @@ fun AddArticleScreenContent(
             color = article.color.toColor(),
             isScrolledBelow = isScrolledBelow,
             onBackClick = popUpScreen,
-            onShareClick = { }
+            onShareClick = onShareClick
         )
+        if (snackbarMessage != null) {
+            LaunchedEffect(snackbarMessage) {
+                snackbarHostState.showSnackbar(snackbarMessage)
+            }
+        }
         if (isSelectTypeOpened) {
             SelectTypeDialog(
                 type = article.type,
@@ -537,6 +554,7 @@ fun AddArticleScreenContentNoDataPreview() {
             followers = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73"),
             following = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73")
         ),
+        snackbarMessage = null,
         isSelectTypeOpened = false,
         isSelectTagsOpened = false,
         article = Article.Draft(),
@@ -552,6 +570,7 @@ fun AddArticleScreenContentNoDataPreview() {
         onParagraphValueChange = { _, _, _ -> },
         onAddParagraph = { },
         onRemoveParagraph = { },
+        onShareClick = { },
         popUpScreen = { }
     )
 }
@@ -573,6 +592,7 @@ fun AddArticleScreenContentWithDataPreview() {
             followers = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73"),
             following = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73")
         ),
+        snackbarMessage = null,
         isSelectTypeOpened = false,
         isSelectTagsOpened = false,
         article = Article.Draft(
@@ -657,6 +677,7 @@ fun AddArticleScreenContentWithDataPreview() {
         onParagraphValueChange = { _, _, _ -> },
         onAddParagraph = { },
         onRemoveParagraph = { },
+        onShareClick = { },
         popUpScreen = { }
     )
 }
@@ -721,7 +742,7 @@ fun AddArticleTopAppBar(
                     text = "Share",
                     containerColor = containerColor,
                     contentColor = textColor,
-                    onClick = { }
+                    onClick = onShareClick
                 )
             },
             scrollBehavior = scrollBehavior,

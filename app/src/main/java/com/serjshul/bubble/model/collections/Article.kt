@@ -129,18 +129,18 @@ sealed interface Article {
 
         fun whereIsError(): List<ArticleField> {
             val errorFields = mutableListOf<ArticleField>()
-            when {
-                id == null -> errorFields.add(ArticleField.ID)
-                ownerId == null -> errorFields.add(ArticleField.OWNER_ID)
-                title.isEmpty() -> errorFields.add(ArticleField.TITLE)
-                description.isEmpty() -> errorFields.add(ArticleField.DESCRIPTION)
-                creator.isEmpty() -> errorFields.add(ArticleField.CREATOR)
-                typeId == null -> ArticleField.TYPE
-                year == null -> ArticleField.YEAR
-                tagIds.isEmpty() -> ArticleField.TAGS
-                coverUri == null -> ArticleField.COVER_URI
-                date == null -> ArticleField.DATE
-            }
+
+            if (id == null) errorFields.add(ArticleField.ID)
+            if (ownerId == null) errorFields.add(ArticleField.OWNER_ID)
+            if (title.isEmpty()) errorFields.add(ArticleField.TITLE)
+            if (description.isEmpty()) errorFields.add(ArticleField.DESCRIPTION)
+            if (creator.isEmpty()) errorFields.add(ArticleField.CREATOR)
+            if (typeId == null) errorFields.add(ArticleField.TYPE)
+            if (year == null) errorFields.add(ArticleField.YEAR)
+            if (tagIds.isEmpty()) errorFields.add(ArticleField.TAGS)
+            if (coverUri == null) errorFields.add(ArticleField.COVER_URI)
+            if (date == null) errorFields.add(ArticleField.DATE)
+
             return errorFields
         }
     }
