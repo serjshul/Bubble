@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,12 +21,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,13 +43,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
@@ -63,6 +79,8 @@ import com.serjshul.bubble.ui.components.media.DarkMutedColor
 import com.serjshul.bubble.ui.components.input.ParagraphTextInput
 import com.serjshul.bubble.ui.components.input.QuoteInput
 import com.serjshul.bubble.ui.components.input.TextInput
+import com.serjshul.bubble.ui.theme.md_theme_dark_gradient
+import com.serjshul.bubble.ui.theme.md_theme_light_background
 import com.serjshul.bubble.ui.theme.md_theme_light_error
 import com.serjshul.bubble.ui.theme.md_theme_light_errorContainer
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
@@ -70,6 +88,8 @@ import com.serjshul.bubble.ui.theme.md_theme_light_onBackgroundVariant
 import com.serjshul.bubble.ui.theme.md_theme_transparent_gray
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
+import com.serjshul.bubble.ui.theme.md_theme_light_primary
+import com.serjshul.bubble.ui.theme.md_theme_transparent
 import com.serjshul.bubble.ui.utils.roundedCornerShape
 import java.util.Date
 
@@ -97,6 +117,7 @@ fun AddArticleScreen(
         onParagraphValueChange = viewModel::onParagraphValueChange,
         onAddParagraph = viewModel::onAddParagraph,
         onRemoveParagraph = viewModel::onRemoveParagraph,
+        popUpScreen = popUpScreen
     )
 }
 
@@ -119,10 +140,18 @@ fun AddArticleScreenContent(
     onParagraphValueChange: (ArticleField, String, String?) -> Unit,
     onAddParagraph: () -> Unit,
     onRemoveParagraph: (String) -> Unit,
+    popUpScreen: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
+
+    val listState = rememberLazyListState()
+    val isScrolledBelow by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex > 0
+        }
+    }
 
     var launcherSource = ArticleField.COVER_URI
     var launcherParagraphId = ""
@@ -161,7 +190,8 @@ fun AddArticleScreenContent(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddings)
+                .padding(paddings),
+            state = listState
         ) {
             item(key = "header") {
                 Box(
@@ -178,6 +208,11 @@ fun AddArticleScreenContent(
                                 url = article.backgroundUri,
                                 contentDescription = stringResource(id = R.string.image_background)
                             )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Brush.verticalGradient(md_theme_dark_gradient))
+                            )
                         } else {
                             Box(
                                 modifier = Modifier
@@ -189,7 +224,7 @@ fun AddArticleScreenContent(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 15.dp, end = 15.dp, top = 50.dp)
+                            .padding(start = 15.dp, end = 15.dp, top = 60.dp)
                     ) {
                         AddImageButton(
                             modifier = Modifier
@@ -231,7 +266,7 @@ fun AddArticleScreenContent(
                     }
                     AnimatedVisibility(
                         modifier = Modifier
-                            .padding(top = 120.dp)
+                            .padding(top = 125.dp)
                             .align(Alignment.TopCenter),
                         visible = article.backgroundUri == null,
                         enter = fadeIn(),
@@ -439,6 +474,13 @@ fun AddArticleScreenContent(
                 }
             }
         }
+        AddArticleTopAppBar(
+            modifier = Modifier,
+            color = article.color.toColor(),
+            isScrolledBelow = isScrolledBelow,
+            onBackClick = popUpScreen,
+            onShareClick = { }
+        )
         if (isSelectTypeOpened) {
             SelectTypeDialog(
                 type = article.type,
@@ -509,7 +551,8 @@ fun AddArticleScreenContentNoDataPreview() {
         onTagsAdd = { },
         onParagraphValueChange = { _, _, _ -> },
         onAddParagraph = { },
-        onRemoveParagraph = { }
+        onRemoveParagraph = { },
+        popUpScreen = { }
     )
 }
 
@@ -613,6 +656,98 @@ fun AddArticleScreenContentWithDataPreview() {
         onTagsAdd = { },
         onParagraphValueChange = { _, _, _ -> },
         onAddParagraph = { },
-        onRemoveParagraph = { }
+        onRemoveParagraph = { },
+        popUpScreen = { }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddArticleTopAppBar(
+    modifier: Modifier = Modifier,
+    color: Color = md_theme_light_primary,
+    isScrolledBelow: Boolean,
+    onBackClick: () -> Unit,
+    onShareClick: () -> Unit
+) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+
+    val backgroundColor = if (!isScrolledBelow) Color.Transparent else md_theme_light_background
+    val containerColor = if (!isScrolledBelow) md_theme_light_onPrimary else color
+    val labelColor = if (!isScrolledBelow) md_theme_light_onPrimary else color
+    val textColor = if (!isScrolledBelow) color else md_theme_light_onPrimary
+
+    val shadowElevation: Dp by animateDpAsState(
+        if (!isScrolledBelow) 0.dp else 6.dp,
+        label = "shadowElevation"
+    )
+
+    Surface(
+        modifier = modifier,
+        color = md_theme_transparent,
+        shadowElevation = shadowElevation
+    ) {
+        CenterAlignedTopAppBar(
+            modifier = modifier.height(50.dp),
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = backgroundColor,
+                titleContentColor = labelColor
+            ),
+            title = {
+                Box(
+                    modifier = Modifier.fillMaxHeight()
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = "New article",
+                        maxLines = 1,
+                        color = labelColor,
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                }
+            },
+            navigationIcon = {
+                IconButton(onClick = { onBackClick() }) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.action_back),
+                        tint = labelColor,
+                        contentDescription = stringResource(id = R.string.icon_button_back)
+                    )
+                }
+            },
+            actions = {
+                TextFilledButton(
+                    text = "Share",
+                    containerColor = containerColor,
+                    contentColor = textColor,
+                    onClick = { }
+                )
+            },
+            scrollBehavior = scrollBehavior,
+        )
+    }
+}
+
+@Preview
+@Composable
+fun AddArticleTopAppBarNotScrolledBelowPreview() {
+    AddArticleTopAppBar(
+        modifier = Modifier.background(Color.Gray),
+        color = "#c22f2f".toColor(),
+        isScrolledBelow = false,
+        onBackClick = { },
+        onShareClick = { }
+    )
+}
+
+@Preview
+@Composable
+fun AddArticleTopAppBarScrolledBelowPreview() {
+    AddArticleTopAppBar(
+        color = "#c22f2f".toColor(),
+        isScrolledBelow = true,
+        onBackClick = { },
+        onShareClick = { }
     )
 }
