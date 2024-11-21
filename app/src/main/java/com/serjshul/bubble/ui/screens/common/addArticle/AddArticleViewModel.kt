@@ -46,6 +46,11 @@ class AddArticleViewModel @Inject constructor(
         )
     )
 
+    var isValid by mutableStateOf(false)
+        private set
+    var errors = mutableStateListOf<ArticleField>()
+        private set
+
     init {
         val allTypes = getAllTypes()
         types.addAll(allTypes)
@@ -74,7 +79,7 @@ class AddArticleViewModel @Inject constructor(
             ArticleField.COLOR -> article.copy(color = input ?: md_theme_light_primary.toARGBString())
             else -> article
         }
-        checkArticleOnValid()
+        checkOnValid()
     }
 
     fun onParagraphValueChange(field: ArticleField, id: String, input: String?) {
@@ -95,12 +100,12 @@ class AddArticleViewModel @Inject constructor(
 
     fun onTypeValueChange(input: Type) {
         article = article.copy(type = input, typeId = input.id)
-        checkArticleOnValid()
+        checkOnValid()
     }
 
     fun onAddTags(addingTags: List<Tag>) {
         article = article.copy(tags = addingTags, tagIds = addingTags.map { it.id!! })
-        checkArticleOnValid()
+        checkOnValid()
     }
 
     fun onSearchTag(query: String) {
@@ -123,20 +128,17 @@ class AddArticleViewModel @Inject constructor(
         article = article.copy(content = updatedParagraphs)
     }
 
+    fun send() {
+        checkOnErrors()
+    }
 
+    private fun checkOnValid() {
+        isValid = article.isValid()
+    }
 
-
-
-
-
-
-
-
-    private fun checkArticleOnValid() {
-//        isArticleValid = article.title != "" && article.description != "" &&
-//                article.creator != "" && article.type != "" && article.color != "" &&
-//                article.year != null && article.coverUrl != null && !article.content.isEmpty()
-//        isArticleValid = title != "" && type != "" && creator != "" && year != "" &&
-//                tags.isNotEmpty() && description != ""
+    private fun checkOnErrors() {
+        val currentErrors = article.whereIsError()
+        errors.clear()
+        errors.addAll(currentErrors)
     }
 }

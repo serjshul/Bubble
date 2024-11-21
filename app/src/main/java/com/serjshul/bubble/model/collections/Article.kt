@@ -13,22 +13,6 @@ enum class ArticleField {
     DATE, COLOR, PARAGRAPH_TITLE, PARAGRAPH_TEXT, PARAGRAPH_IMAGE_URI
 }
 
-//object ArticleFields {
-//    const val TITLE = "title"
-//    const val TYPE = "type"
-//    const val CREATOR = "creator"
-//    const val YEAR = "year"
-//    const val TAGS = "tags"
-//    const val DESCRIPTION = "description"
-//    const val QUOTE = "quote"
-//    const val COVER_URI = "coverUri"
-//    const val BACKGROUND_URI = "backgroundUri"
-//    const val COLOR = "color"
-//    const val PARAGRAPH_TITLE = "paragraphTitle"
-//    const val PARAGRAPH_TEXT = "paragraphText"
-//    const val PARAGRAPH_IMAGE_URI = "imageUri"
-//}
-
 sealed interface Article {
     val id: String?
     val ownerId: String?
@@ -137,25 +121,27 @@ sealed interface Article {
         val comments: List<Like> = emptyList(),
         val reposts: List<Like> = emptyList()
     ) : Article {
-        override fun isValid(): Boolean = id != null && ownerId != null && title != "" &&
-                description != "" && creator != "" && typeId != null && year != null &&
-                tagIds.isNotEmpty() && coverUri != null && date != null &&
-                type != null && tags.isNotEmpty() && owner != null
+        override fun isValid(): Boolean =
+                id != null && ownerId != null && title.isEmpty() && description.isEmpty() &&
+                creator.isEmpty() && typeId != null && year != null && tagIds.isNotEmpty() &&
+                coverUri != null && date != null && type != null && tags.isNotEmpty() &&
+                owner != null
 
-        fun whereIsError(): ArticleField? {
-            return when {
-                id == null -> ArticleField.ID
-                ownerId == null -> ArticleField.OWNER_ID
-                title == "" -> ArticleField.TITLE
-                description == "" -> ArticleField.DESCRIPTION
-                creator == "" -> ArticleField.CREATOR
+        fun whereIsError(): List<ArticleField> {
+            val errorFields = mutableListOf<ArticleField>()
+            when {
+                id == null -> errorFields.add(ArticleField.ID)
+                ownerId == null -> errorFields.add(ArticleField.OWNER_ID)
+                title.isEmpty() -> errorFields.add(ArticleField.TITLE)
+                description.isEmpty() -> errorFields.add(ArticleField.DESCRIPTION)
+                creator.isEmpty() -> errorFields.add(ArticleField.CREATOR)
                 typeId == null -> ArticleField.TYPE
                 year == null -> ArticleField.YEAR
                 tagIds.isEmpty() -> ArticleField.TAGS
                 coverUri == null -> ArticleField.COVER_URI
                 date == null -> ArticleField.DATE
-                else -> null
             }
+            return errorFields
         }
     }
 }

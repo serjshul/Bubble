@@ -84,6 +84,7 @@ fun AddArticleScreen(
         isSelectTypeOpened = viewModel.isSelectTypeOpened,
         isSelectTagsOpened = viewModel.isSelectTagsOpened,
         article = viewModel.article,
+        errors = viewModel.errors,
         types = viewModel.types,
         tags = viewModel.tags,
         currentUser = viewModel.currentUser,
@@ -105,6 +106,7 @@ fun AddArticleScreenContent(
     isSelectTypeOpened: Boolean,
     isSelectTagsOpened: Boolean,
     article: Article.Draft,
+    errors: List<ArticleField>,
     types: List<Type>,
     tags: List<Tag>,
     currentUser: User,
@@ -249,6 +251,7 @@ fun AddArticleScreenContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = screenHeight * 1 / 2 - 240.dp)
+                            .align(Alignment.BottomCenter)
                     ) {
                         TextInput(
                             modifier = Modifier
@@ -257,7 +260,7 @@ fun AddArticleScreenContent(
                                 .align(Alignment.CenterHorizontally),
                             text = article.title,
                             placeholderText = "Title",
-                            isError = true,
+                            isError = ArticleField.TITLE in errors,
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             maxLines = 4,
@@ -267,17 +270,30 @@ fun AddArticleScreenContent(
                             onValueChange = { onArticleValueChange(ArticleField.TITLE, it) }
                         )
                         Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 15.dp, end = 15.dp, bottom = 15.dp)
-                                .align(Alignment.CenterHorizontally)
-                                .roundedCornerShape()
-                                .background(md_theme_light_errorContainer)
-                                .padding(17.dp)
-                                .clickable { setIsSelectTypeOpened(true) },
+                            modifier =
+                                if (ArticleField.TYPE in errors)
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(start = 15.dp, end = 15.dp, bottom = 15.dp)
+                                        .align(Alignment.CenterHorizontally)
+                                        .roundedCornerShape()
+                                        .background(md_theme_light_errorContainer)
+                                        .padding(17.dp)
+                                        .clickable { setIsSelectTypeOpened(true) }
+                                else
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(start = 15.dp, end = 15.dp, bottom = 15.dp)
+                                        .clickable { setIsSelectTypeOpened(true) },
                             text = if (article.type == null) "Type" else article.type!!.toString(),
                             textAlign = TextAlign.Center,
-                            color = md_theme_light_error,
+                            color =
+                                if (ArticleField.TYPE in errors)
+                                    md_theme_light_error
+                                else if (article.type == null)
+                                    md_theme_transparent_gray
+                                else 
+                                    md_theme_light_onPrimary,
                             fontWeight = FontWeight.Bold,
                             maxLines = 1,
                             style = MaterialTheme.typography.titleMedium,
@@ -295,7 +311,7 @@ fun AddArticleScreenContent(
                                     .roundedCornerShape(),
                                 text = article.creator,
                                 placeholderText = "Creator",
-                                isError = true,
+                                isError = ArticleField.CREATOR in errors,
                                 style = MaterialTheme.typography.bodyMedium,
                                 maxLines = 4,
                                 textColor = md_theme_light_onPrimary,
@@ -317,7 +333,7 @@ fun AddArticleScreenContent(
                                     .roundedCornerShape(),
                                 text = if (article.year == null) "" else article.year.toString(),
                                 placeholderText = "Year",
-                                isError = true,
+                                isError = ArticleField.YEAR in errors,
                                 style = MaterialTheme.typography.bodyMedium,
                                 maxLines = 4,
                                 textColor = md_theme_light_onPrimary,
@@ -338,7 +354,7 @@ fun AddArticleScreenContent(
                             )
                             Box(
                                 modifier =
-                                    if (true)
+                                    if (ArticleField.TAGS in errors)
                                         Modifier
                                             .weight(1f)
                                             .height(55.dp)
@@ -369,7 +385,7 @@ fun AddArticleScreenContent(
                             TextInput(
                                 text = article.description,
                                 placeholderText = "Description",
-                                isError = true,
+                                isError = ArticleField.DESCRIPTION in errors,
                                 style = MaterialTheme.typography.bodyMedium,
                                 textColor = md_theme_light_onBackground,
                                 placeholderTextColor = md_theme_light_onBackgroundVariant,
@@ -482,6 +498,7 @@ fun AddArticleScreenContentNoDataPreview() {
         isSelectTypeOpened = false,
         isSelectTagsOpened = false,
         article = Article.Draft(),
+        errors = listOf(ArticleField.TITLE, ArticleField.TYPE),
         types = emptyList(),
         tags = emptyList(),
         setIsSelectTypeOpened = { },
@@ -585,6 +602,7 @@ fun AddArticleScreenContentWithDataPreview() {
             backgroundUri = "",
             coverUri = ""
         ),
+        errors = emptyList(),
         types = emptyList(),
         tags = emptyList(),
         setIsSelectTypeOpened = { },
