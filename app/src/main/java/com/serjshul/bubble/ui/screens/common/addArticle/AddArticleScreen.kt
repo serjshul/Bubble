@@ -214,7 +214,7 @@ fun AddArticleScreenContent(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(screenHeight * 1 / 2)
+                            .height(screenHeight * 1 / 2 + 50.dp)
                     ) {
                         if (article.backgroundUri != null) {
                             BackgroundAsyncImage(
@@ -281,7 +281,7 @@ fun AddArticleScreenContent(
                     }
                     AnimatedVisibility(
                         modifier = Modifier
-                            .padding(top = 125.dp)
+                            .padding(top = 120.dp)
                             .align(Alignment.TopCenter),
                         visible = article.backgroundUri == null,
                         enter = fadeIn(),
@@ -300,7 +300,7 @@ fun AddArticleScreenContent(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = screenHeight * 1 / 2 - 240.dp)
+                            .padding(top = screenHeight * 1 / 2 - 260.dp)
                             .align(Alignment.BottomCenter)
                     ) {
                         TextInput(
@@ -313,7 +313,7 @@ fun AddArticleScreenContent(
                             isError = ArticleField.TITLE in article.errors,
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
-                            maxLines = 4,
+                            maxLines = 3,
                             textColor = md_theme_light_onPrimary,
                             placeholderTextColor = md_theme_transparent_gray,
                             textAlign = TextAlign.Center,
