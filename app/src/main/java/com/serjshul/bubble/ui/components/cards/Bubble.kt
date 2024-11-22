@@ -6,7 +6,6 @@ import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
@@ -43,7 +42,7 @@ import com.serjshul.bubble.ui.utils.roundedCornerShape
 @Composable
 fun Bubble(
     modifier: Modifier = Modifier,
-    article: Article,
+    article: Article.UI,
     onOpenClick: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
@@ -60,7 +59,7 @@ fun Bubble(
                 .size(screenWidth - 60.dp)
                 .clip(CircleShape)
                 .align(Alignment.TopCenter),
-            url = article.backgroundUrl!!,
+            url = article.backgroundUri!!,
             contentDescription = stringResource(id = R.string.image_background)
         )
         Box(
@@ -95,7 +94,7 @@ fun Bubble(
                     .width(screenWidth - 80.dp)
                     .padding(bottom = 15.dp)
                     .align(Alignment.CenterHorizontally),
-                text = article.type!!,
+                text = article.type!!.toString(),
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
@@ -108,7 +107,7 @@ fun Bubble(
                     .width(screenWidth - 60.dp)
                     .height(95.dp)
                     .roundedCornerShape()
-                    .background(article.color!!.toColor())
+                    .background(article.color.toColor())
                     .padding(top = 15.dp, start = 15.dp, end = 5.dp, bottom = 15.dp)
             ) {
                 Text(
@@ -143,7 +142,7 @@ fun Bubble(
 @Composable
 fun BubbleItemPreview() {
     Bubble(
-        article = articles[0],
+        article = articlesUI[0],
         onOpenClick = { }
     )
 }

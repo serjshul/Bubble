@@ -1,6 +1,7 @@
 package com.serjshul.bubble.ui
 
 import androidx.navigation.NavHostController
+import com.serjshul.bubble.ui.BubbleScreens.ADD_ARTICLE_SCREEN
 import com.serjshul.bubble.ui.BubbleScreens.ARTICLE_SCREEN
 import com.serjshul.bubble.ui.BubbleScreens.MAIN_SCREEN
 
@@ -10,6 +11,7 @@ import com.serjshul.bubble.ui.BubbleScreens.MAIN_SCREEN
 private object BubbleScreens {
     const val MAIN_SCREEN = "main"
     const val ARTICLE_SCREEN = "article"
+    const val ADD_ARTICLE_SCREEN = "addArticle"
 }
 
 /**
@@ -25,6 +27,7 @@ object BubbleDestinationsArgs {
 object BubbleDestinations {
     const val MAIN_ROUTE = MAIN_SCREEN
     const val ARTCILE_ROUTE = ARTICLE_SCREEN
+    const val ADD_ARTICLE_ROUTE = ADD_ARTICLE_SCREEN
 }
 
 /**

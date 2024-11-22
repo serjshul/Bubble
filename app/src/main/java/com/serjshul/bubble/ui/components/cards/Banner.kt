@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.buttons.LikeOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.RemoveOutlinedIconButton
@@ -56,17 +56,17 @@ fun Banner(
                 .padding(10.dp, 15.dp)
                 .roundedCornerShape()
         ) {
-            if (article.backgroundUrl != null) {
+            if (article.backgroundUri != null) {
                 BackgroundAsyncImage(
                     modifier = Modifier.fillMaxSize(),
-                    url = article.backgroundUrl,
+                    url = article.backgroundUri,
                     contentDescription = stringResource(id = R.string.image_background)
                 )
             } else {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(article.color!!.toColor())
+                        .background(article.color.toColor())
                 )
             }
 
@@ -117,7 +117,7 @@ fun Banner(
                         modifier = Modifier.padding(end = 5.dp),
                         text = stringResource(id = R.string.button_read),
                         onClick = onReadClick,
-                        contentColor = article.color!!.toColor(),
+                        contentColor = article.color.toColor(),
                         containerColor = md_theme_light_onSecondary
                     )
 
@@ -140,7 +140,7 @@ fun Banner(
 @Composable
 fun BannerPreview() {
     Banner(
-        article = articles[0],
+        article = articlesUI[0],
         onReadClick = {},
         onAddToFavoritesClick = {},
         onNotInterestedClick = {}

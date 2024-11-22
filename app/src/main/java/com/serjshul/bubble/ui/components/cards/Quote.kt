@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.utils.roundedCornerShape
@@ -34,7 +34,7 @@ fun Quote(
             .fillMaxWidth()
             .padding(10.dp, 15.dp)
             .roundedCornerShape()
-            .background(article.color!!.toColor())
+            .background(article.color.toColor())
             .clickable { onOpenClick() }
             .padding(15.dp)
     ) {
@@ -83,7 +83,7 @@ fun Quote(
 @Composable
 fun QuotePreview() {
     Quote(
-        article = articles[0],
+        article = articlesUI[0],
         onOpenClick = { }
     )
 }

@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.buttons.TextOutlinedButton
 import com.serjshul.bubble.ui.components.media.BackgroundAsyncImage
@@ -37,7 +37,7 @@ import com.serjshul.bubble.ui.utils.roundedCornerShape
 @Composable
 fun Card(
     modifier: Modifier = Modifier,
-    article: Article,
+    article: Article.UI,
     openScreen: (String) -> Unit,
     onArticleClick: ((String) -> Unit, String) -> Unit
 ) {
@@ -47,10 +47,10 @@ fun Card(
     Column(
         modifier = modifier
             .width(screenWidth - 40.dp)
-            .height(if (article.backgroundUrl != null) screenWidth - 60.dp else screenWidth - 200.dp)
+            .height(if (article.backgroundUri != null) screenWidth - 60.dp else screenWidth - 200.dp)
             .roundedCornerShape()
     ) {
-        if (article.backgroundUrl != null) {
+        if (article.backgroundUri != null) {
             Box(
                 modifier = Modifier
                     .weight(3f)
@@ -58,7 +58,7 @@ fun Card(
             ) {
                 BackgroundAsyncImage(
                     modifier = Modifier.fillMaxWidth(),
-                    url = article.backgroundUrl,
+                    url = article.backgroundUri,
                     contentDescription = stringResource(id = R.string.image_background)
                 )
             }
@@ -68,7 +68,7 @@ fun Card(
             modifier = Modifier
                 .weight(4f)
                 .fillMaxWidth()
-                .background(article.color!!.toColor())
+                .background(article.color.toColor())
                 .padding(15.dp)
         ) {
             Row(
@@ -99,7 +99,7 @@ fun Card(
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append(article.creator!!)
                             }
-                            append("  •  ${article.tags.joinToString()}")
+                            append("  •  ${article.tags!!.joinToString()}")
                         },
                         color = md_theme_light_onSecondary,
                         maxLines = 1,
@@ -113,7 +113,7 @@ fun Card(
                 ) {
                     TextOutlinedButton(
                         text = stringResource(id = R.string.button_read),
-                        onClick = { onArticleClick(openScreen, article.aid!!) },
+                        onClick = { onArticleClick(openScreen, article.id!!) },
                         contentColor = md_theme_light_onSecondary,
                         modifier = Modifier.align(Alignment.CenterEnd)
                     )
@@ -135,7 +135,7 @@ fun Card(
 @Composable
 fun ArticleItemPreview() {
     Card(
-        article = articles[0],
+        article = articlesUI[0],
         openScreen = { },
         onArticleClick = { _, _ -> }
     )

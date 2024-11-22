@@ -26,7 +26,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.common.ext.toColor
-import com.serjshul.bubble.data.articles
+import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.model.collections.Article
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
@@ -36,7 +36,7 @@ import com.serjshul.bubble.ui.utils.roundedCornerShape
 @Composable
 fun SmallCard(
     modifier: Modifier = Modifier,
-    article: Article,
+    article: Article.UI,
     onOpenClick: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
@@ -47,7 +47,7 @@ fun SmallCard(
             .width(screenWidth - 70.dp)
             .height(100.dp)
             .roundedCornerShape()
-            .background(article.color!!.toColor())
+            .background(article.color.toColor())
     ) {
         Row(
             modifier = Modifier.padding(10.dp)
@@ -57,7 +57,7 @@ fun SmallCard(
                     .size(screenWidth * 1 / 2 - 60.dp, screenWidth * 1 / 2 - 100.dp)
                     .roundedCornerShape()
                     .clickable { onOpenClick() },
-                url = article.coverUrl!!,
+                url = article.coverUri!!,
                 contentDescription = "Cover URL"
             )
 
@@ -98,7 +98,7 @@ fun SmallCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .basicMarquee(),
-                    text = article.tags.joinToString(),
+                    text = article.tags!!.joinToString(),
                     color = md_theme_light_onSecondary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -115,7 +115,7 @@ fun SmallCard(
 @Composable
 fun SmallCardPreview() {
     SmallCard(
-        article = articles[0],
+        article = articlesUI[0],
         onOpenClick = { }
     )
 }

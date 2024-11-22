@@ -4,12 +4,12 @@ import com.serjshul.bubble.model.collections.Article
 import java.util.Date
 
 data class Comment(
-    val cid: String? = null,
+    val id: String? = null,
 
-    val aid: String? = null,
-    val article: Article? = null,
+    val articleId: String? = null,
+    val article: Article.UI? = null,
 
-    val uid: String? = null,
+    val userId: String? = null,
     val nickname: String? = null,
     val photoUrl: String? = null,
 
