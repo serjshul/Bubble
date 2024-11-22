@@ -62,7 +62,17 @@ sealed interface Paragraph {
                     Draft(id, title, imageUri, text, errors - ParagraphField.TEXT)
                 }
             }
+
             return Draft(id, title, imageUri, text, errors)
+        }
+
+        fun checkError(): Draft {
+            val currentErrors = mutableListOf<ParagraphField>()
+
+            if (title.isEmpty()) currentErrors.add(ParagraphField.TITLE)
+            if (text.isEmpty()) currentErrors.add(ParagraphField.TEXT)
+
+            return this.copy(errors = currentErrors)
         }
     }
 }

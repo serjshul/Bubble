@@ -38,6 +38,8 @@ class AddArticleViewModel @Inject constructor(
     var tags = mutableStateListOf<Tag>()
         private set
 
+    var isCoverOpened by mutableStateOf(false)
+        private set
     var isSelectTypeOpened by mutableStateOf(false)
         private set
     var isSelectTagsOpened by mutableStateOf(false)
@@ -59,6 +61,10 @@ class AddArticleViewModel @Inject constructor(
             delay(3000)
             snackbarMessage = null
         }
+    }
+
+    fun setIsCoverOpened(input: Boolean) {
+        isCoverOpened = input
     }
 
     fun setIsSelectTypeOpened(input: Boolean) {

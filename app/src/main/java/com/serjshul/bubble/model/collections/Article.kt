@@ -12,7 +12,7 @@ import java.util.UUID
 
 enum class ArticleField {
     ID, OWNER_ID, TITLE, TYPE, CREATOR, YEAR, TAGS, DESCRIPTION, QUOTE, COVER_URI, BACKGROUND_URI,
-    DATE, COLOR, PARAGRAPH_TITLE, PARAGRAPH_TEXT, PARAGRAPH_IMAGE_URI
+    DATE, COLOR, PARAGRAPH_TITLE, PARAGRAPH_TEXT, PARAGRAPH_IMAGE_URI, CONTENT
 }
 
 sealed interface Article {
@@ -128,23 +128,7 @@ sealed interface Article {
                 ownerId != null && title.isEmpty() && description.isEmpty() &&
                 creator.isEmpty() && typeId != null && year != null && tagIds.isNotEmpty() &&
                 coverUri != null && date != null && type != null && tags.isNotEmpty() &&
-                owner != null
-
-        fun checkError(): Draft {
-            val currentErrors = mutableListOf<ArticleField>()
-
-            if (ownerId == null) currentErrors.add(ArticleField.OWNER_ID)
-            if (title.isEmpty()) currentErrors.add(ArticleField.TITLE)
-            if (description.isEmpty()) currentErrors.add(ArticleField.DESCRIPTION)
-            if (creator.isEmpty()) currentErrors.add(ArticleField.CREATOR)
-            if (typeId == null) currentErrors.add(ArticleField.TYPE)
-            if (year == null) currentErrors.add(ArticleField.YEAR)
-            if (tagIds.isEmpty()) currentErrors.add(ArticleField.TAGS)
-            if (coverUri == null) currentErrors.add(ArticleField.COVER_URI)
-            if (date == null) currentErrors.add(ArticleField.DATE)
-
-            return this.copy(errors = currentErrors)
-        }
+                owner != null && content.all { it.isValid() }
 
         fun copyWithErrorsCheck(
             id: String = this.id,
@@ -237,6 +221,35 @@ sealed interface Article {
             }
 
             return article
+        }
+
+        fun checkError(): Draft {
+            val currentErrors = mutableListOf<ArticleField>()
+
+            if (ownerId == null) currentErrors.add(ArticleField.OWNER_ID)
+            if (title.isEmpty()) currentErrors.add(ArticleField.TITLE)
+            if (description.isEmpty()) currentErrors.add(ArticleField.DESCRIPTION)
+            if (creator.isEmpty()) currentErrors.add(ArticleField.CREATOR)
+            if (typeId == null) currentErrors.add(ArticleField.TYPE)
+            if (year == null) currentErrors.add(ArticleField.YEAR)
+            if (tagIds.isEmpty()) currentErrors.add(ArticleField.TAGS)
+            if (coverUri == null) currentErrors.add(ArticleField.COVER_URI)
+            if (quote != null && quote == "") currentErrors.add(ArticleField.QUOTE)
+            if (date == null) currentErrors.add(ArticleField.DATE)
+
+            val contentWithErrors = mutableListOf<Paragraph.Draft>()
+            for (paragraph in content) {
+                val paragraphWithError = paragraph.checkError()
+                if (paragraphWithError.errors.isNotEmpty()) {
+                    currentErrors.add(ArticleField.CONTENT)
+                }
+                contentWithErrors.add(paragraphWithError)
+            }
+
+            return this.copy(
+                content = contentWithErrors,
+                errors = currentErrors
+            )
         }
     }
 }

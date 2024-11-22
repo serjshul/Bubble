@@ -40,9 +40,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -105,12 +103,14 @@ fun AddArticleScreen(
     AddArticleScreenContent(
         modifier = modifier,
         snackbarMessage = viewModel.snackbarMessage,
+        isCoverOpened = viewModel.isCoverOpened,
         isSelectTypeOpened = viewModel.isSelectTypeOpened,
         isSelectTagsOpened = viewModel.isSelectTagsOpened,
         article = viewModel.article,
         types = viewModel.types,
         tags = viewModel.tags,
         currentUser = viewModel.currentUser,
+        setIsCoverOpened = viewModel::setIsCoverOpened,
         setIsSelectTypeOpened = viewModel::setIsSelectTypeOpened,
         setIsSelectTagsOpened = viewModel::setIsSelectTagsOpened,
         onArticleValueChange = viewModel::onArticleValueChange,
@@ -129,12 +129,14 @@ fun AddArticleScreen(
 fun AddArticleScreenContent(
     modifier: Modifier = Modifier,
     snackbarMessage: String?,
+    isCoverOpened: Boolean,
     isSelectTypeOpened: Boolean,
     isSelectTagsOpened: Boolean,
     article: Article.Draft,
     types: List<Type>,
     tags: List<Tag>,
     currentUser: User,
+    setIsCoverOpened: (Boolean) -> Unit,
     setIsSelectTypeOpened: (Boolean) -> Unit,
     setIsSelectTagsOpened: (Boolean) -> Unit,
     onArticleValueChange: (ArticleField, String?) -> Unit,
@@ -188,8 +190,6 @@ fun AddArticleScreenContent(
             else -> { }
         }
     }
-
-    var isCoverOpened by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -247,7 +247,7 @@ fun AddArticleScreenContent(
                             imageUri = article.coverUri,
                             color = article.color.toColor(),
                             isError = ArticleField.COVER_URI in article.errors,
-                            onCoverClick = { isCoverOpened = true },
+                            onCoverClick = { setIsCoverOpened(true) },
                             onAddCoverClick = {
                                 launcherSource = ArticleField.COVER_URI
                                 launcher.launch("image/*")
@@ -524,7 +524,7 @@ fun AddArticleScreenContent(
                     launcherSource = ArticleField.COVER_URI
                     launcher.launch("image/*")
                 },
-                onDismissRequest = { isCoverOpened = false }
+                onDismissRequest = { setIsCoverOpened(false) }
             )
         }
     }
@@ -554,11 +554,13 @@ fun AddArticleScreenContentNoDataPreview() {
             following = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73")
         ),
         snackbarMessage = null,
+        isCoverOpened = false,
         isSelectTypeOpened = false,
         isSelectTagsOpened = false,
         article = Article.Draft(),
         types = emptyList(),
         tags = emptyList(),
+        setIsCoverOpened = { },
         setIsSelectTypeOpened = { },
         setIsSelectTagsOpened = { },
         onArticleValueChange = { _, _ -> },
@@ -591,6 +593,7 @@ fun AddArticleScreenContentWithDataPreview() {
             following = listOf("hjk3h6j41204fsd", "354h6g13fh25jk7l73")
         ),
         snackbarMessage = null,
+        isCoverOpened = false,
         isSelectTypeOpened = false,
         isSelectTagsOpened = false,
         article = Article.Draft(
@@ -665,6 +668,7 @@ fun AddArticleScreenContentWithDataPreview() {
         ),
         types = emptyList(),
         tags = emptyList(),
+        setIsCoverOpened = { },
         setIsSelectTypeOpened = { },
         setIsSelectTagsOpened = { },
         onArticleValueChange = { _, _ -> },
