@@ -20,6 +20,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.ui.components.buttons.CloseIconToggleButton
+import com.serjshul.bubble.ui.theme.md_theme_light_error
+import com.serjshul.bubble.ui.theme.md_theme_light_errorContainer
+import com.serjshul.bubble.ui.theme.md_theme_light_error_transparent
 import com.serjshul.bubble.ui.theme.md_theme_light_onPrimary
 import com.serjshul.bubble.ui.theme.md_theme_light_onSecondary
 import com.serjshul.bubble.ui.theme.md_theme_light_primary
@@ -31,6 +34,7 @@ fun QuoteInput(
     modifier: Modifier = Modifier,
     quote: String,
     color: Color = md_theme_light_primary,
+    isError: Boolean = false,
     onQuoteValueChange: (String) -> Unit,
     onRemoveClick: () -> Unit
 ) {
@@ -40,7 +44,7 @@ fun QuoteInput(
                 .fillMaxWidth()
                 .padding(15.dp)
                 .roundedCornerShape()
-                .background(color)
+                .background(if (isError) md_theme_light_errorContainer else color)
         ) {
             Text(
                 modifier = Modifier
@@ -48,7 +52,7 @@ fun QuoteInput(
                     .padding(top = 15.dp, bottom = 5.dp)
                     .basicMarquee(),
                 text = stringResource(id = R.string.title_quote),
-                color = md_theme_light_onSecondary,
+                color = if (isError) md_theme_light_error else md_theme_light_onSecondary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center,
@@ -60,7 +64,11 @@ fun QuoteInput(
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 textColor = md_theme_light_onPrimary,
-                placeholderTextColor = md_theme_transparent_gray,
+                placeholderTextColor =
+                    if (isError)
+                        md_theme_light_error_transparent
+                    else
+                        md_theme_transparent_gray,
                 textAlign = TextAlign.Start,
                 onValueChange = onQuoteValueChange
             )
@@ -70,7 +78,7 @@ fun QuoteInput(
                 .align(Alignment.TopEnd)
                 .padding(top = 16.dp, end = 16.dp),
             backgroundColor = md_theme_light_onPrimary,
-            tint = color,
+            tint = if (isError) md_theme_light_error else color,
             onClick = onRemoveClick
         )
     }
@@ -81,6 +89,17 @@ fun QuoteInput(
 fun QuoteInputWithoutDataPreview() {
     QuoteInput(
         quote = "",
+        onQuoteValueChange = { },
+        onRemoveClick = { }
+    )
+}
+
+@Preview
+@Composable
+fun QuoteInputWithErrorPreview() {
+    QuoteInput(
+        quote = "",
+        isError = true,
         onQuoteValueChange = { },
         onRemoveClick = { }
     )

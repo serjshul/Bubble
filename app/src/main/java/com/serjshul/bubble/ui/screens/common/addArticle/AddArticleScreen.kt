@@ -120,6 +120,8 @@ fun AddArticleScreen(
         onParagraphValueChange = viewModel::onParagraphValueChange,
         onAddParagraph = viewModel::onAddParagraph,
         onRemoveParagraph = viewModel::onRemoveParagraph,
+        onAddQuote = viewModel::onAddQuote,
+        onRemoveQuote = viewModel::onRemoveQuote,
         onShareClick = viewModel::onShareClick,
         popUpScreen = popUpScreen
     )
@@ -146,6 +148,8 @@ fun AddArticleScreenContent(
     onParagraphValueChange: (ArticleField, String, String?) -> Unit,
     onAddParagraph: () -> Unit,
     onRemoveParagraph: (String) -> Unit,
+    onAddQuote: () -> Unit,
+    onRemoveQuote: () -> Unit,
     onShareClick: () -> Unit,
     popUpScreen: () -> Unit
 ) {
@@ -472,14 +476,15 @@ fun AddArticleScreenContent(
                     AddQuoteButton(
                         modifier = Modifier.animateItem(),
                         color = article.color.toColor(),
-                        onClick = { onArticleValueChange(ArticleField.QUOTE, "") }
+                        onClick = onAddQuote
                     )
                 } else {
                     QuoteInput(
                         modifier = Modifier.animateItem(),
                         quote = article.quote!!,
                         color = article.color.toColor(),
-                        onRemoveClick = { onArticleValueChange(ArticleField.QUOTE, null) },
+                        isError = ArticleField.QUOTE in article.errors,
+                        onRemoveClick = onRemoveQuote,
                         onQuoteValueChange = { onArticleValueChange(ArticleField.QUOTE, it) }
                     )
                 }
@@ -570,6 +575,8 @@ fun AddArticleScreenContentNoDataPreview() {
         onParagraphValueChange = { _, _, _ -> },
         onAddParagraph = { },
         onRemoveParagraph = { },
+        onAddQuote = { },
+        onRemoveQuote = { },
         onShareClick = { },
         popUpScreen = { }
     )
@@ -678,6 +685,8 @@ fun AddArticleScreenContentWithDataPreview() {
         onParagraphValueChange = { _, _, _ -> },
         onAddParagraph = { },
         onRemoveParagraph = { },
+        onAddQuote = { },
+        onRemoveQuote = { },
         onShareClick = { },
         popUpScreen = { }
     )

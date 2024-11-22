@@ -128,6 +128,14 @@ class AddArticleViewModel @Inject constructor(
         article = article.copy(content = updatedParagraphs)
     }
 
+    fun onAddQuote() {
+        article = article.copy(quote = "")
+    }
+
+    fun onRemoveQuote() {
+        article = article.copy(quote = null)
+    }
+
     fun onShareClick() {
         article = article.copy(date = Date())
         article = article.checkError()
