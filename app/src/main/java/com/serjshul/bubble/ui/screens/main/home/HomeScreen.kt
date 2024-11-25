@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
 import com.serjshul.bubble.data.articlesUI
-import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.data.model.Article
 import com.serjshul.bubble.ui.components.cards.Banner
 import com.serjshul.bubble.ui.components.cards.Quote
 import com.serjshul.bubble.ui.components.lists.BubblesList

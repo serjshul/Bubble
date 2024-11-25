@@ -1,4 +1,4 @@
-package com.serjshul.bubble.model.subcollections
+package com.serjshul.bubble.data.model.subcollections
 
 data class Type (
     val id: String? = null,

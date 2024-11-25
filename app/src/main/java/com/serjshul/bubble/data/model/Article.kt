@@ -1,10 +1,10 @@
-package com.serjshul.bubble.model.collections
+package com.serjshul.bubble.data.model
 
-import com.serjshul.bubble.model.subcollections.Comment
-import com.serjshul.bubble.model.subcollections.Like
-import com.serjshul.bubble.model.subcollections.Paragraph
-import com.serjshul.bubble.model.subcollections.Tag
-import com.serjshul.bubble.model.subcollections.Type
+import com.serjshul.bubble.data.model.collections.User
+import com.serjshul.bubble.data.model.subcollections.Comment
+import com.serjshul.bubble.data.model.subcollections.Like
+import com.serjshul.bubble.data.model.subcollections.Tag
+import com.serjshul.bubble.data.model.subcollections.Type
 import com.serjshul.bubble.ui.theme.md_theme_light_primary
 import com.serjshul.bubble.ui.utils.toARGBString
 import java.util.Date

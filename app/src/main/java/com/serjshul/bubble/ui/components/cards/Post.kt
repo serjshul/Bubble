@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.serjshul.bubble.common.getCreatedTimeShort
 import com.serjshul.bubble.data.articlesUI
-import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.data.model.Article
 import com.serjshul.bubble.ui.components.buttons.CommentIconToggleButton
 import com.serjshul.bubble.ui.components.buttons.LikeIconToggleButton
 import com.serjshul.bubble.ui.components.buttons.RepostIconToggleButton

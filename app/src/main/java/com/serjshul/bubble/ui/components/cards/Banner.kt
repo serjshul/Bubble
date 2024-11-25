@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
 import com.serjshul.bubble.data.articlesUI
-import com.serjshul.bubble.model.collections.Article
+import com.serjshul.bubble.data.model.Article
 import com.serjshul.bubble.ui.components.buttons.LikeOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.RemoveOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton

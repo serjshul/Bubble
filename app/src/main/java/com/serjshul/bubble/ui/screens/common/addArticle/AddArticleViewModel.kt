@@ -8,11 +8,11 @@ import com.serjshul.bubble.data.getAllTags
 import com.serjshul.bubble.data.getAllTypes
 import com.serjshul.bubble.data.searchTags
 import com.serjshul.bubble.data.users
-import com.serjshul.bubble.model.collections.Article
-import com.serjshul.bubble.model.collections.ArticleField
-import com.serjshul.bubble.model.subcollections.Paragraph
-import com.serjshul.bubble.model.subcollections.Tag
-import com.serjshul.bubble.model.subcollections.Type
+import com.serjshul.bubble.data.model.Article
+import com.serjshul.bubble.data.model.ArticleField
+import com.serjshul.bubble.data.model.Paragraph
+import com.serjshul.bubble.data.model.subcollections.Tag
+import com.serjshul.bubble.data.model.subcollections.Type
 import com.serjshul.bubble.services.LogService
 import com.serjshul.bubble.ui.BubbleViewModel
 import com.serjshul.bubble.ui.theme.md_theme_light_primary

@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -76,6 +77,14 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    // Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    // Cloud Firestore
+    implementation("com.google.firebase:firebase-firestore")
+    // Cloud Storage
+    implementation("com.google.firebase:firebase-storage")
+    // Firebase Authentication
+    implementation("com.google.firebase:firebase-auth")
 
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.core:core-ktx:1.13.1")

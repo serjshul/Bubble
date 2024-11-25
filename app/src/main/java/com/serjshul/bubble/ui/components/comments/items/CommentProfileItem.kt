@@ -57,7 +57,7 @@ import androidx.compose.ui.unit.sp
 import com.serjshul.bubble.R
 import com.serjshul.bubble.common.getCreatedTimeShort
 import com.serjshul.bubble.data.comment
-import com.serjshul.bubble.model.subcollections.Comment
+import com.serjshul.bubble.data.model.subcollections.Comment
 import com.serjshul.bubble.ui.components.media.CoverAsyncImage
 import com.serjshul.bubble.ui.components.media.ProfileAsyncImage
 import com.serjshul.bubble.ui.theme.md_theme_light_background

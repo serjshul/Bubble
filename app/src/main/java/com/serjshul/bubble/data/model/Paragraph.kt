@@ -1,4 +1,4 @@
-package com.serjshul.bubble.model.subcollections
+package com.serjshul.bubble.data.model
 
 import java.util.UUID
 

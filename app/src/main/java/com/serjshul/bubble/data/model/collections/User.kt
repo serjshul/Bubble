@@ -1,6 +1,6 @@
-package com.serjshul.bubble.model.collections
+package com.serjshul.bubble.data.model.collections
 
-import com.serjshul.bubble.model.subcollections.Post
+import com.serjshul.bubble.data.model.subcollections.Post
 import java.util.Date
 
 data class User(

@@ -56,8 +56,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
 import com.serjshul.bubble.data.articlesUI
 import com.serjshul.bubble.data.users
-import com.serjshul.bubble.model.collections.Article
-import com.serjshul.bubble.model.collections.User
+import com.serjshul.bubble.data.model.Article
+import com.serjshul.bubble.data.model.collections.User
 import com.serjshul.bubble.ui.components.buttons.SimilarProfilesOutlinedIconButton
 import com.serjshul.bubble.ui.components.buttons.TextFilledButton
 import com.serjshul.bubble.ui.components.buttons.TextOutlinedButton
