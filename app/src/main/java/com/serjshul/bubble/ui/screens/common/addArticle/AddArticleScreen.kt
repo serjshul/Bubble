@@ -64,7 +64,7 @@ import com.serjshul.bubble.data.model.collections.Article
 import com.serjshul.bubble.data.model.collections.ArticleField
 import com.serjshul.bubble.data.model.subcollections.Tag
 import com.serjshul.bubble.data.model.collections.User
-import com.serjshul.bubble.data.model.Paragraph
+import com.serjshul.bubble.data.model.subcollections.Paragraph
 import com.serjshul.bubble.data.model.subcollections.Type
 import com.serjshul.bubble.ui.components.buttons.AddImageButton
 import com.serjshul.bubble.ui.components.buttons.AddParagraphButton

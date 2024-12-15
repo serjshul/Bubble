@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.common.ext.toColor
-import com.serjshul.bubble.data.model.Paragraph
+import com.serjshul.bubble.data.model.subcollections.Paragraph
 import com.serjshul.bubble.ui.components.media.ParagraphAsyncImage
 import com.serjshul.bubble.ui.utils.roundedCornerShape
 
