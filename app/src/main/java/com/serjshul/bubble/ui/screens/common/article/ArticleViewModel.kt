@@ -8,7 +8,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.serjshul.bubble.R
 import com.serjshul.bubble.data.getArticleById
-import com.serjshul.bubble.data.model.Article
+import com.serjshul.bubble.data.model.collections.Article
 import com.serjshul.bubble.services.LogService
 import com.serjshul.bubble.ui.BubbleDestinationsArgs.ARTICLE_ID_ARG
 import com.serjshul.bubble.ui.BubbleViewModel

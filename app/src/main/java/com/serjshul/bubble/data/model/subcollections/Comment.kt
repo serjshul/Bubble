@@ -1,6 +1,6 @@
 package com.serjshul.bubble.data.model.subcollections
 
-import com.serjshul.bubble.data.model.Article
+import com.serjshul.bubble.data.model.collections.Article
 import java.util.Date
 
 data class Comment(

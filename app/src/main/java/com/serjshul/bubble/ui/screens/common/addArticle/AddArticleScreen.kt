@@ -60,8 +60,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.serjshul.bubble.R
 import com.serjshul.bubble.common.ext.toColor
-import com.serjshul.bubble.data.model.Article
-import com.serjshul.bubble.data.model.ArticleField
+import com.serjshul.bubble.data.model.collections.Article
+import com.serjshul.bubble.data.model.collections.ArticleField
 import com.serjshul.bubble.data.model.subcollections.Tag
 import com.serjshul.bubble.data.model.collections.User
 import com.serjshul.bubble.data.model.Paragraph

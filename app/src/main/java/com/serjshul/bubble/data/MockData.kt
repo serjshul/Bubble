@@ -1,6 +1,6 @@
 package com.serjshul.bubble.data
 
-import com.serjshul.bubble.data.model.Article
+import com.serjshul.bubble.data.model.collections.Article
 import com.serjshul.bubble.data.model.subcollections.Tag
 import com.serjshul.bubble.data.model.collections.User
 import com.serjshul.bubble.data.model.subcollections.Comment

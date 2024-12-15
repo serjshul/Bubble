@@ -8,8 +8,8 @@ import com.serjshul.bubble.data.getAllTags
 import com.serjshul.bubble.data.getAllTypes
 import com.serjshul.bubble.data.searchTags
 import com.serjshul.bubble.data.users
-import com.serjshul.bubble.data.model.Article
-import com.serjshul.bubble.data.model.ArticleField
+import com.serjshul.bubble.data.model.collections.Article
+import com.serjshul.bubble.data.model.collections.ArticleField
 import com.serjshul.bubble.data.model.Paragraph
 import com.serjshul.bubble.data.model.subcollections.Tag
 import com.serjshul.bubble.data.model.subcollections.Type

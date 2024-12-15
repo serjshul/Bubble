@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.serjshul.bubble.data.model.ArticleField
+import com.serjshul.bubble.data.model.collections.ArticleField
 import com.serjshul.bubble.data.model.Paragraph
 import com.serjshul.bubble.data.model.ParagraphField
 import com.serjshul.bubble.ui.components.buttons.AddImageButton

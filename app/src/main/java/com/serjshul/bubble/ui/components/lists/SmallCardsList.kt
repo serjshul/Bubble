@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serjshul.bubble.data.articlesUI
-import com.serjshul.bubble.data.model.Article
+import com.serjshul.bubble.data.model.collections.Article
 import com.serjshul.bubble.ui.components.cards.SmallCard
 import com.serjshul.bubble.ui.theme.md_theme_light_onBackground
 import kotlin.math.round
