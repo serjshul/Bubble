@@ -1,4 +1,4 @@
-package com.serjshul.bubble.data.remote
+package com.serjshul.bubble.data.article
 
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject

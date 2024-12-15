@@ -1,8 +1,6 @@
-package com.serjshul.bubble.data.repository
+package com.serjshul.bubble.data.article
 
-import com.serjshul.bubble.data.local.ArticleLocalDataSource
-import com.serjshul.bubble.data.model.Article
-import com.serjshul.bubble.data.remote.ArticleRemoteDataSource
+import com.serjshul.bubble.data.model.collections.Article
 import javax.inject.Inject
 
 class ArticleRepository @Inject constructor(

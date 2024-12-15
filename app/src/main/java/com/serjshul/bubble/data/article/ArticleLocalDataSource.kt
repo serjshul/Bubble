@@ -1,4 +1,4 @@
-package com.serjshul.bubble.data.local
+package com.serjshul.bubble.data.article
 
 import javax.inject.Inject
 

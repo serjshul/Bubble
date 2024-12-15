@@ -1,6 +1,6 @@
-package com.serjshul.bubble.data.model
+package com.serjshul.bubble.data.model.collections
 
-import com.serjshul.bubble.data.model.collections.User
+import com.serjshul.bubble.data.model.Paragraph
 import com.serjshul.bubble.data.model.subcollections.Comment
 import com.serjshul.bubble.data.model.subcollections.Like
 import com.serjshul.bubble.data.model.subcollections.Tag
