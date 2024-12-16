@@ -74,5 +74,7 @@ sealed interface Paragraph {
 
             return this.copy(errors = currentErrors)
         }
+
+        fun toDoc(): Doc = Doc(this.id, this.title, this.imageUri, this.text)
     }
 }

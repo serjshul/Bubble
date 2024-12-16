@@ -206,14 +206,14 @@ sealed interface Article {
                 }
             }
             if (type != this.type) {
-                return if (type == null) {
+                return if (type == null || typeId == null) {
                     article.copy(errors = errors + ArticleField.TYPE)
                 } else {
                     article.copy(errors = errors - ArticleField.TYPE)
                 }
             }
             if (tags != this.tags) {
-                return if (tags.isEmpty()) {
+                return if (tags.isEmpty() || tagIds.isEmpty()) {
                     article.copy(errors = errors + ArticleField.TAGS)
                 } else {
                     article.copy(errors = errors - ArticleField.TAGS)
@@ -230,7 +230,7 @@ sealed interface Article {
             if (title.isEmpty()) currentErrors.add(ArticleField.TITLE)
             if (description.isEmpty()) currentErrors.add(ArticleField.DESCRIPTION)
             if (creator.isEmpty()) currentErrors.add(ArticleField.CREATOR)
-            if (typeId == null) currentErrors.add(ArticleField.TYPE)
+            if (typeId == null || type == null) currentErrors.add(ArticleField.TYPE)
             if (year == null) currentErrors.add(ArticleField.YEAR)
             if (tagIds.isEmpty()) currentErrors.add(ArticleField.TAGS)
             if (coverUri == null) currentErrors.add(ArticleField.COVER_URI)
@@ -251,5 +251,49 @@ sealed interface Article {
                 errors = currentErrors
             )
         }
+
+        fun getTypeWithErrorsCheck(): Type {
+            if (this.errors.contains(ArticleField.TYPE)) {
+                throw IllegalStateException("The article draft has errors in the type field")
+            } else {
+                return this.type!!
+            }
+        }
+
+        fun getTagsWithErrorsCheck(): List<Tag> {
+            if (this.errors.contains(ArticleField.TAGS)) {
+                throw IllegalStateException("The article draft has errors in the tags field")
+            } else {
+                return this.tags
+            }
+        }
+
+        fun getContentWithErrorsCheck(): List<Paragraph.Doc> = this.content.map {
+            if (it.errors.isNotEmpty()) {
+                it.toDoc()
+            } else {
+                throw IllegalStateException("The article draft has errors in the paragraphs field")
+            }
+        }
+
+        fun toDoc(): Doc = Doc(
+                id = this.id,
+                ownerId = this.ownerId,
+                title = this.title,
+                description = this.description,
+                creator = this.creator,
+                typeId = this.typeId,
+                year = this.year,
+                tagIds = this.tagIds,
+                color = this.color,
+                contentIds = this.contentIds,
+                quote = this.quote,
+                coverUri = this.coverUri,
+                backgroundUri = this.backgroundUri,
+                date = this.date,
+                likeIds = this.likeIds,
+                commentIds = this.commentIds,
+                repostIds = this.repostIds
+            )
     }
 }
