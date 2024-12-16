@@ -22,24 +22,28 @@ class ServicesModule {
 
     @Provides
     @Singleton
-    fun provideArticleLocalDataSource(): ArticleLocalDataSource {
-        return ArticleLocalDataSource()
+    fun provideArticleLocalDataSource(
+        logService: LogService,
+    ): ArticleLocalDataSource {
+        return ArticleLocalDataSource(logService)
     }
 
     @Provides
     @Singleton
     fun provideArticleRemoteDataSource(
+        logService: LogService,
         firestore: FirebaseFirestore
     ): ArticleRemoteDataSource {
-        return ArticleRemoteDataSource(firestore)
+        return ArticleRemoteDataSource(logService, firestore)
     }
 
     @Provides
     @Singleton
     fun provideArticleRepository(
+        logService: LogService,
         localDataSource: ArticleLocalDataSource,
         remoteDataSource: ArticleRemoteDataSource
     ): ArticleRepository {
-        return ArticleRepository(localDataSource, remoteDataSource)
+        return ArticleRepository(logService, localDataSource, remoteDataSource)
     }
 }

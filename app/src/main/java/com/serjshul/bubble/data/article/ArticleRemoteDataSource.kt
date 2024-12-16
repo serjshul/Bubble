@@ -5,10 +5,12 @@ import com.serjshul.bubble.data.model.FirebaseCollections
 import com.serjshul.bubble.data.model.Response
 import com.serjshul.bubble.data.model.collections.Article
 import com.serjshul.bubble.data.model.subcollections.Type
+import com.serjshul.bubble.services.LogService
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class ArticleRemoteDataSource @Inject constructor(
+    private val logService: LogService,
     private val firestore: FirebaseFirestore
 ) : ArticleDataSource {
     override suspend fun setArticle(article: Article.Draft): Response<String> {
