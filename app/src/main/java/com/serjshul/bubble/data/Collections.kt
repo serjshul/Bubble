@@ -1,6 +1,6 @@
-package com.serjshul.bubble.data.model
+package com.serjshul.bubble.data
 
-object FirebaseCollections {
+object Collections {
     const val ARTICLES = "articles"
     const val TYPES = "types"
 }

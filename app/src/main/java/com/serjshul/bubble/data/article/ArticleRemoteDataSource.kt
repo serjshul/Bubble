@@ -1,10 +1,15 @@
 package com.serjshul.bubble.data.article
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.serjshul.bubble.data.model.FirebaseCollections
-import com.serjshul.bubble.data.model.Response
+import com.serjshul.bubble.data.Collections
+import com.serjshul.bubble.data.DataTypes
+import com.serjshul.bubble.data.Sources
+import com.serjshul.bubble.data.response.Response
 import com.serjshul.bubble.data.model.collections.Article
 import com.serjshul.bubble.data.model.subcollections.Type
+import com.serjshul.bubble.data.response.Failure
+import com.serjshul.bubble.data.response.Loading
+import com.serjshul.bubble.data.response.Success
 import com.serjshul.bubble.services.LogService
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -16,48 +21,83 @@ class ArticleRemoteDataSource @Inject constructor(
     override suspend fun setArticle(article: Article.Draft): Response<String> {
         return try {
             try {
-                setType(article.getTypeWithErrorsCheck())
+                val type = article.getTypeWithErrorsCheck()
+                val checkTypeResponse = checkTypeExistence(type)
+                if (checkTypeResponse is Failure) {
+                    // TODO:
+                }
             } catch (e: IllegalStateException) {
-                // TODO: Log service
+                logService.logDataException(e)
             }
+
+
+
+
             try {
                 val tags = article.getTagsWithErrorsCheck()
             } catch (e: IllegalStateException) {
-                // TODO: Log service
+                logService.logDataException(e)
             }
 
             val document = article.toDoc()
             try {
                 val content = article.getContentWithErrorsCheck()
             } catch (e: IllegalStateException) {
-                // TODO: Log service
+                logService.logDataException(e)
             }
 
             val result = firestore
-                .collection(FirebaseCollections.ARTICLES)
-                .add(article)
+                .collection(Collections.ARTICLES)
+                .add(document)
                 .await()
-            Response.Success(result.id)
+            logService.logDataSetting(
+                source = Sources.FIRESTORE,
+                type = DataTypes.ARTICLE,
+                id = result.id
+            )
+            Success(source = Sources.FIRESTORE, data = result.id)
         } catch(e: Exception) {
-            Response.Failure(e)
+            logService.logRemoteDataSourceException(e)
+            Failure(source = Sources.FIRESTORE, e = e)
         }
     }
 
-    override suspend fun setType(type: Type): Response<String> {
-        firestore
-            .collection(FirebaseCollections.TYPES)
-            .document(type.id!!)
-            .get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    // TODO: Документ существует
-                } else {
-                    // TODO: Документ не существует
+    override suspend fun checkTypeExistence(type: Type): Response<String> {
+        return try {
+            var response: Response<String> = Loading(source = Sources.FIRESTORE)
+
+            firestore
+                .collection(Collections.TYPES)
+                .document(type.id!!)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        logService.logDataExistence(
+                            source = Sources.FIRESTORE,
+                            type = DataTypes.TYPE,
+                            id = type.id,
+                            isExist = true
+                        )
+                        response = Success(source = Sources.FIRESTORE, data = document.id)
+                    } else {
+                        logService.logDataExistence(
+                            source = Sources.FIRESTORE,
+                            type = DataTypes.TYPE,
+                            id = type.id,
+                            isExist = false
+                        )
+                        response = Failure(source = Sources.FIRESTORE, e = Exception())
+                    }
                 }
-            }
-            .addOnFailureListener { e ->
-                // TODO: e.message
-            }
-        return Response.Success("")
+                .addOnFailureListener { e ->
+                    logService.logRemoteDataSourceException(e)
+                    response = Failure(source = Sources.FIRESTORE, e = e)
+                }
+
+            response
+        } catch(e: Exception) {
+            logService.logRemoteDataSourceException(e)
+            Failure(source = Sources.FIRESTORE, e = e)
+        }
     }
 }

@@ -1,5 +1,5 @@
 package com.serjshul.bubble.data.response
 
 data class Loading(
-    override val info: String
+    override val source: String
 ) : Response<Nothing>

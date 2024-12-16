@@ -1,6 +1,6 @@
 package com.serjshul.bubble.data.article
 
-import com.serjshul.bubble.data.model.Response
+import com.serjshul.bubble.data.response.Response
 import com.serjshul.bubble.data.model.collections.Article
 import com.serjshul.bubble.data.model.subcollections.Type
 import com.serjshul.bubble.services.LogService
@@ -13,7 +13,7 @@ class ArticleLocalDataSource @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun setType(type: Type): Response<String> {
+    override suspend fun checkTypeExistence(type: Type): Response<String> {
         TODO("Not yet implemented")
     }
 }
