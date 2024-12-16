@@ -2,10 +2,9 @@ package com.serjshul.bubble.services.model
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.serjshul.bubble.data.article.ArticleLocalDataSource
-import com.serjshul.bubble.services.LogService
 import com.serjshul.bubble.data.article.ArticleRemoteDataSource
 import com.serjshul.bubble.data.article.ArticleRepository
-import com.serjshul.bubble.services.impl.LogServiceImpl
+import com.serjshul.bubble.services.LogService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +17,7 @@ class ServicesModule {
     @Provides
     @Singleton
     fun provideLogService(): LogService {
-        return LogServiceImpl()
+        return LogService()
     }
 
     @Provides
